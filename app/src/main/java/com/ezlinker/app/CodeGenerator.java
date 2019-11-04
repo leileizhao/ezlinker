@@ -18,12 +18,12 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
     private static String AUTHOR = "wangwenhai";
-    private static String IP = "localhost";
-    private static String PORT = "3308";
+    private static String IP = "112.74.44.130";
+    private static String PORT = "3306";
     private static String DB_NAME = "ezlinker";
-    private static String USER = "root";
-    private static String PASSWORD = "root";
-    private static String PROJECT = "ezlinker-app";
+    private static String USER = "easylinker";
+    private static String PASSWORD = "123456";
+    private static String PROJECT = "app";
     private static String TABLE_PREFIX = "ez_";
 
 
@@ -110,13 +110,12 @@ public class CodeGenerator {
         strategy.setTablePrefix(TABLE_PREFIX);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass("com.ezlinker.common.model.XEntity");
+        strategy.setSuperEntityColumns("id", "delete", "create_time", "record_version");
+
         strategy.setEntityLombokModel(true);
         strategy.setSuperControllerClass("com.ezlinker.common.web.XController");
         strategy.setInclude(scanner("请输入表名"));
-        /**
-         * 父类的一些属性
-         */
-        strategy.setSuperEntityColumns("id", "create_time", "record_version");
+
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         mpg.execute();

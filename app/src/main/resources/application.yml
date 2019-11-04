@@ -1,7 +1,7 @@
 # Server info
 server:
   servlet:
-    context-path: /runlinker
+    context-path: /ezlinker
   port: 8080
 # Spring config
 spring:
@@ -9,9 +9,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3308/ezlinker?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=NO
-      username: root
-      password: root
+      url: jdbc:mysql://112.74.44.130 :3306/ezlinker?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=NO
+      username: easylinker
+      password: 123456
       initial-size: 10
       max-active: 100
       min-idle: 10
