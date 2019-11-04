@@ -113,6 +113,20 @@
             <version>1.9.4</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+        </profile>
+        <profile>
+            <id>devhome</id>
+        </profile>
+        <profile>
+            <id>devcom</id>
+        </profile>
+        <profile>
+            <id>test</id>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
