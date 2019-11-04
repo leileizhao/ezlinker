@@ -8,5 +8,8 @@
     <artifactId>ezlinker</artifactId>
     <version>0.0.1</version>
 
-
+<modules>
+    <module>common</module>
+    <module>app</module>
+</modules>
 </project>
