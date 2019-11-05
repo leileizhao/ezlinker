@@ -2,7 +2,6 @@ package com.ezlinker.app;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 /**
@@ -14,9 +13,8 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 public class LuaJTest {
     public static void main(String[] args) {
         Globals globals = JsePlatform.standardGlobals();
-        LuaValue luaValue=  globals.load("print \"HelloLua\"");
-        String result = luaValue.call().toString();
-        System.out.println(result);
+        LuaValue luaValue = globals.load("require 'com/ezlinker/app/hyperbolic'  print('sinh(0.5)', hyperbolic.sinh(0.5)) print('hyperbolic', hyperbolic)");
+        luaValue.call();
     }
 }
 
