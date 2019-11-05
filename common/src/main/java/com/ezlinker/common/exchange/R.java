@@ -29,4 +29,14 @@ public class R {
         this.code = code;
         this.message = message;
     }
+
+    public R(Integer code, String message, Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
+    public R(Object data) {
+        this.data = data;
+    }
 }

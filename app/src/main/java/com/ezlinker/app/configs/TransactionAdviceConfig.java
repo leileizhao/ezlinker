@@ -28,26 +28,27 @@ public class TransactionAdviceConfig {
     @Bean
     public TransactionInterceptor txAdvice() {
 
-        DefaultTransactionAttribute txAttr_REQUIRED = new DefaultTransactionAttribute();
-        txAttr_REQUIRED.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
-        DefaultTransactionAttribute txAttr_REQUIRED_READONLY = new DefaultTransactionAttribute();
-        txAttr_REQUIRED_READONLY.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        txAttr_REQUIRED_READONLY.setReadOnly(true);
+        DefaultTransactionAttribute txAttrREQUIRED = new DefaultTransactionAttribute();
+        txAttrREQUIRED.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+        DefaultTransactionAttribute txAttrREQUIREDREADONLY = new DefaultTransactionAttribute();
+        txAttrREQUIREDREADONLY.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        txAttrREQUIREDREADONLY.setReadOnly(true);
 
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
 
-        source.addTransactionalMethod("save*", txAttr_REQUIRED);
-        source.addTransactionalMethod("delete*", txAttr_REQUIRED);
-        source.addTransactionalMethod("update*", txAttr_REQUIRED);
-        source.addTransactionalMethod("exec*", txAttr_REQUIRED);
-        source.addTransactionalMethod("set*", txAttr_REQUIRED);
-        source.addTransactionalMethod("get*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("query*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("find*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("list*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
-        source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("save*", txAttrREQUIRED);
+        source.addTransactionalMethod("delete*", txAttrREQUIRED);
+        source.addTransactionalMethod("update*", txAttrREQUIRED);
+        source.addTransactionalMethod("exec*", txAttrREQUIRED);
+        source.addTransactionalMethod("set*", txAttrREQUIRED);
+        source.addTransactionalMethod("get*", txAttrREQUIREDREADONLY);
+        source.addTransactionalMethod("query*", txAttrREQUIREDREADONLY);
+        source.addTransactionalMethod("find*", txAttrREQUIREDREADONLY);
+        source.addTransactionalMethod("list*", txAttrREQUIREDREADONLY);
+        source.addTransactionalMethod("count*", txAttrREQUIREDREADONLY);
+        source.addTransactionalMethod("is*", txAttrREQUIREDREADONLY);
 
         return new TransactionInterceptor(transactionManager, source);
     }
