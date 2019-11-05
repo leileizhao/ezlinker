@@ -110,10 +110,10 @@ public class CodeGenerator {
         strategy.setTablePrefix(TABLE_PREFIX);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass("com.ezlinker.common.model.XEntity");
-        strategy.setSuperEntityColumns("id", "delete", "create_time", "record_version");
+        strategy.setSuperEntityColumns("id", "x", "create_time", "record_version");
 
         strategy.setEntityLombokModel(true);
-        strategy.setSuperControllerClass("com.ezlinker.common.web.XController");
+        strategy.setSuperControllerClass("com.ezlinker.common.web.AbstractXController");
         strategy.setInclude(scanner("请输入表名"));
 
         strategy.setControllerMappingHyphenStyle(true);

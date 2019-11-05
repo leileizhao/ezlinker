@@ -23,7 +23,7 @@ public class XEntity {
      * 删除标记
      */
     @JsonIgnore
-    private Boolean delete;
+    private Boolean x;
     /**
      * 乐观锁
      */
