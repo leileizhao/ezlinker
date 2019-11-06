@@ -2,7 +2,7 @@
 server:
   servlet:
     context-path: /ezlinker
-  port: 8080
+  port: 2500
 # Spring config
 spring:
   datasource:
