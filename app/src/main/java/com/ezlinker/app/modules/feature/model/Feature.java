@@ -1,4 +1,4 @@
-package com.ezlinker.app.modules.future.model;
+package com.ezlinker.app.modules.feature.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
@@ -17,8 +17,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("ez_future")
-public class Future extends XEntity {
+@TableName("ez_feature")
+public class Feature extends XEntity {
 
     private static final long serialVersionUID=1L;
 

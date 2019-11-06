@@ -10,8 +10,26 @@ import lombok.Data;
  **/
 @Data
 public class R {
+
+    /**
+     * 应用名
+     */
+    private String appName = "ezlinker";
+    /**
+     * 代码
+     */
     private Integer code;
+    /**
+     * 提示信息
+     */
     private String message;
+    /**
+     * 国际化提示
+     */
+    private String i8nMessage;
+    /**
+     * 数据
+     */
     private Object data;
 
     public R() {
@@ -31,12 +49,23 @@ public class R {
     }
 
     public R(Integer code, String message, Object data) {
+
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
     public R(Object data) {
+        this.code = RCode.SUCCESS.getCode();
+        this.message = RCode.SUCCESS.getMessage();
+        this.i8nMessage = RCode.SUCCESS.getI8nMessage();
+        this.data = data;
+    }
+
+    public R(Integer code, String message, String i8nMessage, Object data) {
+        this.code = code;
+        this.message = message;
+        this.i8nMessage = i8nMessage;
         this.data = data;
     }
 }

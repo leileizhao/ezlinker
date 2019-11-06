@@ -3,16 +3,15 @@ package com.ezlinker.app.modules.user.controller;
 
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
 import com.ezlinker.common.web.AbstractXController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author wangwenhai
@@ -60,5 +59,5 @@ public class UserController extends AbstractXController {
     public Object page(QueryCondition queryCondition, int pageNo, int pageSize) {
         return null;
     }
-}
 
+}

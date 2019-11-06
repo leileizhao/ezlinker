@@ -1,4 +1,4 @@
-package com.ezlinker.app;
+package com.ezlinker.app.modules.lua;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;

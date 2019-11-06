@@ -3,6 +3,7 @@ package com.ezlinker.common.web;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
+import com.ezlinker.common.exchange.RCode;
 import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,58 +37,64 @@ public abstract class AbstractXController<T> {
      *
      * @return
      */
-    public User getCurrentUserInfo() throws XException {
+    protected User getCurrentUserInfo() throws XException {
         String token = httpServletRequest.getHeader("token");
         return null;
     }
 
     /**
      * 添加一个T
+     *
      * @param t
      * @return
      */
     @PostMapping("/add")
-    public abstract R add(T t);
+    protected abstract R add(T t);
 
     /**
      * 根据条件删除T
+     *
      * @param queryCondition
      * @return
      */
     @DeleteMapping("/delete")
-    public abstract R delete(QueryCondition<T> queryCondition);
+    protected abstract R delete(QueryCondition<T> queryCondition);
 
     /**
      * 批量删除T
+     *
      * @param ids
      * @return
      */
     @RequestMapping("/batchDelete")
-    public abstract R batchDelete(Integer[] ids);
+    protected abstract R batchDelete(Integer[] ids);
 
     /**
      * 更新T
+     *
      * @param t
      * @return
      */
     @RequestMapping("/update")
-    public abstract R update(T t);
+    protected abstract R update(T t);
 
     /**
      * 查询单个T
+     *
      * @param queryCondition
      * @return
      */
     @RequestMapping("/get")
-    public abstract R get(QueryCondition<T> queryCondition);
+    protected abstract R get(QueryCondition<T> queryCondition);
 
     /**
      * 条件查询T列表
+     *
      * @param queryCondition
      * @return
      */
     @RequestMapping("/list")
-    public abstract R list(QueryCondition<T> queryCondition);
+    protected abstract R list(QueryCondition<T> queryCondition);
 
     /**
      * 附带检索条件的分页查询
@@ -98,46 +105,43 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @GetMapping("page")
-    public abstract Object page(QueryCondition<T> queryCondition, int pageNo, int pageSize);
+    protected abstract Object page(QueryCondition<T> queryCondition, int pageNo, int pageSize);
 
     /**
      * 失败返回
-     * @param msg
+     *
      * @return
      */
-    public R fail(String msg) {
-
-        return new R();
+    protected R fail() {
+        Integer code = RCode.FAIL.getCode();
+        String message = RCode.FAIL.getMessage();
+        String i8nMessage = RCode.FAIL.getI8nMessage();
+        return new R(code, message, i8nMessage, null);
     }
 
     /**
      * 成功返回
+     *
      * @return
      */
-    public R success() {
-
-        return new R();
-    }
-
-    /**
-     * 自定义成功返回消息
-     * @param msg
-     * @return
-     */
-    public R success(String msg) {
-
-        return new R();
+    protected R success() {
+        Integer code = RCode.SUCCESS.getCode();
+        String message = RCode.SUCCESS.getMessage();
+        String i8nMessage = RCode.SUCCESS.getI8nMessage();
+        return new R(code, message, i8nMessage, null);
     }
 
     /**
      * 自定义成功返回状态码
+     *
      * @param data
-     * @param msg
      * @return
      */
-    public R success(Object data, String msg) {
-
-        return new R();
+    protected R data(Object data) {
+        Integer code = RCode.SUCCESS.getCode();
+        String message = RCode.SUCCESS.getMessage();
+        String i8nMessage = RCode.SUCCESS.getI8nMessage();
+        return new R(code, message, i8nMessage, data);
     }
 
 }

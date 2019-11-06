@@ -21,8 +21,5 @@ public class AppApplication {
         SpringApplication.run(AppApplication.class, args);
     }
 
-    @GetMapping("/")
-    public R i(){
-        return new R(200,"启动成功","项目启动成功!");
-    }
+
 }
