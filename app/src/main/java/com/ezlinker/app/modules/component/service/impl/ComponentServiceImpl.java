@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author wangwenhai
- * @since 2019-11-06
+ * @since 2019-11-07
  */
 @Service
 public class ComponentServiceImpl extends ServiceImpl<ComponentMapper, Component> implements IComponentService {

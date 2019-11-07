@@ -1,7 +1,8 @@
 package com.ezlinker.app;
 
-import com.ezlinker.app.modules.component.model.ComponentType;
-import com.ezlinker.app.modules.component.service.IComponentTypeService;
+
+import com.ezlinker.app.modules.role.model.Role;
+import com.ezlinker.app.modules.role.service.IRoleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,16 +11,20 @@ import java.util.Date;
 
 @SpringBootTest
 class AppApplicationTests {
-
     @Resource
-    IComponentTypeService iComponentTypeService;
+    IRoleService roleService;
 
     @Test
-    void contextLoads() {
-        ComponentType componentType = new ComponentType();
-        componentType.setName("图表").setValue(1).setX(false);
-        componentType.setCreateTime(new Date());
-        iComponentTypeService.save(componentType);
+    void addRoles() {
+        Role admin = new Role();
+        admin.setLabel("系统管理员").setName("ADMIN").setDescription("系统内部管理员").setParent(0L);
+        admin.setCreateTime(new Date());
+
+        Role user = new Role();
+        user.setLabel("普通用户").setName("USER").setDescription("系统注册用户").setParent(0L);
+        user.setCreateTime(new Date());
+        roleService.save(admin);
+        roleService.save(user);
     }
 
 }

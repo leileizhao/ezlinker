@@ -97,6 +97,11 @@
             <version>5.2.0.BUILD-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.shalousun</groupId>
+            <artifactId>smart-doc</artifactId>
+            <version>1.7.2</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -21,6 +21,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
     }
 
+    /**
+     * 认证拦截器
+     * @return
+     */
     @Bean
     public HandlerInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();

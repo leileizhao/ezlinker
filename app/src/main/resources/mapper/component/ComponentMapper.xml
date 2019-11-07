@@ -19,6 +19,7 @@
         <result column="sn" property="sn" />
         <result column="token" property="token" />
         <result column="is_superuser" property="isSuperuser" />
+        <result column="data_area" property="dataArea" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -27,7 +28,7 @@
         record_version,
         x,
         create_time,
-        product_id, type, state, name, description, protocol, model, tag, sn, token, is_superuser
+        product_id, type, state, name, description, protocol, model, tag, sn, token, is_superuser, data_area
     </sql>
 
 </mapper>

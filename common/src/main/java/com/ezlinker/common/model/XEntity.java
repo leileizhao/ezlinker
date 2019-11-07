@@ -23,7 +23,7 @@ public class XEntity {
      * 删除标记
      */
     @JsonIgnore
-    private Boolean x;
+    private Boolean x = false;
     /**
      * 乐观锁
      */
@@ -35,6 +35,6 @@ public class XEntity {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    private Date createTime = new Date();
 
 }

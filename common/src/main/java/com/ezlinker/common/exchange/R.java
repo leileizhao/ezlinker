@@ -62,10 +62,10 @@ public class R {
         this.data = data;
     }
 
-    public R(Integer code, String message, String i8nMessage, Object data) {
+    public R(Integer code, String message, String i18nMessage, Object data) {
         this.code = code;
         this.message = message;
-        this.i18nMessage = i8nMessage;
+        this.i18nMessage = i18nMessage;
         this.data = data;
     }
 }

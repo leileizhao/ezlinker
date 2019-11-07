@@ -2,16 +2,16 @@
 server:
   servlet:
     context-path: /ezlinker
-  port: 8080
+  port: 2500
 # Spring config
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://112.74.44.130:3306/ezlinker?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=NO
-      username: easylinker
-      password: 123456
+      url: jdbc:mysql://localhost:3308/ezlinker?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=NO
+      username: root
+      password: root
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -40,9 +40,9 @@ spring:
 
   redis:
     database: 0
-    host: localhost
+    host: 10.168.1.214
     # password: redis
-    port: 32768
+    port: 6379
     timeout: 300
 
   data:
@@ -54,10 +54,14 @@ spring:
       database: ezlinker
       authentication-database: admin
 
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  resources:
+    add-mappings: false
+
 logging:
   level:
     root: info
     org.springframework.data.mongodb.core: DEBUG
     com.baomidou.mybatisplus.core.mapper: DEBUG
-
-

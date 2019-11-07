@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wangwenhai
@@ -26,7 +26,7 @@ public class Role extends XEntity {
 
     private String name;
 
-    private Integer parent;
+    private Long parent;
 
     private String description;
 
