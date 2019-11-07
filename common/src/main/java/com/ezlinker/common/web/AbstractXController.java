@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @create: 2019-11-04 17:10
  **/
 public abstract class AbstractXController<T> {
+
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**

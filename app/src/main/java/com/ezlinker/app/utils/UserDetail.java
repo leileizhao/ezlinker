@@ -1,10 +1,11 @@
-package com.ezlinker.app.modules.user.model;
+package com.ezlinker.app.utils;
 
 import com.ezlinker.app.modules.permission.model.Permission;
 import com.ezlinker.app.modules.role.model.Role;
 import lombok.Data;
 
 import java.util.List;
+
 
 /**
  * @program: ezlinker
@@ -14,12 +15,33 @@ import java.util.List;
  **/
 @Data
 public class UserDetail {
+    /**
+     * 用户ID
+     */
     private Long id;
+    /**
+     * 用户名
+     */
     private String username;
+    /**
+     * 用户类型
+     */
     private Integer userType;
+    /**
+     * 账号状态
+     */
     private Integer status;
-    private List<Role> roles;
-    private List<Permission> permissions;
+    /**
+     * 过期时间
+     */
     private Long expiredTime;
+    /**
+     * 角色列表
+     */
+    private List<Role> roles;
+    /**
+     * 操作权限列表
+     */
+    private List<Permission> permissions;
 
 }

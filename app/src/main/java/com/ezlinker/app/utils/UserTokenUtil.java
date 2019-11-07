@@ -5,13 +5,14 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
-import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.common.exception.XException;
+import org.springframework.stereotype.Component;
 
 /**
  * @description: 生成和解析用户的Token
  * @author: wangwenhai
  **/
+@Component
 public class UserTokenUtil {
     private static final RSA rsa = new RSA(
             "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJjaCAPbxJNLRxBRdHUcdbrfdMCtm3rRXhpJ4t9qyCYLHiX6rRl+zy3Vk6hzpix1BBrJBci2P3lA6HeVve5bZ4englbXj+VtYvY/tlzir84/o5Nus14BihzFHILzhZbpmZ1Qz6hzy14beU4roFFfiQJ1aH+f1B5OTulRXPidQSEpAgMBAAECgYBh0Z6xgXKC5Pj8i3RhAi6hwiGAsVnANr7nSgOkAT1Hg3Pu0Eb4+vtxlK4jbqeY6eYPkjheY6upWI2tAiqDoQFWgmr4PRy4gCJLYVznvi/BQ4BmuxRB5ipTYlHAKuXyTC6gTWXKhbG4YpOgZC+Jc7Wtw5yICBJUmvRmdhotEA8XgQJBAOQk3L/zNys3FPq4/XvYw8k1XFO9eXh/b4KAU78+CFulBRQvJ7jHcF/AY7yac2VaHjxLiBUi3xcAMMyHHVT015kCQQCrg75q9bgo5ZK3LAkhP1V+xse4Uq7ZhnPhY0NsFHLMuK7L3uPx7gvGQedgdzxEeMy3LfMvoiwof+cbMVuZ91ARAkBTz+b47VS7H4UphoQ41y014dCFQvo49jf07UfW3eccI8d13szs6PezdW4uf18dQLoS1Hytpx3lyUAkIw73gushAkEAjOJt4pwuhuF076NraHUGvFl6Kq04VRP9UfFgq4Hsfr9hTbOr18lqwJLYBURMLA5yUjGbZdA3p5jQdGTJ0qH0kQJAEZoeDclMZwq2YZR/+BHtEzQJb0mS1BaHdchx/CEPEaPovLI4UbStc9NrUu9j0x/YuG1odc9cJpC3SHIwL079UA==",
