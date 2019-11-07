@@ -1,8 +1,10 @@
 package com.ezlinker.app.modules.test;
 
+import com.ezlinker.app.modules.role.service.IRoleService;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.web.AbstractXController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +60,9 @@ public class TestController extends AbstractXController<R> {
     public Object page(QueryCondition<R> queryCondition, int pageNo, int pageSize) {
         return null;
     }
+
+    @Autowired
+    IRoleService roleService;
 
     @GetMapping("/")
     public R i() {

@@ -1,6 +1,10 @@
-package com.ezlinker.common.pojo;
+package com.ezlinker.app.modules.user.model;
 
+import com.ezlinker.app.modules.permission.model.Permission;
+import com.ezlinker.app.modules.role.model.Role;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @program: ezlinker
@@ -14,6 +18,8 @@ public class UserDetail {
     private String username;
     private Integer userType;
     private Integer status;
+    private List<Role> roles;
+    private List<Permission> permissions;
     private Long expiredTime;
 
 }
