@@ -1,4 +1,4 @@
-package com.ezlinker.app;
+package com.ezlinker.app.utils;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;

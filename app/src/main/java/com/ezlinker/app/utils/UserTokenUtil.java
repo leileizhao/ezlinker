@@ -1,12 +1,12 @@
-package com.ezlinker.common.utils;
+package com.ezlinker.app.utils;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.common.exception.XException;
-import com.ezlinker.common.pojo.UserDetail;
 
 /**
  * @description: 生成和解析用户的Token

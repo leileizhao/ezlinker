@@ -1,4 +1,4 @@
-package com.ezlinker.app;
+package com.ezlinker.app.utils;
 
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
