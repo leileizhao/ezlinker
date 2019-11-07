@@ -1,6 +1,7 @@
 package com.ezlinker.common.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @program: ezlinker
@@ -9,6 +10,7 @@ import lombok.Data;
  * @create: 2019-09-12 16:46
  **/
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class XException extends Exception {
     private String message ;
     private Integer code ;

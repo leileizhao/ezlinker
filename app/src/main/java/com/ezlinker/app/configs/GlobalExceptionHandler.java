@@ -1,4 +1,4 @@
-package com.ezlinker.common.exception;
+package com.ezlinker.app.configs;
 
 import com.ezlinker.common.exchange.R;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +24,15 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public R notFountHandler(HttpServletRequest request, NoHandlerFoundException e) {
+        String method = request.getMethod();
+        String path = request.getRequestURI();
+
+        return new R(404, "Resource not found", "资源不存在", method + ":" + path);
+    }
 
     /**
      * 400 - Bad Request
@@ -31,8 +41,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public R handException(Exception e, HttpServletRequest httpServletRequest) {
-        logger.error("异常产生:", e.getMessage());
-        e.printStackTrace();
+
         return new R();
     }
 }

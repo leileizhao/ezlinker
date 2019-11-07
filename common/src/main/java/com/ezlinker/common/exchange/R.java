@@ -26,7 +26,7 @@ public class R {
     /**
      * 国际化提示
      */
-    private String i8nMessage;
+    private String i18nMessage;
     /**
      * 数据
      */
@@ -58,14 +58,14 @@ public class R {
     public R(Object data) {
         this.code = RCode.SUCCESS.getCode();
         this.message = RCode.SUCCESS.getMessage();
-        this.i8nMessage = RCode.SUCCESS.getI8nMessage();
+        this.i18nMessage = RCode.SUCCESS.getI8nMessage();
         this.data = data;
     }
 
     public R(Integer code, String message, String i8nMessage, Object data) {
         this.code = code;
         this.message = message;
-        this.i8nMessage = i8nMessage;
+        this.i18nMessage = i8nMessage;
         this.data = data;
     }
 }

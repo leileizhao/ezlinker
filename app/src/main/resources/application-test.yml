@@ -53,6 +53,11 @@ spring:
       port: 27017
       database: ezlinker
       authentication-database: admin
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  resources:
+    add-mappings: false
 
 logging:
   level:

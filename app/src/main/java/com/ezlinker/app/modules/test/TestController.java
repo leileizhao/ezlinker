@@ -84,4 +84,9 @@ public class TestController extends AbstractXController<R> {
         return fail();
     }
 
+    @GetMapping("/api")
+    public R api() {
+        return success();
+    }
+
 }
