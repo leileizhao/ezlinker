@@ -3,7 +3,7 @@ package com.ezlinker.app.modules.test;
 import com.ezlinker.app.modules.role.service.IRoleService;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
-import com.ezlinker.common.web.AbstractXController;
+import com.ezlinker.app.common.AbstractXController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

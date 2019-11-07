@@ -1,12 +1,14 @@
-package com.ezlinker.common.web;
+package com.ezlinker.app.common;
 
+import com.ezlinker.app.utils.UserDetail;
+import com.ezlinker.app.utils.UserTokenUtil;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * @create: 2019-11-04 17:10
  **/
 public abstract class AbstractXController<T> {
+
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -38,9 +41,13 @@ public abstract class AbstractXController<T> {
      *
      * @return
      */
-    protected User getCurrentUserInfo() throws XException {
+    protected UserDetail getUserDetail() throws XException {
         String token = httpServletRequest.getHeader("token");
-        return null;
+        if (!StringUtils.isEmpty(token)) {
+            return UserTokenUtil.parse(token);
+        } else {
+            throw new XException(401, "Token has expired,please login again", "Token已经过期,请重新获取");
+        }
     }
 
     /**
@@ -144,5 +151,6 @@ public abstract class AbstractXController<T> {
         String i8nMessage = RCode.SUCCESS.getI8nMessage();
         return new R(code, message, i8nMessage, data);
     }
+
 
 }

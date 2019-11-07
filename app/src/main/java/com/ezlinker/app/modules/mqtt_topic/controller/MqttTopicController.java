@@ -6,7 +6,7 @@ import com.ezlinker.common.exchange.R;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.ezlinker.common.web.AbstractXController;
+import com.ezlinker.app.common.AbstractXController;
 
 import javax.servlet.http.HttpServletRequest;
 

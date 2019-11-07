@@ -1,9 +1,8 @@
 package com.ezlinker.app.configs;
 
+import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,12 +21,17 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
+    /**
+     * 404
+     *
+     * @param request
+     * @param e
+     * @return
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public R notFountHandler(HttpServletRequest request, NoHandlerFoundException e) {
+    public R notFountHandler(HttpServletRequest request) {
         String method = request.getMethod();
         String path = request.getRequestURI();
 
@@ -38,10 +42,12 @@ public class GlobalExceptionHandler {
      * 400 - Bad Request
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(XException.class)
     @ResponseBody
-    public R handException(Exception e, HttpServletRequest httpServletRequest) {
-
-        return new R();
+    public R handException(HttpServletRequest httpServletRequest, XException e) {
+        Integer code = e.getCode();
+        String message = e.getMessage();
+        String i8nMessage = e.getI18nMessage();
+        return new R(code, message, i8nMessage, httpServletRequest.getRequestURI());
     }
 }

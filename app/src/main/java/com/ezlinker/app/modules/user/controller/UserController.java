@@ -3,7 +3,7 @@ package com.ezlinker.app.modules.user.controller;
 
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
-import com.ezlinker.common.web.AbstractXController;
+import com.ezlinker.app.common.AbstractXController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -12,42 +12,18 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class XException extends Exception {
-    private String message ;
-    private Integer code ;
+    private String message;
+    private String i18nMessage;
+    private Integer code;
 
     public XException() {
     }
 
-    public XException(String message) {
-        this.message = message;
-    }
-
-    public XException(String message, Integer code) {
+    public XException(Integer code, String message, String i18nMessage) {
         this.message = message;
         this.code = code;
+        this.i18nMessage = i18nMessage;
     }
 
-    public XException(String message, String message1, Integer code) {
-        super(message);
-        this.message = message1;
-        this.code = code;
-    }
 
-    public XException(String message, Throwable cause, String message1, Integer code) {
-        super(message, cause);
-        this.message = message1;
-        this.code = code;
-    }
-
-    public XException(Throwable cause, String message, Integer code) {
-        super(cause);
-        this.message = message;
-        this.code = code;
-    }
-
-    public XException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, String message1, Integer code) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.message = message1;
-        this.code = code;
-    }
 }
