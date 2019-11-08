@@ -1,10 +1,15 @@
 package com.ezlinker.app;
 
 
+import com.ezlinker.app.modules.email.model.MailBean;
+import com.ezlinker.app.modules.email.service.MailService;
 import com.ezlinker.app.modules.role.model.Role;
 import com.ezlinker.app.modules.role.service.IRoleService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -27,4 +32,22 @@ class AppApplicationTests {
         roleService.save(user);
     }
 
+    @Autowired
+    TemplateEngine templateEngine;
+    @Autowired
+    MailService mailService;
+
+    @Test
+    void sendTemplateMail() {
+        //创建邮件正文
+        Context context = new Context();
+        //context.setVariable("id", "006");
+        String emailContent = templateEngine.process("register_email", context);
+        MailBean mailBean = new MailBean();
+        mailBean.setContent(emailContent);
+        mailBean.setSubject("激活账号");
+        mailBean.setRecipient("1021447921@qq.com");
+
+        mailService.sendHTMLMail(mailBean);
+    }
 }

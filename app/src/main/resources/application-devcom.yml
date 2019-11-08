@@ -60,6 +60,22 @@ spring:
   resources:
     add-mappings: false
 
+
+  #邮箱配置
+  mail:
+    host: smtp.qq.com
+    username: 751957846@qq.com
+    #QQ邮箱的授权码
+    password: oqozfmqqhlzubdih
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
 logging:
   level:
     root: info

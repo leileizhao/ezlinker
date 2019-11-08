@@ -9,10 +9,7 @@ import com.ezlinker.common.exchange.RCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -74,7 +71,7 @@ public abstract class AbstractXController<T> {
      * @param ids
      * @return
      */
-    @RequestMapping("/batchDelete")
+    @DeleteMapping("/batchDelete")
     protected abstract R batchDelete(Integer[] ids);
 
     /**
@@ -83,7 +80,7 @@ public abstract class AbstractXController<T> {
      * @param t
      * @return
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     protected abstract R update(T t);
 
     /**
@@ -92,7 +89,7 @@ public abstract class AbstractXController<T> {
      * @param queryCondition
      * @return
      */
-    @RequestMapping("/get")
+    @GetMapping("/get")
     protected abstract R get(QueryCondition<T> queryCondition);
 
     /**
@@ -101,7 +98,7 @@ public abstract class AbstractXController<T> {
      * @param queryCondition
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     protected abstract R list(QueryCondition<T> queryCondition);
 
     /**
