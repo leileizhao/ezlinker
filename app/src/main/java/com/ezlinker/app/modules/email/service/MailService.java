@@ -1,17 +1,14 @@
 package com.ezlinker.app.modules.email.service;
 
-import com.ezlinker.app.modules.email.model.MailBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.dm.model.v20151123.SingleSendMailRequest;
+import com.aliyuncs.dm.model.v20151123.SingleSendMailResponse;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.aliyuncs.profile.DefaultProfile;
+import com.aliyuncs.profile.IClientProfile;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.mail.internet.MimeMessage;
 
 /**
  * @program: ezlinker
@@ -21,25 +18,31 @@ import javax.mail.internet.MimeMessage;
  **/
 @Service
 public class MailService {
+    public void sendTextMail(String email) {
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "ULw8nLnKBktSbOhI", "hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR");
 
-    @Autowired
-    private JavaMailSenderImpl mailSender;
-
-    /**
-     * 发送一个HTML格式的邮件
-     *
-     * @param mailBean
-     */
-    public void sendHTMLMail(MailBean mailBean) {
+        IAcsClient client = new DefaultAcsClient(profile);
+        SingleSendMailRequest request = new SingleSendMailRequest();
         try {
-            MimeMessage mimeMailMessage = mailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
-            mimeMessageHelper.setFrom("751957846@qq.com");
-            mimeMessageHelper.setTo(mailBean.getRecipient());
-            mimeMessageHelper.setSubject(mailBean.getSubject());
-            mimeMessageHelper.setText(mailBean.getContent(), true);
-            mailSender.send(mimeMailMessage);
-        } catch (Exception e) {
+            request.setAccountName("ezlinker@ezlinker.cn");
+            request.setFromAlias("EZLinker");
+            request.setAddressType(1);
+            request.setTagName("EZLinker");
+            request.setReplyToAddress(true);
+            //可以给多个收件人发送邮件，收件人之间用逗号分开，批量发信建议使用BatchSendMailRequest方式
+            request.setToAddress(email);
+            request.setSubject("验证码");
+            request.setHtmlBody("邮件正文");
+
+            //如果调用成功，正常返回httpResponse；如果调用失败则抛出异常，需要在异常中捕获错误异常码；错误异常码请参考对应的API文档;
+            SingleSendMailResponse httpResponse = client.getAcsResponse(request);
+        } catch (ServerException e) {
+            //捕获错误异常码
+            System.out.println("ErrCode : " + e.getErrCode());
+            e.printStackTrace();
+        } catch (ClientException e) {
+            //捕获错误异常码
+            System.out.println("ErrCode : " + e.getErrCode());
             e.printStackTrace();
         }
     }
