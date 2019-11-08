@@ -16,11 +16,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  **/
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
+
+
+    /**
+     * "/test"
+     * "/login"
+     * "/signUp"
+     * "/logOut"
+     * "/captcha"
+     *
+     * @param registry
+     */
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(roleInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
-        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
+        registry.addInterceptor(roleInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
+        //registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
 
     }
 
@@ -36,6 +47,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 
     /**
      * 权限拦截器
+     *
      * @return
      */
 

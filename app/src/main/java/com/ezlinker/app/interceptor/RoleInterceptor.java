@@ -24,24 +24,11 @@ import java.util.List;
  **/
 public class RoleInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private List<String> allowList;
-
-    public RoleInterceptor() {
-        allowList = new ArrayList<>();
-        allowList.add("/test");
-        allowList.add("/login");
-        allowList.add("/signUp");
-        allowList.add("/logOut");
-        allowList.add("/captcha");
-    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.info("来自:" + getIpAddress(request));
 
-        if (!isAllow(request)) {
-            throw new XException(401, "Request not allow", "没有权限请求");
-        }
         if (!hasToken(request)) {
             throw new XException(401, "Require token", "Token缺失");
         }
@@ -159,17 +146,6 @@ public class RoleInterceptor implements HandlerInterceptor {
             }
         }
         return requiredRolesCount == realRolesCount;
-    }
-
-    /**
-     * 检查放行的路径
-     *
-     * @param request
-     * @return
-     */
-    private boolean isAllow(HttpServletRequest request) {
-        return allowList.contains(request.getServletPath());
-
     }
 
 }

@@ -21,8 +21,10 @@ import java.util.List;
  * @create: 2019-11-08 11:02
  **/
 public class PermissionInterceptor implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         if (handler instanceof HandlerMethod) {
             Method method = ((HandlerMethod) handler).getMethod();
             UserDetail userDetail = UserTokenUtil.parse(request.getHeader("token"));
