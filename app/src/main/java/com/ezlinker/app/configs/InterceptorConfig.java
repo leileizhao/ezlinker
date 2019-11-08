@@ -1,6 +1,7 @@
 package com.ezlinker.app.configs;
 
-import com.ezlinker.app.interceptor.AuthenticationInterceptor;
+import com.ezlinker.app.interceptor.PermissionInterceptor;
+import com.ezlinker.app.interceptor.RoleInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,17 +19,28 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
+        registry.addInterceptor(roleInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
+        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**");
+
     }
 
     /**
-     * 认证拦截器
+     * 角色拦截器
+     *
      * @return
      */
     @Bean
-    public HandlerInterceptor authenticationInterceptor() {
-        return new AuthenticationInterceptor();
+    public HandlerInterceptor roleInterceptor() {
+        return new RoleInterceptor();
     }
 
+    /**
+     * 权限拦截器
+     * @return
+     */
 
+    @Bean
+    public HandlerInterceptor permissionInterceptor() {
+        return new PermissionInterceptor();
+    }
 }

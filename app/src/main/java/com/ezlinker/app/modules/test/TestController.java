@@ -6,6 +6,7 @@ import com.ezlinker.common.exchange.R;
 import com.ezlinker.app.common.AbstractXController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,8 @@ import java.util.Map;
  * @author: wangwenhai
  * @create: 2019-11-06 15:18
  **/
-@RestController("/test")
+@RestController
+@RequestMapping("/test")
 public class TestController extends AbstractXController<R> {
     public TestController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
@@ -60,9 +62,6 @@ public class TestController extends AbstractXController<R> {
     public Object page(QueryCondition<R> queryCondition, int pageNo, int pageSize) {
         return null;
     }
-
-    @Autowired
-    IRoleService roleService;
 
     @GetMapping("/")
     public R i() {

@@ -69,7 +69,8 @@ public class AliyunSmsUtil {
             JSONObject result = JSONObject.parseObject(response.getData());
             return result.getString("Code").equals("OK");
         } catch (ClientException e) {
-            throw new XException("短信发送失败", 1);
+            throw new XException(1, "SMS send failure", "短信发送失败");
+
         }
     }
 

@@ -38,10 +38,10 @@ public class UserDetail {
     /**
      * 角色列表
      */
-    private List<Role> roles;
+    private List<String> roles;
     /**
      * 操作权限列表
      */
-    private List<Permission> permissions;
+    private List<String> permissions;
 
 }

@@ -65,5 +65,6 @@ logging:
     root: info
     org.springframework.data.mongodb.core: DEBUG
     com.baomidou.mybatisplus.core.mapper: DEBUG
-
-
+    org.mybatis: debug
+    java.sql: debug
+    org.springframework.web: trace
