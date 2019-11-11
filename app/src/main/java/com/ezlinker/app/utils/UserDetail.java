@@ -1,6 +1,7 @@
 package com.ezlinker.app.utils;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @create: 2019-11-05 15:42
  **/
 @Data
+@EqualsAndHashCode
 public class UserDetail {
     /**
      * 用户ID

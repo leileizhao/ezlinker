@@ -1,7 +1,7 @@
 package com.ezlinker.app.modules.role.service;
 
-import com.ezlinker.app.modules.role.model.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ezlinker.app.modules.role.model.Role;
 
 /**
  * <p>

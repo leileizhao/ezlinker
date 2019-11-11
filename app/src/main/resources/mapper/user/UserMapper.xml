@@ -4,22 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ezlinker.app.modules.user.model.User">
-    <result column="id" property="id" />
-    <result column="x" property="x" />
-    <result column="record_version" property="recordVersion" />
-    <result column="create_time" property="createTime" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="avatar" property="avatar" />
-        <result column="phone" property="phone" />
-        <result column="email" property="email" />
-        <result column="real_name" property="realName" />
-        <result column="nick_name" property="nickName" />
-        <result column="user_type" property="userType" />
-        <result column="status" property="status" />
-        <result column="user_profile_id" property="userProfileId" />
-        <result column="last_login_time" property="lastLoginTime" />
-        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="id" property="id"/>
+        <result column="x" property="x"/>
+        <result column="record_version" property="recordVersion"/>
+        <result column="create_time" property="createTime"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="real_name" property="realName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_type" property="userType"/>
+        <result column="status" property="status"/>
+        <result column="user_profile_id" property="userProfileId"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -30,5 +30,19 @@
         create_time,
         username, password, avatar, phone, email, real_name, nick_name, user_type, status, user_profile_id, last_login_time, last_login_ip
     </sql>
+
+
+    <select id="getRoles" resultType="com.ezlinker.app.modules.role.model.UserRoleView">
+        select * from
+        ez_user_role_view
+        where user_id = #{userId}
+    </select>
+
+
+    <select id="getPermissions" resultType="com.ezlinker.app.modules.permission.model.RolePermissionView">
+        select * from
+        ez_role_permission_view
+        where  role_id = #{roleId}
+    </select>
 
 </mapper>

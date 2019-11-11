@@ -1,8 +1,9 @@
 package com.ezlinker.app;
 
 
-import com.ezlinker.app.modules.project.model.Project;
-import com.ezlinker.app.modules.project.service.IProjectService;
+import cn.hutool.crypto.SecureUtil;
+import com.ezlinker.app.modules.user.model.User;
+import com.ezlinker.app.modules.user.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,13 +41,21 @@ class AppApplicationTests {
 //        System.out.println("邮件发送报告测试");
 //    }
     @Autowired
-    IProjectService iProjectService;
+    IUserService iUserService;
 
     @Test
-    void add() {
-        Project project = new Project();
-        project.setName("name1").setLogo("1.png").setUserId(1L).setLocation("china");
-        iProjectService.save(project);
+    void addUser() {
 
+        User user = new User();
+        user.setUsername("ezlinker")
+                .setPassword(SecureUtil.md5("password").toUpperCase())
+                .setAvatar("ezlinker.png")
+                .setEmail("751957846@qq.com")
+                .setNickName("EZ-Linker-Big-dick")
+                .setPhone("18059150204")
+                .setStatus(1)
+                .setUserType(1)
+                .setUserProfileId(0);
+        iUserService.save(user);
     }
 }
