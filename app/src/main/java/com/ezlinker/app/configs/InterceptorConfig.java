@@ -30,7 +30,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(roleInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
+        /**
+         * 开发阶段全部放行
+         */
+        //registry.addInterceptor(roleInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
         //registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
 
     }

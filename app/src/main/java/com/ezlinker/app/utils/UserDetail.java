@@ -1,7 +1,5 @@
 package com.ezlinker.app.utils;
 
-import com.ezlinker.app.modules.permission.model.Permission;
-import com.ezlinker.app.modules.role.model.Role;
 import lombok.Data;
 
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.ezlinker.app.configs;
 
 import lombok.Data;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

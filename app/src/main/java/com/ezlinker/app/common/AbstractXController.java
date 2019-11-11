@@ -6,8 +6,7 @@ import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.ezlinker.common.model.XFrom;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
  **/
 public abstract class AbstractXController<T> {
 
-
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * httpServletRequest
@@ -50,20 +47,11 @@ public abstract class AbstractXController<T> {
     /**
      * 添加一个T
      *
-     * @param t
+     * @param form
      * @return
      */
-    @PostMapping("/add")
-    protected abstract R add(T t);
-
-    /**
-     * 根据条件删除T
-     *
-     * @param queryCondition
-     * @return
-     */
-    @DeleteMapping("/delete")
-    protected abstract R delete(QueryCondition<T> queryCondition);
+    @PostMapping
+    protected abstract R add(@RequestBody T t);
 
     /**
      * 批量删除T
@@ -71,8 +59,8 @@ public abstract class AbstractXController<T> {
      * @param ids
      * @return
      */
-    @DeleteMapping("/batchDelete")
-    protected abstract R batchDelete(Integer[] ids);
+    @DeleteMapping
+    protected abstract R delete(@RequestBody Integer[] ids);
 
     /**
      * 更新T
@@ -80,26 +68,17 @@ public abstract class AbstractXController<T> {
      * @param t
      * @return
      */
-    @PutMapping("/update")
-    protected abstract R update(T t);
+    @PutMapping
+    protected abstract R update(@RequestBody T t);
 
     /**
      * 查询单个T
      *
-     * @param queryCondition
+     * @param id
      * @return
      */
-    @GetMapping("/get")
-    protected abstract R get(QueryCondition<T> queryCondition);
-
-    /**
-     * 条件查询T列表
-     *
-     * @param queryCondition
-     * @return
-     */
-    @GetMapping("/list")
-    protected abstract R list(QueryCondition<T> queryCondition);
+    @GetMapping(value = "/{id}")
+    protected abstract R get(@RequestParam("id") Long id);
 
     /**
      * 附带检索条件的分页查询
@@ -109,8 +88,8 @@ public abstract class AbstractXController<T> {
      * @param pageSize
      * @return
      */
-    @GetMapping("page")
-    protected abstract Object page(QueryCondition<T> queryCondition, int pageNo, int pageSize);
+    @GetMapping
+    protected abstract R queryForPage(@RequestBody QueryCondition<T> queryCondition, int pageNo, int pageSize);
 
     /**
      * 失败返回

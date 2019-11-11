@@ -6,9 +6,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wangwenhai
@@ -20,12 +22,12 @@ import lombok.experimental.Accessors;
 @TableName("ez_project")
 public class Project extends XEntity {
 
-    private static final long serialVersionUID=1L;
-
+    private static final long serialVersionUID = 1L;
+    @NotNull(message = "项目名称不可为空")
     private String name;
 
     private String logo;
-
+    @NotNull(message = "用户不可为空")
     private Integer userId;
 
     private String description;

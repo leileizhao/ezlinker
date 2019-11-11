@@ -40,8 +40,8 @@ spring:
 
   redis:
     database: 0
-    host: 10.168.1.214
-    # password: redis
+    host: 116.196.90.9
+    password: tinycoder332211
     port: 6379
     timeout: 300
 
@@ -65,4 +65,14 @@ logging:
     org.springframework.data.mongodb.core: DEBUG
     com.baomidou.mybatisplus.core.mapper: DEBUG
 
-
+# Aliyun Mail push
+# "cn-hangzhou", "ULw8nLnKBktSbOhI", "hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR"
+aliyun:
+  mail:
+    access-key: ULw8nLnKBktSbOhI
+    secret: hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR
+    region-id: cn-hangzhou
+    account-name: ezlinker@ezlinker.cn
+    from-alias: EZLinker
+    address-type: 1
+    tag-name: EZLinker
