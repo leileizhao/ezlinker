@@ -65,3 +65,15 @@ logging:
     root: info
     org.springframework.data.mongodb.core: DEBUG
     com.baomidou.mybatisplus.core.mapper: DEBUG
+
+# Aliyun Mail push
+# "cn-hangzhou", "ULw8nLnKBktSbOhI", "hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR"
+aliyun:
+  mail:
+    access-key: ULw8nLnKBktSbOhI
+    secret: hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR
+    region-id: cn-hangzhou
+    account-name: ezlinker@ezlinker.cn
+    from-alias: EZLinker
+    address-type: 1
+    tag-name: EZLinker

@@ -5,6 +5,7 @@ import com.ezlinker.app.modules.email.model.MailBean;
 import com.ezlinker.app.modules.email.service.MailService;
 import com.ezlinker.app.modules.role.model.Role;
 import com.ezlinker.app.modules.role.service.IRoleService;
+import com.ezlinker.common.exception.XException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,16 +39,12 @@ class AppApplicationTests {
     MailService mailService;
 
     @Test
-    void sendTemplateMail() {
+    void sendTemplateMail() throws XException {
         //创建邮件正文
         Context context = new Context();
         //context.setVariable("id", "006");
         String emailContent = templateEngine.process("register_email", context);
-        MailBean mailBean = new MailBean();
-        mailBean.setContent(emailContent);
-        mailBean.setSubject("激活账号");
-        mailBean.setRecipient("1021447921@qq.com");
-
-        mailService.sendHTMLMail(mailBean);
+        mailService.sendTextMail("751957846@qq.com","激活账户",emailContent);
+        System.out.println("邮件发送报告测试");
     }
 }
