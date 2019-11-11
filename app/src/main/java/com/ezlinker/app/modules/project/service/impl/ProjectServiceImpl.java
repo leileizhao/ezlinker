@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 项目 服务实现类
  * </p>
  *
  * @author wangwenhai
- * @since 2019-11-06
+ * @since 2019-11-11
  */
 @Service
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements IProjectService {

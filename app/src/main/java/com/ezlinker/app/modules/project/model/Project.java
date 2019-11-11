@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * <p>
- *
+ * 项目
  * </p>
  *
  * @author wangwenhai
- * @since 2019-11-06
+ * @since 2019-11-11
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,12 +23,14 @@ import javax.validation.constraints.NotNull;
 public class Project extends XEntity {
 
     private static final long serialVersionUID = 1L;
-    @NotNull(message = "项目名称不可为空")
+
+    @NotEmpty(message = "项目名称不可为空")
     private String name;
 
     private String logo;
-    @NotNull(message = "用户不可为空")
-    private Integer userId;
+    @NotEmpty(message = "用户不可为空")
+
+    private Long userId;
 
     private String description;
 

@@ -6,9 +6,11 @@ import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
-import com.ezlinker.common.model.XFrom;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,11 +49,11 @@ public abstract class AbstractXController<T> {
     /**
      * 添加一个T
      *
-     * @param form
+     * @param t
      * @return
      */
     @PostMapping
-    protected abstract R add(@RequestBody T t);
+    protected abstract R add(T t) throws XException;
 
     /**
      * 批量删除T
@@ -60,7 +62,7 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @DeleteMapping
-    protected abstract R delete(@RequestBody Integer[] ids);
+    protected abstract R delete(Integer[] ids) throws XException;
 
     /**
      * 更新T
@@ -69,7 +71,7 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @PutMapping
-    protected abstract R update(@RequestBody T t);
+    protected abstract R update(T t) throws XException;
 
     /**
      * 查询单个T
@@ -78,18 +80,7 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @GetMapping(value = "/{id}")
-    protected abstract R get(@RequestParam("id") Long id);
-
-    /**
-     * 附带检索条件的分页查询
-     *
-     * @param queryCondition
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @GetMapping
-    protected abstract R queryForPage(@RequestBody QueryCondition<T> queryCondition, int pageNo, int pageSize);
+    protected abstract R get(Long id) throws XException;
 
     /**
      * 失败返回

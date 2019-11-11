@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.ezlinker.common.model.XEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,11 +110,12 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setTablePrefix(TABLE_PREFIX);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("com.ezlinker.common.model.XEntity");
+        strategy.setSuperEntityClass(XEntity.class);
         strategy.setSuperEntityColumns("id", "x", "create_time", "record_version");
 
         strategy.setEntityLombokModel(true);
-        strategy.setSuperControllerClass("com.ezlinker.common.web.AbstractXController");
+
+        strategy.setSuperControllerClass("com.ezlinker.app.common.AbstractXController");
         strategy.setInclude(scanner("请输入表名"));
 
         strategy.setControllerMappingHyphenStyle(true);

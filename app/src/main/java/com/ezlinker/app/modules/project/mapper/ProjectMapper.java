@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * 项目 Mapper 接口
  * </p>
  *
  * @author wangwenhai
- * @since 2019-11-06
+ * @since 2019-11-11
  */
 public interface ProjectMapper extends BaseMapper<Project> {
 

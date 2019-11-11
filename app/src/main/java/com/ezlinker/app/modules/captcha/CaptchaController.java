@@ -22,6 +22,11 @@ public class CaptchaController {
     @Autowired
     private RedisUtil redisUtil;
 
+    /**
+     * 获取图片验证码
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/captcha")
     public R captcha() throws Exception {
         SpecCaptcha captcha = new SpecCaptcha(130, 48, 5);
@@ -47,9 +52,9 @@ public class CaptchaController {
 
     }
 
-    boolean checkCaptcha(String code) {
-        String uuid = redisUtil.get("CAPTCHA:" + code).toString();
-        return uuid != null;
-
-    }
+//    boolean checkCaptcha(String code) {
+//        String uuid = redisUtil.get("CAPTCHA:" + code).toString();
+//        return uuid != null;
+//
+//    }
 }

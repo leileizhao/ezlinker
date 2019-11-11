@@ -65,6 +65,16 @@ logging:
     org.springframework.data.mongodb.core: DEBUG
     com.baomidou.mybatisplus.core.mapper: DEBUG
 
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mapper/**/*.xml
+
 # Aliyun Mail push
 # "cn-hangzhou", "ULw8nLnKBktSbOhI", "hgAj2F2KtaMvLuXZzpVyVWZ0rl4SXR"
 aliyun:

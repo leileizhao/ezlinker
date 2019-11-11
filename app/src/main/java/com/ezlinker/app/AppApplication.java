@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * @author wangwenhai
  */
-@MapperScan(basePackages = " com.ezlinker.app.modules.*.mapper")
+@MapperScan(basePackages = "com.ezlinker.app.modules.*.mapper")
 @ComponentScan(basePackages = {"com.ezlinker.*"})
 @SpringBootApplication
 @EnableConfigurationProperties

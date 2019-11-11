@@ -3,7 +3,10 @@ package com.ezlinker.common.model;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,11 +16,14 @@ import java.util.Date;
  * @create: 2019-11-04 17:11
  **/
 @Data
-public class XEntity {
+@Accessors(chain = true)
+@FieldNameConstants
+public class XEntity implements Serializable {
     /**
      * ID
      */
-    @TableId(type = IdType.AUTO)
+    @TableField(value = "id")
+    @TableId(type = IdType.AUTO, value = "id")
     private Long id;
     /**
      * 删除标记
@@ -30,11 +36,11 @@ public class XEntity {
     @Version
     @TableField(fill = FieldFill.INSERT_UPDATE, update = "%s+1")
     @JsonIgnore
-    private Integer recordVersion;
+    private Long recordVersion;
     /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime = new Date();
+    private Date createTime;
 
 }

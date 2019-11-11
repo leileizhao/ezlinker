@@ -1,11 +1,15 @@
 package com.ezlinker.app;
 
 
+import com.ezlinker.app.modules.project.model.Project;
+import com.ezlinker.app.modules.project.service.IProjectService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class AppApplicationTests {
-//    @Resource
+    //    @Resource
 //    IRoleService roleService;
 //
 //    @Test
@@ -35,4 +39,14 @@ class AppApplicationTests {
 //        mailService.sendTextMail("751957846@qq.com","激活账户",emailContent);
 //        System.out.println("邮件发送报告测试");
 //    }
+    @Autowired
+    IProjectService iProjectService;
+
+    @Test
+    void add() {
+        Project project = new Project();
+        project.setName("name1").setLogo("1.png").setUserId(1L).setLocation("china");
+        iProjectService.save(project);
+
+    }
 }

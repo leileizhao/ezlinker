@@ -27,7 +27,7 @@ public class DocGenerator {
         config.setStrict(true);
         config.setOutPath("apiDoc");
         config.setSourceCodePaths(
-                SourceCodePath.path().setDesc("ezlinker-doc").setPath("ezlinker\\src\\main\\java\\com\\ezlinker\\app")
+                SourceCodePath.path().setDesc("ezlinker-doc").setPath("C:\\Users\\admin\\Github\\ezlinker\\app\\src\\main\\java\\com\\ezlinker\\app\\modules")
         );
         long start = System.currentTimeMillis();
         HtmlApiDocBuilder.builderControllersApi(config);
