@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -180,6 +182,15 @@ public class EntryController {
             }
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getRemoteHost();
+            }
+            if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+                InetAddress inetAddress;
+                try {
+                    inetAddress = InetAddress.getLocalHost();
+                    ip = inetAddress.getHostAddress();
+                } catch (UnknownHostException e) {
+                    ip = "LOCAL_HOST";
+                }
             }
         } catch (Exception e) {
             ip = "UN_KNOW";
