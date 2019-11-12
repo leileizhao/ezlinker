@@ -112,13 +112,13 @@ public class EntryController {
         userDetail.setRoles(userRoles);
         userDetail.setPermissions(userPermissions);
         String token = UserTokenUtil.token(userDetail, 24 * 60 * 60 * 1000L);
-        try {
-            redisUtil.set("USER:TOKEN:" + user.getId(), token);
-
-        } catch (Exception e) {
-            throw new XException(500, "Login failure,server internal error!", "登陆失败,服务器内部错误");
-
-        }
+//        try {
+//           // redisUtil.set("USER:TOKEN:" + user.getId(), token);
+//
+//        } catch (Exception e) {
+//            throw new XException(500, "Login failure,server internal error!", "登陆失败,服务器内部错误");
+//
+//        }
         UserLoginLog userLoginLog = new UserLoginLog();
         userLoginLog.setIp(ip).setStatus("INFO").setUserId(user.getId()).setRemark("登陆成功").setLocation(getLocationWithIp(ip));
         iUserLoginLogService.save(userLoginLog);
