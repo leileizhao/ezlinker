@@ -47,7 +47,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://192.168.2.240:32768/ezlinker
+      uri: mongodb://localhost:27017/ezlinker
       # password: guest
       # username: guest
 #      port: 32768

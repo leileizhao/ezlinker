@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ezlinker.app.modules.permission.model.RolePermissionView;
 import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.user.model.User;
+import com.ezlinker.app.modules.user.model.UserInfoView;
 
 import java.util.List;
 
@@ -32,4 +33,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     List<RolePermissionView> getPermissions(Long roleId);
+
+    /**
+     * 查询用户详情
+     * @param userId
+     * @return
+     */
+    UserInfoView getUserInfo(Long userId);
 }

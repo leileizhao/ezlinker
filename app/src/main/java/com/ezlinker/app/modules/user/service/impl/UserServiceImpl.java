@@ -5,6 +5,7 @@ import com.ezlinker.app.modules.permission.model.RolePermissionView;
 import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.user.mapper.UserMapper;
 import com.ezlinker.app.modules.user.model.User;
+import com.ezlinker.app.modules.user.model.UserInfoView;
 import com.ezlinker.app.modules.user.service.IUserService;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             }
         }
         return userPermissions;
+    }
+
+    @Override
+    public UserInfoView getUserInfo(Long userId) {
+        return userMapper.getUserInfo(userId);
     }
 }

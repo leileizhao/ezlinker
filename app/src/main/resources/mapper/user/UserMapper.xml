@@ -45,4 +45,10 @@
         where  role_id = #{roleId}
     </select>
 
+
+    <select id="getUserInfo" resultType="com.ezlinker.app.modules.user.model.UserInfoView">
+        select * from `ez_user_info_view`
+        where id = #{userId}
+    </select>
+
 </mapper>

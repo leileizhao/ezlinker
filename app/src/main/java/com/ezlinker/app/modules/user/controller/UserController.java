@@ -62,5 +62,16 @@ public class UserController extends AbstractXController<User> {
     public R getMenu() throws XException {
         return data(iUserService.getAllPermissions(getUserDetail().getId()));
     }
+
+    /**
+     * 获取用户详情
+     *
+     * @return
+     * @throws XException
+     */
+    @GetMapping("/userInfo")
+    public R getUserInfo() throws XException {
+        return data(iUserService.getUserInfo(getUserDetail().getId()));
+    }
 }
 
