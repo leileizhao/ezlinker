@@ -31,4 +31,13 @@ public interface IUserService extends IService<User> {
      * @return
      */
     List<RolePermissionView> getPermissions(Long roleId);
+
+    /**
+     * 获取权限表:
+     * role:权限:资源
+     * @param userId
+     * @return
+     */
+    List<String> getAllPermissions(Long userId);
+
 }

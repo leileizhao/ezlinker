@@ -106,7 +106,7 @@ public class EntryController {
             userRoles.add(userRoleView.getName());
             List<RolePermissionView> rolePermissionViews = iUserService.getPermissions(userRoleView.getId());
             for (RolePermissionView rolePermissionView : rolePermissionViews) {
-                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName());
+                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName() + ":" + rolePermissionView.getResource());
             }
         }
         userDetail.setRoles(userRoles);

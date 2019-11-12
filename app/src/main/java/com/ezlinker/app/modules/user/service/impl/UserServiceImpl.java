@@ -6,10 +6,10 @@ import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.user.mapper.UserMapper;
 import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,5 +34,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public List<RolePermissionView> getPermissions(Long roleId) {
         return userMapper.getPermissions(roleId);
+    }
+
+    @Override
+    public List<String> getAllPermissions(Long userId) {
+        List<UserRoleView> userRoleViews = userMapper.getRoles(userId);
+        List<String> userPermissions = new ArrayList<>();
+        for (UserRoleView userRoleView : userRoleViews) {
+            List<RolePermissionView> rolePermissionViews = userMapper.getPermissions(userRoleView.getId());
+            for (RolePermissionView rolePermissionView : rolePermissionViews) {
+                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName() + ":" + rolePermissionView.getResource());
+            }
+        }
+        return userPermissions;
     }
 }

@@ -2,8 +2,6 @@ package com.ezlinker.app.modules.user.controller;
 
 
 import com.ezlinker.app.common.AbstractXController;
-import com.ezlinker.app.modules.permission.model.RolePermissionView;
-import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.common.exception.XException;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -64,15 +60,7 @@ public class UserController extends AbstractXController<User> {
      */
     @GetMapping("/menu")
     public R getMenu() throws XException {
-        List<UserRoleView> userRoleViews = iUserService.getRoles(getUserDetail().getId());
-        List<String> userPermissions = new ArrayList<>();
-        for (UserRoleView userRoleView : userRoleViews) {
-            List<RolePermissionView> rolePermissionViews = iUserService.getPermissions(userRoleView.getId());
-            for (RolePermissionView rolePermissionView : rolePermissionViews) {
-                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName());
-            }
-        }
-        return data(userPermissions);
+        return data(iUserService.getAllPermissions(getUserDetail().getId()));
     }
 }
 
