@@ -1,7 +1,7 @@
 package com.ezlinker.app.modules.system.controller;
 
 import com.ezlinker.app.common.AbstractXController;
-import com.ezlinker.app.utils.SystemPropertiesUtil;
+import com.ezlinker.common.utils.SystemPropertiesUtil;
 import com.ezlinker.common.exchange.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

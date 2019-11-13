@@ -1,6 +1,7 @@
-package com.ezlinker.app.utils;
+package com.ezlinker.common.utils;
 
-import com.alibaba.druid.util.StringUtils;
+
+import org.springframework.util.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

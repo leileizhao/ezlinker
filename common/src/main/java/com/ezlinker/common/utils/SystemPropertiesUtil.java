@@ -1,4 +1,4 @@
-package com.ezlinker.app.utils;
+package com.ezlinker.common.utils;
 
 import com.sun.management.OperatingSystemMXBean;
 
