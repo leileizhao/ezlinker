@@ -4,42 +4,34 @@ package com.ezlinker.app;
 import cn.hutool.crypto.SecureUtil;
 import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
+import com.ezlinker.common.exception.XException;
+import com.ezlinker.common.utils.AliyunEmailUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @SpringBootTest
 class AppApplicationTests {
-    //    @Resource
-//    IRoleService roleService;
+
+    @Autowired
+    TemplateEngine templateEngine;
+    @Autowired
+    AliyunEmailUtil aliyunEmailUtil;
 //
-//    @Test
-//    void addRoles() {
-//        Role admin = new Role();
-//        admin.setLabel("系统管理员").setName("ADMIN").setDescription("系统内部管理员").setParent(0L);
-//        admin.setCreateTime(new Date());
-//
-//        Role user = new Role();
-//        user.setLabel("普通用户").setName("USER").setDescription("系统注册用户").setParent(0L);
-//        user.setCreateTime(new Date());
-//        roleService.save(admin);
-//        roleService.save(user);
-//    }
-//
-//    @Autowired
-//    TemplateEngine templateEngine;
-//    @Autowired
-//    MailService mailService;
-//
-//    @Test
-//    void sendTemplateMail() throws XException {
-//        //创建邮件正文
-//        Context context = new Context();
-//        //context.setVariable("id", "006");
-//        String emailContent = templateEngine.process("register_email", context);
-//        mailService.sendTextMail("751957846@qq.com","激活账户",emailContent);
-//        System.out.println("邮件发送报告测试");
-//    }
+    @Test
+    void sendTemplateMail() throws XException {
+        //创建邮件正文
+        Context context = new Context();
+
+        context.setVariable("address", "1号车间");
+        context.setVariable("name", "安全控制器");
+
+        String emailContent = templateEngine.process("warning", context);
+        aliyunEmailUtil.sendHtmlMail("751957846@qq.com","警告信息",emailContent);
+        System.out.println("邮件发送报告测试");
+    }
     @Autowired
     IUserService iUserService;
 

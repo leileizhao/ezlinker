@@ -1,4 +1,4 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.common.utils;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
