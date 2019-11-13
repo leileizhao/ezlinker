@@ -1,14 +1,20 @@
 package com.ezlinker.app.modules.user.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
 import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
+import com.ezlinker.app.modules.userlog.model.UserLoginLog;
+import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +33,9 @@ public class UserController extends AbstractXController<User> {
 
     @Autowired
     IUserService iUserService;
+
+    @Autowired
+    IUserLoginLogService iUserLoginLogService;
 
     public UserController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
@@ -55,6 +64,18 @@ public class UserController extends AbstractXController<User> {
         return data(iUserService.getUserInfo(getUserDetail().getId()));
     }
 
-
+    /**
+     * 获取用户的登录日志
+     *
+     * @return
+     * @throws XException
+     */
+    @GetMapping("/loginLog")
+    public R getLoginLog(@RequestParam int pageNo, @RequestParam int pageSize) throws XException {
+        QueryWrapper<UserLoginLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", getUserDetail().getId());
+        IPage<UserLoginLog> page = iUserLoginLogService.page(new Page<>(pageNo, pageSize), queryWrapper);
+        return data(page);
+    }
 }
 
