@@ -43,8 +43,8 @@ public class ProjectController extends AbstractXController<Project> {
     @Override
     protected R add(@RequestBody Project project) throws XException {
         project.setUserId(getUserDetail().getId());
-        iProjectService.save(project);
-        return success();
+        boolean ok = iProjectService.save(project);
+        return ok ? success() : fail();
     }
 
     /**
