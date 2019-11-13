@@ -18,10 +18,5 @@
         <!--@mbg.generated-->
         id, `type`, content, title, `status`, user_id, record_version, x, create_time
     </sql>
-    <update id="mark" parameterType="long">
-        UPDATE ez_internal_message
-        SET status=1
-        WHERE id=#{id,jdbcType=BIGINT}
-    </update>
 
 </mapper>

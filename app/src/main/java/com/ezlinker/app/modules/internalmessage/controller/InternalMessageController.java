@@ -45,7 +45,7 @@ public class InternalMessageController extends AbstractXController<InternalMessa
      * @throws XException
      */
     @Override
-    protected R delete(Integer[] ids) throws XException {
+    protected R delete(@RequestBody  Integer[] ids) throws XException {
         boolean ok = internalMessageService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }
@@ -59,10 +59,10 @@ public class InternalMessageController extends AbstractXController<InternalMessa
      * @return
      * @throws XException
      */
-    @GetMapping("/list")
+    @GetMapping
     public R queryForPage(
-            @RequestParam int pageNo,
-            @RequestParam int pageSize) throws XException {
+            @RequestParam Integer pageNo,
+            @RequestParam Integer pageSize) throws XException {
         QueryWrapper<InternalMessage> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", getUserDetail().getId());
         queryWrapper.orderByDesc("create_time");
@@ -78,9 +78,17 @@ public class InternalMessageController extends AbstractXController<InternalMessa
      * @return
      * @throws XException
      */
-    @PutMapping("/mark")
-    public R mark(Long id) throws XException {
-        boolean ok = internalMessageService.mark(id);
+    @PutMapping("/mark/{id}")
+    public R mark(@PathVariable Long id) throws XException {
+        QueryWrapper<InternalMessage> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", id);
+        InternalMessage internalMessage = internalMessageService.getById(id);
+        if (internalMessage == null) {
+            throw new XException("InternalMessage not exists!", "站内信不存在");
+
+        }
+        internalMessage.setStatus(1);
+        boolean ok = internalMessageService.updateById(internalMessage);
         return ok ? success() : fail();
     }
 }

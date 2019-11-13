@@ -12,11 +12,5 @@ import com.ezlinker.app.modules.internalmessage.model.InternalMessage;
  * @since 2019-11-13
  */
 public interface InternalMessageMapper extends BaseMapper<InternalMessage> {
-    /**
-     * 标记站内信
-     *
-     * @param id
-     * @return
-     */
-    boolean mark(Long id);
+
 }

@@ -1,6 +1,9 @@
 package com.ezlinker.app.modules.internalmessage.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
@@ -13,6 +16,9 @@ import java.util.Date;
  * @since 2019-11-13
  */
 @Data
+@EqualsAndHashCode()
+@Accessors(chain = true)
+@TableName("ez_internal_message")
 public class InternalMessage {
     /**
      * PK

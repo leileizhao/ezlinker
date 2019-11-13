@@ -13,11 +13,5 @@ import com.ezlinker.app.modules.internalmessage.model.InternalMessage;
  */
 public interface InternalMessageService extends IService<InternalMessage> {
 
-    /**
-     * 标记站内信
-     *
-     * @param id
-     * @return
-     */
-    boolean mark(Long id);
+
 }
