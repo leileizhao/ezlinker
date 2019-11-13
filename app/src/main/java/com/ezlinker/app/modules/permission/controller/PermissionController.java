@@ -20,31 +20,12 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2019-11-11
  */
 @RestController
-@RequestMapping("/permission/permission")
+@RequestMapping("/permission")
 public class PermissionController extends AbstractXController<Permission> {
 
     public PermissionController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
 
-    @Override
-    protected R add(Permission permission) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R delete(Integer[] ids) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R update(Permission permission) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R get(Long id) throws XException {
-        return null;
-    }
 }
 

@@ -2,6 +2,9 @@ package com.ezlinker.app.modules.permission.model;
 
 import lombok.Data;
 
+/**
+ * @author wangwenhai
+ */
 @Data
 public class RolePermissionView {
 
@@ -10,6 +13,8 @@ public class RolePermissionView {
     private Long roleId;
 
     private String label;
+
+    private String methods;
 
     private String name;
 

@@ -5,15 +5,13 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ezlinker.app.modules.entry.form.UserLoginForm;
-import com.ezlinker.app.modules.permission.model.RolePermissionView;
 import com.ezlinker.app.modules.permission.service.IPermissionService;
-import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.role.service.IRoleService;
 import com.ezlinker.app.modules.user.model.User;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.app.modules.userlog.model.UserLoginLog;
 import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
-import com.ezlinker.app.utils.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
@@ -96,29 +94,19 @@ public class EntryController {
         userDetail.setUsername(user.getUsername());
         userDetail.setUserType(user.getUserType());
         userDetail.setExpiredTime(7 * 24 * 60 * 60 * 100L);
-        // 查询Role和Permission
-        List<UserRoleView> userRoleViews = iUserService.getRoles(user.getId());
         //Roles
         List<String> userRoles = new ArrayList<>();
-        List<String> userPermissions = new ArrayList<>();
-
-        for (UserRoleView userRoleView : userRoleViews) {
-            userRoles.add(userRoleView.getName());
-            List<RolePermissionView> rolePermissionViews = iUserService.getPermissions(userRoleView.getId());
-            for (RolePermissionView rolePermissionView : rolePermissionViews) {
-                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName() + ":" + rolePermissionView.getResource());
-            }
-        }
         userDetail.setRoles(userRoles);
-        userDetail.setPermissions(userPermissions);
+        userDetail.setPermissions(iUserService.getAllPermissions(user.getId()));
         String token = UserTokenUtil.token(userDetail, 24 * 60 * 60 * 1000L);
-//        try {
-//           // redisUtil.set("USER:TOKEN:" + user.getId(), token);
-//
-//        } catch (Exception e) {
-//            throw new XException(500, "Login failure,server internal error!", "登陆失败,服务器内部错误");
-//
-//        }
+
+        boolean set = redisUtil.set("USER:TOKEN:" + user.getId(), token);
+
+        if (!set) {
+            throw new XException(500, "Server internal error!", "服务器内部错误");
+
+        }
+
         UserLoginLog userLoginLog = new UserLoginLog();
         userLoginLog.setIp(ip).setStatus("INFO").setUserId(user.getId()).setRemark("登陆成功").setLocation(getLocationWithIp(ip));
         iUserLoginLogService.save(userLoginLog);

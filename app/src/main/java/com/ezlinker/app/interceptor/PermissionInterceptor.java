@@ -1,6 +1,6 @@
 package com.ezlinker.app.interceptor;
 
-import com.ezlinker.app.utils.UserDetail;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
 import com.ezlinker.common.auth.RequirePermission;
 import com.ezlinker.common.exception.XException;

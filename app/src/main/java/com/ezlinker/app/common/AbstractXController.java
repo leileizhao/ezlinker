@@ -1,9 +1,8 @@
 package com.ezlinker.app.common;
 
-import com.ezlinker.app.utils.UserDetail;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
 import com.ezlinker.common.exception.XException;
-import com.ezlinker.common.exchange.QueryCondition;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
 import org.springframework.util.StringUtils;
@@ -53,7 +52,10 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @PostMapping
-    protected abstract R add(T t) throws XException;
+    protected R add(T t) throws XException {
+        return success();
+    }
+
 
     /**
      * 批量删除T
@@ -62,7 +64,10 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @DeleteMapping
-    protected abstract R delete(Integer[] ids) throws XException;
+    protected R delete(Integer[] ids) throws XException {
+        return success();
+    }
+
 
     /**
      * 更新T
@@ -70,8 +75,10 @@ public abstract class AbstractXController<T> {
      * @param t
      * @return
      */
-    @PutMapping
-    protected abstract R update(T t) throws XException;
+    @PutMapping(value = "/{id}")
+    protected R update(Long id, T t) throws XException {
+        return success();
+    }
 
     /**
      * 查询单个T
@@ -80,7 +87,9 @@ public abstract class AbstractXController<T> {
      * @return
      */
     @GetMapping(value = "/{id}")
-    protected abstract R get(Long id) throws XException;
+    protected R get(Long id) throws XException {
+        return success();
+    }
 
     /**
      * 失败返回

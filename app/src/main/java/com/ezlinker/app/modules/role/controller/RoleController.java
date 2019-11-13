@@ -27,24 +27,5 @@ public class RoleController extends AbstractXController<Role> {
         super(httpServletRequest);
     }
 
-    @Override
-    protected R add(Role role) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R delete(Integer[] ids) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R update(Role role) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R get(Long id) throws XException {
-        return null;
-    }
 }
 

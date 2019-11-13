@@ -44,7 +44,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         for (UserRoleView userRoleView : userRoleViews) {
             List<RolePermissionView> rolePermissionViews = userMapper.getPermissions(userRoleView.getId());
             for (RolePermissionView rolePermissionView : rolePermissionViews) {
-                userPermissions.add(userRoleView.getName() + ":" + rolePermissionView.getName() + ":" + rolePermissionView.getResource());
+                if (rolePermissionView.getMethods() == null || rolePermissionView.getMethods().length() == 0) {
+                    userPermissions.add("ALL::" + rolePermissionView.getResource());
+
+                } else {
+                    userPermissions.add(rolePermissionView.getMethods() + "::" + rolePermissionView.getResource());
+
+                }
             }
         }
         return userPermissions;

@@ -32,25 +32,6 @@ public class UserController extends AbstractXController<User> {
         super(httpServletRequest);
     }
 
-    @Override
-    protected R add(User user) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R delete(Integer[] ids) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R update(User user) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R get(Long id) throws XException {
-        return null;
-    }
 
     /**
      * 获取用户的操作菜单
@@ -73,5 +54,7 @@ public class UserController extends AbstractXController<User> {
     public R getUserInfo() throws XException {
         return data(iUserService.getUserInfo(getUserDetail().getId()));
     }
+
+
 }
 

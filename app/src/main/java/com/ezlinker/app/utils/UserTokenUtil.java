@@ -5,6 +5,7 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.common.exception.XException;
 
 /**

@@ -27,24 +27,5 @@ public class UserLoginLogController extends AbstractXController<UserLoginLog> {
         super(httpServletRequest);
     }
 
-    @Override
-    protected R add(UserLoginLog userLoginLog) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R delete(Integer[] ids) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R update(UserLoginLog userLoginLog) throws XException {
-        return null;
-    }
-
-    @Override
-    protected R get(Long id) throws XException {
-        return null;
-    }
 }
 

@@ -1,4 +1,4 @@
-package com.ezlinker.app.utils;
+package com.ezlinker.app.modules.user.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -68,15 +68,14 @@ public class ProjectController extends AbstractXController<Project> {
      * @throws XException
      */
     @Override
-    protected R update(@RequestBody Project project) throws XException {
-        if (project.getId() == null) {
-            throw new XException("Invalid param!", "参数缺失");
-        }
-        if (iProjectService.getById(project.getId()) == null) {
+    protected R update(@PathVariable Long id, @RequestBody Project project) throws XException {
+
+        if (iProjectService.getById(id) == null) {
             throw new XException("Project not exists!", "项目不存在");
         }
+        project.setId(id);
         boolean ok = iProjectService.updateById(project);
-        return ok ? success() : fail();
+        return ok ? data(project) : fail();
     }
 
 
@@ -88,9 +87,12 @@ public class ProjectController extends AbstractXController<Project> {
      */
 
     @Override
-    protected R get(@PathVariable Long id) {
-
-        return data(iProjectService.getById(id));
+    protected R get(@PathVariable Long id) throws XException {
+        Project project = iProjectService.getById(id);
+        if (project == null) {
+            throw new XException("Project not exists!", "项目不存在");
+        }
+        return data(project);
     }
 
     /**
@@ -106,18 +108,19 @@ public class ProjectController extends AbstractXController<Project> {
      */
     @GetMapping
     public R queryForPage(
-            @RequestParam(required = false) String self,
+            @RequestParam(required = false) boolean self,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String location,
             @RequestParam int pageNo,
             @RequestParam int pageSize) throws XException {
         QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
-        if (self != null) {
+        if (self) {
             queryWrapper.eq("user_id", getUserDetail().getId());
 
         }
-        queryWrapper.like(name != null, "name", location);
+        queryWrapper.like(name != null, "name", name);
         queryWrapper.like(location != null, "location", location);
+        queryWrapper.orderByDesc("create_time");
         IPage<Project> projectPage = iProjectService.page(new Page<>(pageNo, pageSize), queryWrapper);
 
         return data(projectPage);

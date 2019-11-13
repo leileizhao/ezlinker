@@ -1,6 +1,6 @@
 package com.ezlinker.app.interceptor;
 
-import com.ezlinker.app.utils.UserDetail;
+import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
 import com.ezlinker.common.exception.XException;
 import org.slf4j.Logger;
@@ -35,20 +35,32 @@ public class UserOperateInterceptor implements HandlerInterceptor {
          * 如果匹配到了，开始检查权限
          */
         if (handler instanceof HandlerMethod) {
+            String httpMethod = request.getMethod().toUpperCase();
             UserDetail userDetail = UserTokenUtil.parse(request.getHeader("token"));
             if (userDetail.getPermissions().size() < 1) {
                 throw new XException(402, "No permission", "没有权限");
             }
             String path = request.getServletPath();
             List<String> permissions = new ArrayList<>();
+
             for (String resource : userDetail.getPermissions()) {
-                String[] rpr = resource.split(":");
-                if (rpr.length == 3) {
-                    permissions.add(rpr[2]);
+                String[] rpr = resource.split("::");
+                // 先判断请求方法是否匹配
+                if (rpr.length == 2) {
+                    if (!rpr[0].equals("ALL")) {
+                        List<String> methods = Arrays.asList(rpr[0].replace("[", "").replace("]", "").split(","));
+                        if (!methods.contains(httpMethod)) {
+                            throw new XException(402, "No permission", "没有权限");
+                        }
+                    }
+                    // 然后判断请求路径是否匹配
+                    permissions.add(rpr[1]);
                 }
             }
             //获取请求的地址
             if (permissions.contains(path)) {
+                // 虽然请求匹配到了，但是方法不一定匹配
+
                 return true;
             } else {
                 throw new XException(402, "No permission", "没有权限");
