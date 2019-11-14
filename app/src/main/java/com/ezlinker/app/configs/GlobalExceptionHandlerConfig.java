@@ -25,7 +25,7 @@ import java.util.List;
  **/
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandlerConfig {
     /**
      * 404
      *

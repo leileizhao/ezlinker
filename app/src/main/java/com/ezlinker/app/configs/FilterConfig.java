@@ -1,5 +1,6 @@
 package com.ezlinker.app.configs;
 
+import com.ezlinker.app.filter.LoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +26,11 @@ public class FilterConfig {
      */
     @Profile("dev")
     @Bean
-    public FilterRegistrationBean registerAuthFilter() {
+    public FilterRegistrationBean loggingFilter() {
         FilterRegistrationBean<LoggingFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(loggingFilter);
         registration.addUrlPatterns("/*");
-        registration.setName("authFilter");
+        registration.setName("loggingFilter");
         registration.setOrder(1);
         return registration;
     }
