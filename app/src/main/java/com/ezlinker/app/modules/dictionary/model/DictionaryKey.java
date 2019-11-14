@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * <p>
  * 字典的项
@@ -25,16 +27,21 @@ public class DictionaryKey extends XEntity {
     /**
      * 表名
      */
-    private String table;
+    @NotEmpty(message = "字典项所属表名不可为空")
+    private String tableName;
 
     /**
      * 名称
      */
+    @NotEmpty(message = "字典项名称不可为空")
+
     private String name;
 
     /**
      * 显示的文本
      */
+    @NotEmpty(message = "字典项标签不可为空")
+
     private String label;
 
 

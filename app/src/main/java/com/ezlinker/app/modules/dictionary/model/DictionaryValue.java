@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 字典的值
@@ -22,14 +24,20 @@ public class DictionaryValue extends XEntity {
 
     private static final long serialVersionUID=1L;
 
+    @NotNull(message = "字典项不可为空")
+    private Long keyId;
     /**
      * 名称
      */
+    @NotNull(message = "字典值不可为空")
+
     private String value;
 
     /**
      * 显示的文本
      */
+    @NotNull(message = "字典值标签不可为空")
+
     private String label;
 
 
