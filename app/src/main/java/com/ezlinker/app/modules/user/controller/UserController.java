@@ -1,10 +1,12 @@
 package com.ezlinker.app.modules.user.controller;
 
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
+import com.ezlinker.app.modules.user.form.ResetPasswordForm;
 import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.app.modules.userlog.model.UserLoginLog;
@@ -12,10 +14,7 @@ import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -76,6 +75,26 @@ public class UserController extends AbstractXController<User> {
         queryWrapper.eq("user_id", getUserDetail().getId());
         IPage<UserLoginLog> page = iUserLoginLogService.page(new Page<>(pageNo, pageSize), queryWrapper);
         return data(page);
+    }
+
+    /**
+     * 重置密码
+     *
+     * @return
+     */
+    @PutMapping("/resetPassword")
+    public R resetPassword(@RequestBody ResetPasswordForm form) throws XException {
+        if (!form.getNewPassword().equals(form.getPasswordRetry())) {
+            throw new XException("Invalid password!", "两次密码不一致");
+        }
+        User user = iUserService.getById(getUserDetail().getId());
+        if (!user.getPassword().toUpperCase().equals(SecureUtil.md5(form.getNewPassword()))) {
+            throw new XException("Invalid password!", "旧密码错误");
+        }
+        user.setPassword(SecureUtil.md5(form.getNewPassword()));
+        boolean ok = iUserService.updateById(user);
+        return ok ? success() : fail();
+
     }
 }
 

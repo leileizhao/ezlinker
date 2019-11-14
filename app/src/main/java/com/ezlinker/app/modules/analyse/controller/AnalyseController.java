@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * 数据统计
+ * @author wangwenhai
  */
 @RestController
 @RequestMapping("/analyse")

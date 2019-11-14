@@ -1,6 +1,7 @@
 package com.ezlinker.app.modules.product.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Arrays;
 
 /**
@@ -38,13 +40,21 @@ public class ProductController extends AbstractXController<Product> {
     /**
      * 创建产品
      *
-     * @param project 产品:必传
+     * @param product 产品:必传
      * @return
      */
     @Override
-    protected R add(@RequestBody Product project) throws XException {
-        boolean ok = iProductService.save(project);
-        return ok ? success() : fail();
+    protected R add(@RequestBody @Valid Product product) {
+        if (product.getParamMap() != null) {
+            product.setParameter(product.getParamMap().toString());
+        } else {
+            JSONObject defaultJson = new JSONObject();
+            defaultJson.put("name", "状态");
+            defaultJson.put("field", "state");
+            product.setParameter(defaultJson.toJSONString());
+        }
+        boolean ok = iProductService.save(product);
+        return ok ? data(product) : fail();
     }
 
     /**
@@ -63,19 +73,23 @@ public class ProductController extends AbstractXController<Product> {
     /**
      * 更新产品信息
      *
-     * @param project 产品:必传
+     * @param product 产品:必传
      * @return
      * @throws XException
      */
     @Override
-    protected R update(@PathVariable Long id, @RequestBody Product project) throws XException {
+    protected R update(@PathVariable Long id, @RequestBody Product product) throws XException {
 
         if (iProductService.getById(id) == null) {
             throw new XException("Product not exists!", "产品不存在");
         }
-        project.setId(id);
-        boolean ok = iProductService.updateById(project);
-        return ok ? data(project) : fail();
+        product.setId(id);
+
+        if (product.getParamMap() != null) {
+            product.setParameter(product.getParamMap().toString());
+        }
+        boolean ok = iProductService.updateById(product);
+        return ok ? data(product) : fail();
     }
 
 
