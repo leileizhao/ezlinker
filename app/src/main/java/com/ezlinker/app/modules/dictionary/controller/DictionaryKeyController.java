@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2019-11-14
  */
 @RestController
-@RequestMapping("/dictionary")
+@RequestMapping("/dictionaries/key")
 public class DictionaryKeyController extends AbstractXController<DictionaryKey> {
     @Autowired
     IDictionaryKeyService iDictionaryKeyService;

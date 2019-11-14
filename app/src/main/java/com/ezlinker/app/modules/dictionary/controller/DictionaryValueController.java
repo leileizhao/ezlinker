@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2019-11-14
  */
 @RestController
-@RequestMapping("/dictionary")
+@RequestMapping("/dictionaries/value")
 public class DictionaryValueController extends AbstractXController {
 
     public DictionaryValueController(HttpServletRequest httpServletRequest) {
