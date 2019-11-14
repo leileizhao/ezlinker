@@ -117,8 +117,7 @@ public class CodeGenerator {
 
         strategy.setSuperControllerClass("com.ezlinker.app.common.AbstractXController");
         strategy.setInclude(scanner("请输入表名"));
-
-        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setControllerMappingHyphenStyle(false);
         mpg.setStrategy(strategy);
         mpg.execute();
     }
