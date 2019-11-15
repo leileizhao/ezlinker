@@ -108,7 +108,7 @@ public class UserController extends AbstractXController<User> {
      * @throws XException
      */
     @PutMapping("/info")
-    public R updateInfo(UserUpdateForm form) throws XException {
+    public R updateInfo(@RequestBody UserUpdateForm form) throws XException {
         User user = iUserService.getById(getUserDetail().getId());
         if (!StringUtils.isEmpty(form.getPhone())) {
             if (!RegxUtil.isPhone(form.getPhone())) {
