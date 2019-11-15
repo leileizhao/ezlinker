@@ -11,6 +11,7 @@ import com.ezlinker.app.modules.product.service.IProductService;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,17 +74,35 @@ public class ProductController extends AbstractXController<Product> {
     /**
      * 更新产品信息
      *
-     * @param product 产品:必传
+     * @param form 产品:必传
      * @return
      * @throws XException
      */
     @Override
-    protected R update(@PathVariable Long id, @RequestBody Product product) throws XException {
+    protected R update(@PathVariable Long id, @RequestBody Product form) throws XException {
 
-        if (iProductService.getById(id) == null) {
+
+        Product product = iProductService.getById(id);
+        if (product == null) {
             throw new XException("Product not exists!", "产品不存在");
         }
-        product.setId(id);
+        if (!StringUtils.isEmpty(form.getName())) {
+
+            product.setName(form.getName());
+        }
+        if (!StringUtils.isEmpty(form.getLogo())) {
+
+            product.setLogo(form.getLogo());
+        }
+        if (!StringUtils.isEmpty(form.getType())) {
+
+            product.setType(form.getType());
+        }
+
+        if (!StringUtils.isEmpty(form.getDescription())) {
+
+            product.setDescription(form.getDescription());
+        }
 
         if (product.getParamMap() != null) {
             product.setParameter(product.getParamMap().toString());
