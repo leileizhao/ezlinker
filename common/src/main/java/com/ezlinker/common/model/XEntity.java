@@ -30,7 +30,7 @@ public class XEntity implements Serializable {
      * 删除标记
      */
     @JsonIgnore
-    private Boolean x = false;
+    private Integer x = 0;
     /**
      * 乐观锁
      */

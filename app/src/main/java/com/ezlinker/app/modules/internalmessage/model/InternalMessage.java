@@ -1,6 +1,7 @@
 package com.ezlinker.app.modules.internalmessage.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ezlinker.common.model.XEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,14 +17,10 @@ import java.util.Date;
  * @since 2019-11-13
  */
 @Data
-@EqualsAndHashCode()
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("ez_internal_message")
-public class InternalMessage {
-    /**
-     * PK
-     */
-    private Integer id;
+public class InternalMessage extends XEntity {
 
     private Integer type;
 
@@ -31,16 +28,8 @@ public class InternalMessage {
 
     private String title;
 
-    private Integer status;
+    private Integer marked;
 
     private Integer userId;
 
-    /**
-     * 记录版本
-     */
-    private Integer recordVersion;
-
-    private Boolean x;
-
-    private Date createTime;
 }

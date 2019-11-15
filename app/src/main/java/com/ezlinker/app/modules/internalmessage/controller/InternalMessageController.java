@@ -45,7 +45,7 @@ public class InternalMessageController extends AbstractXController<InternalMessa
      * @throws XException
      */
     @Override
-    protected R delete(@PathVariable  Integer[] ids) throws XException {
+    protected R delete(@PathVariable Integer[] ids) throws XException {
         boolean ok = internalMessageService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }
@@ -64,7 +64,7 @@ public class InternalMessageController extends AbstractXController<InternalMessa
             @RequestParam Integer pageNo,
             @RequestParam Integer pageSize) throws XException {
         QueryWrapper<InternalMessage> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", getUserDetail().getId());
+        queryWrapper.eq("user_id", getUserDetail().getId()).eq("marked", 0);
         queryWrapper.orderByDesc("create_time");
         IPage<InternalMessage> internalMessagePage = internalMessageService.page(new Page<>(pageNo, pageSize), queryWrapper);
 
@@ -87,7 +87,7 @@ public class InternalMessageController extends AbstractXController<InternalMessa
             throw new XException("InternalMessage not exists!", "站内信不存在");
 
         }
-        internalMessage.setStatus(1);
+        internalMessage.setMarked(1);
         boolean ok = internalMessageService.updateById(internalMessage);
         return ok ? success() : fail();
     }
