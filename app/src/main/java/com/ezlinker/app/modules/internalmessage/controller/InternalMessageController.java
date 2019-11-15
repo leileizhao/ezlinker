@@ -45,7 +45,7 @@ public class InternalMessageController extends AbstractXController<InternalMessa
      * @throws XException
      */
     @Override
-    protected R delete(@RequestBody  Integer[] ids) throws XException {
+    protected R delete(@PathVariable  Integer[] ids) throws XException {
         boolean ok = internalMessageService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }

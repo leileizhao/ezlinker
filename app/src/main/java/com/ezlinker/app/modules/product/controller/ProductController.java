@@ -65,7 +65,7 @@ public class ProductController extends AbstractXController<Product> {
      */
 
     @Override
-    protected R delete(@RequestBody Integer[] ids) {
+    protected R delete(@PathVariable Integer[] ids) {
         boolean ok = iProductService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }

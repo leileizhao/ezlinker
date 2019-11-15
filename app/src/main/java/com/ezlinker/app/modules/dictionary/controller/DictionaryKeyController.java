@@ -72,7 +72,7 @@ public class DictionaryKeyController extends AbstractXController<DictionaryKey> 
      * @throws XException
      */
     @Override
-    protected R delete(@RequestBody Integer[] ids) throws XException {
+    protected R delete(@PathVariable Integer[] ids) throws XException {
         boolean okKey = iDictionaryKeyService.removeByIds(Arrays.asList(ids));
         boolean okValue = iDictionaryValueService.remove(new QueryWrapper<DictionaryValue>().in("key_id", (Object[]) ids));
         return okKey && okValue ? success() : fail();

@@ -61,7 +61,7 @@ public class ProjectController extends AbstractXController<Project> {
      */
 
     @Override
-    protected R delete(@RequestBody Integer[] ids) {
+    protected R delete(@PathVariable Integer[] ids) {
         boolean ok = iProjectService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }

@@ -63,7 +63,7 @@ public abstract class AbstractXController<T> {
      * @param ids
      * @return
      */
-    @DeleteMapping
+    @DeleteMapping("/{ids}")
     protected R delete(Integer[] ids) throws XException {
         return success();
     }

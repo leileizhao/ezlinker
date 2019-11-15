@@ -69,7 +69,7 @@ public class DictionaryValueController extends AbstractXController<DictionaryVal
      * @throws XException
      */
     @Override
-    protected R delete(@RequestBody Integer[] ids) throws XException {
+    protected R delete(@PathVariable Integer[] ids) throws XException {
         boolean ok = iDictionaryValueService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }
