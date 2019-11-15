@@ -1,13 +1,11 @@
 package com.ezlinker.app.modules.component.controller;
 
 
-import cn.hutool.crypto.SecureUtil;
 import com.ezlinker.app.common.AbstractXController;
 import com.ezlinker.app.modules.component.model.Component;
 import com.ezlinker.app.modules.component.service.IComponentService;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +43,7 @@ public class ComponentController extends AbstractXController<Component> {
         return ok ? data(component) : fail();
 
     }
+
 
     @Override
     protected R update(@PathVariable Long id, @RequestBody Component form) throws XException {
