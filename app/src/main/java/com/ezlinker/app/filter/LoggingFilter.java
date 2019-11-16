@@ -9,7 +9,7 @@ package com.ezlinker.app.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.ezlinker.app.configs.RepeatedlyReadRequestWrapper;
+import com.ezlinker.app.config.RepeatedlyReadRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

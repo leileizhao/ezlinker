@@ -1,4 +1,4 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.app.config;
 
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;

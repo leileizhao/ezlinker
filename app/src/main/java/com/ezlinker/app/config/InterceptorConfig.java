@@ -1,5 +1,6 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.app.config;
 
+import com.ezlinker.app.interceptor.ErrorPageInterceptor;
 import com.ezlinker.app.interceptor.PermissionInterceptor;
 import com.ezlinker.app.interceptor.UserOperateInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         /**
          * 开发阶段全部放行
          */
+        registry.addInterceptor(permissionInterceptor());
         //registry.addInterceptor(uerOperateInterceptor()).addPathPatterns("/**").excludePathPatterns("/entry/login", "/test/**", "/captcha");
         // registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/test/**", "/captcha");
 
@@ -57,5 +59,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Bean
     public HandlerInterceptor permissionInterceptor() {
         return new PermissionInterceptor();
+    }
+
+    @Bean
+    public ErrorPageInterceptor errorPageInterceptor(){
+        return new ErrorPageInterceptor();
     }
 }

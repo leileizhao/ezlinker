@@ -1,4 +1,4 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.app.config;
 
 import com.ezlinker.app.filter.LoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;

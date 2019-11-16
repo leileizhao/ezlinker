@@ -1,4 +1,4 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.app.config;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

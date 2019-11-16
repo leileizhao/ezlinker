@@ -1,4 +1,4 @@
-package com.ezlinker.app.configs;
+package com.ezlinker.app.config;
 
 import org.apache.commons.lang3.StringUtils;
 
