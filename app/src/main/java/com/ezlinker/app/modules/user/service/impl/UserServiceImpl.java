@@ -2,6 +2,7 @@ package com.ezlinker.app.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ezlinker.app.modules.permission.model.RolePermissionView;
+import com.ezlinker.app.modules.permission.model.UserRolePermissionView;
 import com.ezlinker.app.modules.role.model.UserRoleView;
 import com.ezlinker.app.modules.user.mapper.UserMapper;
 import com.ezlinker.app.modules.user.model.User;
@@ -39,18 +40,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public List<String> getAllPermissions(Long userId) {
-        List<UserRoleView> userRoleViews = userMapper.getRoles(userId);
+        // 筛选出所有的用户权限
+        List<UserRolePermissionView> userRolePermissionViews = userMapper.getUserPermissions(userId);
+        // 构建授权列表
         List<String> userPermissions = new ArrayList<>();
-        for (UserRoleView userRoleView : userRoleViews) {
-            List<RolePermissionView> rolePermissionViews = userMapper.getPermissions(userRoleView.getId());
-            for (RolePermissionView rolePermissionView : rolePermissionViews) {
-                if (rolePermissionView.getMethods() == null || rolePermissionView.getMethods().length() == 0) {
-                    userPermissions.add("ALL::" + rolePermissionView.getResource());
-
-                } else {
-                    userPermissions.add(rolePermissionView.getMethods() + "::" + rolePermissionView.getResource());
-
-                }
+        for (UserRolePermissionView urp : userRolePermissionViews) {
+            if (urp.getAllow() == null || urp.getAllow().length() < 2) {
+                userPermissions.add("[ALL]::" + urp.getResource() + "::" + urp.getMethods());
+            } else {
+                userPermissions.add(urp.getAllow() + "::" + urp.getResource() + "::" + urp.getMethods());
             }
         }
         return userPermissions;

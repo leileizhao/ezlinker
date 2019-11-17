@@ -114,7 +114,8 @@ public class CodeGenerator {
         strategy.setSuperEntityColumns("id", "x", "create_time", "record_version");
 
         strategy.setEntityLombokModel(true);
-
+        strategy.setEntityBuilderModel(true);
+        strategy.setEntityColumnConstant(true);
         strategy.setSuperControllerClass("com.ezlinker.app.common.AbstractXController");
         strategy.setInclude(scanner("请输入表名"));
         strategy.setControllerMappingHyphenStyle(false);

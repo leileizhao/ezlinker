@@ -47,7 +47,7 @@ class AppApplicationTests {
                 .setPhone("18059150204")
                 .setStatus(1)
                 .setUserType(1)
-                .setUserProfileId(0);
+                .setUserProfileId(0L);
         iUserService.save(user);
     }
 }

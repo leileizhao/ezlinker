@@ -10,9 +10,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @program: ezlinker
@@ -41,30 +38,16 @@ public class UserOperateInterceptor implements HandlerInterceptor {
                 throw new XException(402, "No permission", "没有权限");
             }
             String path = request.getServletPath();
-            List<String> permissions = new ArrayList<>();
 
+            // "[ALL], /products, [GET]"
             for (String resource : userDetail.getPermissions()) {
-                String[] rpr = resource.split("::");
-                // 先判断请求方法是否匹配
-                if (rpr.length == 2) {
-                    if (!rpr[0].equals("ALL")) {
-                        List<String> methods = Arrays.asList(rpr[0].replace("[", "").replace("]", "").split(","));
-                        if (!methods.contains(httpMethod)) {
-                            throw new XException(402, "No permission", "没有权限");
-                        }
-                    }
-                    // 然后判断请求路径是否匹配
-                    permissions.add(rpr[1]);
-                }
-            }
-            //获取请求的地址
-            if (permissions.contains(path)) {
-                // 虽然请求匹配到了，但是方法不一定匹配
+                String[] acl = resource.split("::");
+                System.out.print("资源路径:" + acl[1]);
+                System.out.print(" 资源权限:" + acl[2]);
+                System.out.println(" 用户权限:" + acl[0]);
 
-                return true;
-            } else {
-                throw new XException(402, "No permission", "没有权限");
             }
+            return true;
 
 
         } else {

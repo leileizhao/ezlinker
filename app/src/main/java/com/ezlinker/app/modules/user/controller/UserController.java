@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
+import com.ezlinker.app.modules.user.form.AddUserForm;
 import com.ezlinker.app.modules.user.form.ResetPasswordForm;
 import com.ezlinker.app.modules.user.form.UserUpdateForm;
 import com.ezlinker.app.modules.user.model.User;
+import com.ezlinker.app.modules.user.model.UserProfile;
+import com.ezlinker.app.modules.user.service.IUserProfileService;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.app.modules.userlog.model.UserLoginLog;
 import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
@@ -20,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -38,6 +42,8 @@ public class UserController extends AbstractXController<User> {
 
     @Autowired
     IUserLoginLogService iUserLoginLogService;
+    @Autowired
+    IUserProfileService iUserProfileService;
 
     public UserController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
@@ -137,6 +143,33 @@ public class UserController extends AbstractXController<User> {
             }
         }
         boolean ok = iUserService.updateById(user);
+        return ok ? success() : fail();
+
+    }
+
+    /**
+     * 创建用户
+     *
+     * @param addUserForm
+     * @return
+     */
+    @PostMapping("/addUser")
+    public R addUser(@RequestBody @Valid AddUserForm addUserForm) throws XException {
+        User tmp = iUserService.getOne(new QueryWrapper<User>()
+                .eq(User.Fields.username, addUserForm.getUsername()).or().eq(User.Fields.email, addUserForm.getEmail()));
+        if (tmp != null) {
+            throw new XException("User already exists", "用户已存在");
+        }
+
+        User user = new User();
+        user.setUsername(addUserForm.getUsername())
+                .setPassword(SecureUtil.md5("12345678"))
+                .setPhone(addUserForm.getPhone())
+                .setEmail(addUserForm.getEmail());
+        UserProfile userProfile = new UserProfile();
+        iUserProfileService.save(userProfile);
+        user.setUserProfileId(userProfile.getId());
+        boolean ok = iUserService.save(user);
         return ok ? success() : fail();
 
     }

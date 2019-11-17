@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * <p>
@@ -19,6 +20,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("ez_user")
+@FieldNameConstants
+
 public class User extends XEntity {
 
     private static final long serialVersionUID=1L;
@@ -71,7 +74,7 @@ public class User extends XEntity {
     /**
      * 扩展信息
      */
-    private Integer userProfileId;
+    private Long userProfileId;
 
     /**
      * 上次登陆时间

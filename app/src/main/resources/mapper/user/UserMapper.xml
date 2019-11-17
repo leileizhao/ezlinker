@@ -42,13 +42,18 @@
     <select id="getPermissions" resultType="com.ezlinker.app.modules.permission.model.RolePermissionView">
         select * from
         ez_role_permission_view
-        where  role_id = #{roleId}
+        where role_id = #{roleId}
     </select>
 
 
     <select id="getUserInfo" resultType="com.ezlinker.app.modules.user.model.UserInfoView">
         select * from `ez_user_info_view`
         where id = #{userId}
+    </select>
+    <select id="getUserPermissions" resultType="com.ezlinker.app.modules.permission.model.UserRolePermissionView">
+
+        select * from `ez_user_role_permission_view` where user_id = #{userId}
+
     </select>
 
 </mapper>
