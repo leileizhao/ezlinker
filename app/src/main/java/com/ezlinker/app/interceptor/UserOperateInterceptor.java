@@ -42,9 +42,9 @@ public class UserOperateInterceptor implements HandlerInterceptor {
             // "[ALL], /products, [GET]"
             for (String resource : userDetail.getPermissions()) {
                 String[] acl = resource.split("::");
-                System.out.print("资源路径:" + acl[1]);
-                System.out.print(" 资源权限:" + acl[2]);
-                System.out.println(" 用户权限:" + acl[0]);
+                System.out.println("资源路径:" + acl[1]);
+                System.out.println("资源权限:" + acl[2]);
+                System.out.println("用户权限:" + acl[0]);
 
             }
             return true;
