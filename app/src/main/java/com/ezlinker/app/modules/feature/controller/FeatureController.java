@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -28,6 +33,28 @@ public class FeatureController extends AbstractXController<Feature> {
 
     public FeatureController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
+    }
+
+    /**
+     * 获取当前支持的功能的类型，目前暂时支持2种
+     * @return
+     */
+    @GetMapping("/types")
+    public R getType() {
+        HashMap<String, Object> data1 = new HashMap<>();
+        data1.put("name", "switch");
+        data1.put("label","开关");
+        data1.put("value", "1");
+
+        HashMap<String, Object> data2 = new HashMap<>();
+        data2.put("name", "button");
+        data2.put("label","按钮");
+        data2.put("value", "2");
+
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        list.add(data1);
+        list.add(data2);
+        return data(list);
     }
 
     @Override
@@ -53,5 +80,91 @@ public class FeatureController extends AbstractXController<Feature> {
 
         return data(iFeatureService.list(queryWrapper));
     }
+
+    /**
+     * 添加
+     *
+     * @param feature
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R add(@RequestBody @Valid Feature feature) throws XException {
+        if (feature.getName() == null) {
+            throw new XException("Must specify a name", "必须指定名称");
+
+        }
+        if (feature.getLabel() == null) {
+            throw new XException("Must specify a label", "必须指定标签");
+
+        }
+
+
+        if (feature.getProductId() == null) {
+            throw new XException("Must specify a product", "必须指定产品");
+
+        }
+        if (feature.getCmdKey() == null) {
+            throw new XException("Must specify a key", "必须指定命令Key");
+
+        }
+        if (feature.getCmdValueMap() == null) {
+            throw new XException("Must specify cmd payload", "必须指定命令内容");
+
+        }
+
+        feature.setCmdValue(feature.getCmdValueMap().toJSONString());
+
+        boolean ok = iFeatureService.save(feature);
+        return ok ? data(feature) : fail();
+    }
+
+    /**
+     * 更新
+     *
+     * @param id
+     * @param form
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R update(@PathVariable Long id, @RequestBody @Valid Feature form) throws XException {
+        Feature feature = iFeatureService.getById(id);
+        if (feature == null) {
+            throw new XException("Feature not exists!", "功能不存在");
+        }
+
+        if (form.getName() != null) {
+            feature.setName(form.getName());
+        }
+        if (form.getLabel() != null) {
+
+            feature.setLabel(form.getLabel());
+        }
+
+        if (form.getCmdKey() != null) {
+            feature.setCmdKey(feature.getCmdKey());
+        }
+        if (form.getCmdValueMap() != null) {
+            feature.setCmdValue(form.getCmdValueMap().toJSONString());
+        }
+        boolean ok = iFeatureService.save(feature);
+        return ok ? data(feature) : fail();
+    }
+
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R delete(@PathVariable Integer[] ids) throws XException {
+        boolean ok = iFeatureService.removeByIds(Arrays.asList(ids));
+        return ok ? success() : fail();
+    }
+
+
 }
 
