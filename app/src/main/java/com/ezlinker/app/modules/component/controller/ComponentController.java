@@ -3,6 +3,7 @@ package com.ezlinker.app.modules.component.controller;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +12,7 @@ import com.ezlinker.app.modules.component.model.Component;
 import com.ezlinker.app.modules.component.service.IComponentService;
 import com.ezlinker.app.modules.mqtttopic.model.MqttTopic;
 import com.ezlinker.app.modules.mqtttopic.service.IMqttTopicService;
+import com.ezlinker.app.utils.ComponentTokenUtil;
 import com.ezlinker.app.utils.IDKeyUtil;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
@@ -19,14 +21,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
  * 设备上面的模块，和设备是多对一关系 前端控制器
+ * 统一入口：
+ * 当模块是Mqtt协议的时候，Username、password、clientId生效，当前版本我们决定用ClientId来鉴权；
+ * 当模块是 Http或者COAP协议，需要用Username和Password组合去拿Token，然后通过算法生成Entry；
+ * 数据入口URL：POST http：//entry.ezlinker.cn/entry/{entryCode},
+ * 其中POST的数据里面应该包含：token，entryCode和Token计算后得到的是clientId；如果解析失败说明不合法；
  * </p>
  *
  * @author wangwenhai
@@ -35,12 +39,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/components")
 public class ComponentController extends AbstractXController<Component> {
+    //允许
+    private static final int ALLOW = 1;
+    //拒绝
+    private static final int DENY = 0;
+    // 发布权限
+    private static final int TOPIC_PUB = 1;
+    //订阅权限
+    private static final int TOPIC_SUB = 1;
+    // 发布&订阅权限都有
+    private static final int TOPIC_PUB_SUB = 1;
 
     @Autowired
     IComponentService iComponentService;
 
     @Autowired
     IMqttTopicService iMqttTopicService;
+
     public ComponentController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
@@ -109,12 +124,31 @@ public class ComponentController extends AbstractXController<Component> {
      */
     @Override
     protected R add(@RequestBody Component component) throws XException {
-        component.setDataArea(component.getDataArea());
+
+        if (component.getDataAreas() != null) {
+            int length = component.getDataAreas().size();
+            int require = 0;
+            for (Object o : component.getDataAreas()) {
+                HashMap area = (HashMap) o;
+                if (area.containsKey("name") && area.containsKey("label")) {
+                    require++;
+                } else {
+                    throw new XException("DataAreas `name` and `label` fields required", "数据域 `name` and `label`字段必传");
+                }
+            }
+            if (length == require) {
+                component.setDataArea(component.getDataAreas().toJSONString());
+            } else {
+                throw new XException("DataAreas `name` and `label` fields required", "数据域 `name` and `label`字段必传");
+            }
+        }
+
         String sn = IDKeyUtil.generateId().toString();
-        String token = SecureUtil.sha1(sn);
         String clientId = SecureUtil.sha1(sn);
         String username = SecureUtil.sha1(clientId);
         String password = SecureUtil.sha1(username);
+        // 生成给Token
+        String token = ComponentTokenUtil.token(clientId);
 
         //MQTT
         //行为类型: 1=订阅2=发布3=订阅+发布'
@@ -123,26 +157,37 @@ public class ComponentController extends AbstractXController<Component> {
              * 下发指令
              */
             MqttTopic s2cTopic = new MqttTopic();
-            s2cTopic.setAccess(1).setAllow(1).setClientId(clientId).setIp("0.0.0.0").setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username);
+            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username);
             /**
              * 上传
              */
             MqttTopic c2sTopic = new MqttTopic();
-            c2sTopic.setAccess(2).setAllow(1).setClientId(clientId).setIp("0.0.0.0").setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username);
+            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username);
             /**
              * 上报状态
              */
             MqttTopic statusTopic = new MqttTopic();
-            statusTopic.setAccess(2).setAllow(1).setClientId(clientId).setIp("0.0.0.0").setTopic("mqtt/in/" + clientId + "/status").setUsername(username);
+            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setUsername(username);
+
+            /**
+             * 接受分组指令
+             */
+            MqttTopic groupTopic = new MqttTopic();
+            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username);
 
             iMqttTopicService.save(s2cTopic);
             iMqttTopicService.save(c2sTopic);
             iMqttTopicService.save(statusTopic);
+            iMqttTopicService.save(groupTopic);
 
 
         }
 
-        component.setSn(sn).setToken(token).setClientId(clientId).setUsername(username).setPassword(password);
+        component.setSn(sn)
+                .setClientId(clientId)
+                .setUsername(username)
+                .setPassword(password)
+                .setToken(token);
         boolean ok = iComponentService.save(component);
 
         return ok ? data(component) : fail();

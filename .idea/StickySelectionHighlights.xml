@@ -13,12 +13,32 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/interceptor/PermissionInterceptor.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/interceptor/UserOperateInterceptor.java">
           <value>
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/component/controller/ComponentController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/component/model/Component.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/entry/controller/EntryController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/mqtttopic/model/MqttTopic.java">
           <value>
             <PaintGroupHighlightMap />
           </value>
@@ -54,6 +74,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/utils/CodeGenerator.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/utils/ComponentTokenUtil.java">
           <value>
             <PaintGroupHighlightMap />
           </value>

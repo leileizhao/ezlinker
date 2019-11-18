@@ -20,17 +20,17 @@ import lombok.experimental.Accessors;
 @TableName("ez_mqtt_topic")
 public class MqttTopic extends XEntity {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否允许连接: 0=拒绝1=允许
      */
-    private Integer allow;
+    private Integer allow = 1;
 
     /**
      * IP
      */
-    private String ip;
+    private String ip = "0.0.0.0";
 
     /**
      * MQTT用户名

@@ -1,5 +1,8 @@
 package com.ezlinker.app.modules.component.model;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -84,12 +87,17 @@ public class Component extends XEntity {
     /**
      * 是否是超级管理员
      */
+    @JsonIgnore
     private Integer isSuperuser;
 
     /**
      * 数据域
      */
+    @JsonIgnore
     private String dataArea;
+
+    @TableField(exist = false)
+    private JSONArray dataAreas;
 
     /**
      * 描述
