@@ -1,13 +1,12 @@
 package com.ezlinker.app.modules.component.model;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -22,6 +21,8 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
+@FieldNameConstants
+
 @TableName("ez_component")
 public class Component extends XEntity {
 
@@ -95,8 +96,12 @@ public class Component extends XEntity {
      */
     private String description;
 
-    @TableField(exist = false)
+    /**
+     * MQTT的用户名和密码
+     */
+    private String clientId;
+    private String username;
     @JsonIgnore
-    private JSONObject dataAreaMap;
+    private String password;
 
 }

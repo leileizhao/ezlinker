@@ -90,8 +90,8 @@ public class DictionaryKeyController extends AbstractXController<DictionaryKey> 
      */
     @GetMapping
     public R queryForPage(
-            @RequestParam int pageNo,
-            @RequestParam int pageSize,
+            @RequestParam Long pageNo,
+            @RequestParam Long pageSize,
             @RequestParam(required = false) String table,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer label) {
