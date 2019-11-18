@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -53,5 +54,50 @@ public class FeatureController extends AbstractXController<Feature> {
 
         return data(iFeatureService.list(queryWrapper));
     }
+
+    /**
+     * 添加功能
+     *
+     * @param feature 功能
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R add(@RequestBody Feature feature) throws XException {
+        boolean ok = iFeatureService.save(feature);
+        return ok ? success() : fail();
+    }
+
+    /**
+     * 删除功能
+     *
+     * @param ids 功能id
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R delete(@RequestBody Integer[] ids) throws XException {
+        boolean ok = iFeatureService.removeByIds(Arrays.asList(ids));
+        return ok ? success() : fail();
+    }
+
+    /**
+     * 更新功能信息
+     *
+     * @param id      功能id
+     * @param feature 功能
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R update(Long id, Feature feature) throws XException {
+        if (iFeatureService.getById(id) == null) {
+            throw new XException("Feature not exists!", "功能不存在");
+        }
+        feature.setId(id);
+        boolean ok = iFeatureService.updateById(feature);
+        return ok ? data(feature) : fail();
+    }
+
 }
 
