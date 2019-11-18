@@ -1,9 +1,9 @@
 package com.ezlinker.app.modules.feature.service.impl;
 
-import com.ezlinker.app.modules.feature.model.Feature;
-import com.ezlinker.app.modules.feature.mapper.FeatureMapper;
-import com.ezlinker.app.modules.feature.service.IFeatureService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ezlinker.app.modules.feature.mapper.FeatureMapper;
+import com.ezlinker.app.modules.feature.model.Feature;
+import com.ezlinker.app.modules.feature.service.IFeatureService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +16,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FeatureServiceImpl extends ServiceImpl<FeatureMapper, Feature> implements IFeatureService {
+
 
 }
