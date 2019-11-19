@@ -29,7 +29,7 @@ public class ComponentTokenUtil {
 
 
     public static String token(String componentId) {
-        byte[] encrypt = enRSA(componentId.toString());
+        byte[] encrypt = enRSA(componentId);
         return Base64.encode(encrypt);
     }
 
