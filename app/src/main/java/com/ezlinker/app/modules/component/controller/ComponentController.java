@@ -3,7 +3,6 @@ package com.ezlinker.app.modules.component.controller;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,7 +20,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -39,16 +41,13 @@ import java.util.*;
 @RestController
 @RequestMapping("/components")
 public class ComponentController extends AbstractXController<Component> {
-    //允许
-    private static final int ALLOW = 1;
-    //拒绝
-    private static final int DENY = 0;
+
     // 发布权限
     private static final int TOPIC_PUB = 1;
-    //订阅权限
+    // 订阅权限
     private static final int TOPIC_SUB = 1;
     // 发布&订阅权限都有
-    private static final int TOPIC_PUB_SUB = 1;
+    // private static final int TOPIC_PUB_SUB = 1;
 
     @Autowired
     IComponentService iComponentService;
@@ -130,25 +129,33 @@ public class ComponentController extends AbstractXController<Component> {
             int require = 0;
             for (Object o : component.getDataAreas()) {
                 HashMap area = (HashMap) o;
-                if (area.containsKey("name") && area.containsKey("label")) {
+                if (area.containsKey("field") && area.containsKey("label")) {
                     require++;
                 } else {
-                    throw new XException("DataAreas `name` and `label` fields required", "数据域 `name` and `label`字段必传");
+                    throw new XException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
                 }
             }
             if (length == require) {
                 component.setDataArea(component.getDataAreas().toJSONString());
             } else {
-                throw new XException("DataAreas `name` and `label` fields required", "数据域 `name` and `label`字段必传");
+                throw new XException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
             }
+
         }
 
         String sn = IDKeyUtil.generateId().toString();
         String clientId = SecureUtil.sha1(sn);
         String username = SecureUtil.sha1(clientId);
         String password = SecureUtil.sha1(username);
-        // 生成给Token
-        String token = ComponentTokenUtil.token(clientId);
+        // 生成给Token，格式：clientId::[field1,field2,field3······]
+        // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
+        List<String> fields = new ArrayList<>();
+        for (Object o : component.getDataAreas()) {
+            HashMap field = (HashMap) o;
+            fields.add(field.get("field").toString());
+        }
+
+        String token = ComponentTokenUtil.token(clientId + "::" + fields.toString());
 
         //MQTT
         //行为类型: 1=订阅2=发布3=订阅+发布'
@@ -157,23 +164,23 @@ public class ComponentController extends AbstractXController<Component> {
              * 下发指令
              */
             MqttTopic s2cTopic = new MqttTopic();
-            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username);
+            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username).setDescription("服务端消息入口");
             /**
              * 上传
              */
             MqttTopic c2sTopic = new MqttTopic();
-            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username);
+            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username).setDescription("服务端消息出口");
             /**
              * 上报状态
              */
             MqttTopic statusTopic = new MqttTopic();
-            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setUsername(username);
+            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setDescription("状态上报入口");
 
             /**
              * 接受分组指令
              */
             MqttTopic groupTopic = new MqttTopic();
-            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username);
+            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username).setDescription("分组接收消息入口");
 
             iMqttTopicService.save(s2cTopic);
             iMqttTopicService.save(c2sTopic);

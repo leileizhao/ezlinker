@@ -54,7 +54,7 @@ public class ComponentTokenUtil {
         String id = "1111";
         String token = token(id);
         System.out.println("token:" + token);
-        String d = parse("FsWKLuLfmdUtzL9xZna/LdOd4B7dp2E1DBLvRuLvJGwPHIVsZRQto9oQkB89SOhUHOH4MHS61Ejhuq7aqsLOcO+Q91K3495X8kvDznIUvikSSwsPv+2+LVFonVuuSjONSmlMZvhGkFtCVSuYcRTUzAPFZwGaFVO02p8hWcHHzD8=");
+        String d = parse("AWb4K54RQzWeH7dH/TAvi5VVT3TBfNqBIfPb8g3m4HNIKeh2QbU8NreAgfczO19YWJo4pEbuxeLGyS1hag2cUjC8Ya+911cdeCXojRf4HSvz5OPxnL/ABUmrc3om1+7cxkKN+Wnyb4iGkdVheHkdnlNy6xlF0nc5k6EtxxpJvMY=");
         System.out.println("id:" + d);
     }
 }
