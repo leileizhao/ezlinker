@@ -1,5 +1,6 @@
 package com.ezlinker.app.config;
 
+import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,41 +23,31 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class Exception5xxHandlerConfig {
+
     /**
-     * 参数缺失
-     *
-     * @param e
-     * @return
+     * XException
      */
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ExceptionHandler(XException.class)
     @ResponseBody
-    public R handMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-
-        return new R(400, e.getMessage(), e.getParameterType() + "类型的参数:'" + e.getParameterName() + "'缺失", null);
+    public R handXException(XException e) {
+        log.error(e.getClass() + ":" + e.getMessage());
+        Integer code = e.getCode();
+        String message = e.getMessage();
+        String i8nMessage = e.getI18nMessage();
+        return new R(code, message, i8nMessage, null);
     }
 
 
     /**
-     * 参数验证失败
-     *
-     * @param ex
-     * @return
+     * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
     @ResponseBody
-    public R bindExceptionHandler(MethodArgumentNotValidException ex) {
-        BindingResult bindingResult = ex.getBindingResult();
-        List<ObjectError> errors = bindingResult.getAllErrors();
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("[");
-        for (ObjectError error : errors) {
-            buffer.append(error.getDefaultMessage()).append(";");
-        }
-        buffer.append("]");
-        return new R(400, "Invalid param!", buffer.toString(), null);
-
+    public R handException(Exception e) {
+        log.error(e.getClass() + ":" + e.getMessage());
+        return new R(500, "Server internal error", "服务器内部错误", null);
     }
+
+
 }
