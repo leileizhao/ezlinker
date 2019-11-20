@@ -8,6 +8,26 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/common/AbstractXController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/Exception4xxHandlerConfig.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/Exception5xxHandlerConfig.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/GlobalExceptionHandlerConfig.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/InterceptorConfig.java">
           <value>
             <PaintGroupHighlightMap />
@@ -33,7 +53,22 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/dictionary/controller/DictionaryKeyController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/dictionary/controller/DictionaryValueController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/entry/controller/EntryController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/internalmessage/controller/InternalMessageController.java">
           <value>
             <PaintGroupHighlightMap />
           </value>
@@ -49,6 +84,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/permission/model/UserRolePermissionView.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/product/controller/ProductController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/project/controller/ProjectController.java">
           <value>
             <PaintGroupHighlightMap />
           </value>
@@ -88,12 +133,72 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/utils/UserTokenUtil.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/resources/mapper/user/UserMapper.xml">
           <value>
             <PaintGroupHighlightMap />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/test/java/com/ezlinker/app/AppApplicationTests.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/AuthorizedFailedException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/BizException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/InternalServerExceotion.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/InternalServerException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/LoginFailedException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/NoPermissionException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/NotFoundException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/TokenException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exception/XException.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exchange/RCode.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/doc/dev.md">
           <value>
             <PaintGroupHighlightMap />
           </value>

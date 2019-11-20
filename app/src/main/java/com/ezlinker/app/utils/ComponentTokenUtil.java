@@ -4,6 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import com.ezlinker.common.exception.TokenException;
 import com.ezlinker.common.exception.XException;
 
 /**
@@ -44,8 +45,7 @@ public class ComponentTokenUtil {
             byte[] decrypt = Base64.decode(token);
             return new String(deRSA(decrypt), CharsetUtil.CHARSET_UTF_8);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new XException(400, "Invalid token", "Token不合法");
+            throw new TokenException("Invalid token", "Token不合法");
         }
 
     }

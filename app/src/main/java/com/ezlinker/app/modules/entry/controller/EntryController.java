@@ -13,7 +13,7 @@ import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.app.modules.userlog.model.UserLoginLog;
 import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
 import com.ezlinker.app.utils.UserTokenUtil;
-import com.ezlinker.common.exception.XException;
+import com.ezlinker.common.exception.AuthorizedFailedException;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
 import com.ezlinker.common.utils.RedisUtil;
@@ -41,6 +41,11 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/entry")
 public class EntryController {
+    private static final String IP_REGX = "^(192\\.168|172\\.(1[6-9]|2\\d|3[0,1]))(\\.(2[0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){2}$|^10(\\.([2][0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){3}$";
+
+    private static final String LOCAL_IPV4 = "127.0.0.1";
+    private static final String LOCAL_IPV6 = "0:0:0:0:0:0:0:1";
+
 
     @Autowired
     RedisUtil redisUtil;
@@ -63,11 +68,11 @@ public class EntryController {
      *
      * @param loginForm 登录表单
      * @return
-     * @throws XException
+     * @throws AuthorizedFailedException
      */
-    @Transactional(rollbackFor = Exception.class, noRollbackFor = XException.class)
+    @Transactional(rollbackFor = Exception.class, noRollbackFor = AuthorizedFailedException.class)
     @PostMapping("/login")
-    public R login(@RequestBody UserLoginForm loginForm, HttpServletRequest request) throws XException {
+    public R login(@RequestBody UserLoginForm loginForm, HttpServletRequest request) throws AuthorizedFailedException {
         User user = iUserService.getOne(new QueryWrapper<User>().eq("username", loginForm.getUsername()));
         String ip = getIp(request);
 
@@ -76,14 +81,14 @@ public class EntryController {
             UserLoginLog userLoginLog = new UserLoginLog();
             userLoginLog.setIp(ip).setStatus("WARNING").setUserId(0L).setRemark("未知用户尝试登陆失败").setLocation(getLocationWithIp(ip));
             iUserLoginLogService.save(userLoginLog);
-            throw new XException(403, "Login failure,user not exists!", "登陆失败,用户不存在");
+            throw new AuthorizedFailedException( "Login failure,user not exists!", "登陆失败,用户不存在");
         }
 
         if (!user.getPassword().toUpperCase().equals(SecureUtil.md5(loginForm.getPassword()).toUpperCase())) {
             UserLoginLog userLoginLog = new UserLoginLog();
             userLoginLog.setIp(ip).setStatus("WARNING").setUserId(user.getId()).setRemark("尝试登陆失败").setLocation(getLocationWithIp(ip));
             iUserLoginLogService.save(userLoginLog);
-            throw new XException(403, "Login failure,password invalid!", "登陆失败,密码错误");
+            throw new AuthorizedFailedException( "Login failure,password invalid!", "登陆失败,密码错误");
 
         }
         /**
@@ -103,7 +108,7 @@ public class EntryController {
 //        boolean set = redisUtil.set("USER:TOKEN:" + user.getId(), token);
 //
 //        if (!set) {
-//            throw new XException(500, "Server internal error!", "服务器内部错误");
+//            throw new AuthorizedFailedException(500, "Server internal error!", "服务器内部错误");
 //
 //        }
 
@@ -171,7 +176,7 @@ public class EntryController {
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getRemoteHost();
             }
-            if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+            if (LOCAL_IPV4.equals(ip) || LOCAL_IPV6.equals(ip)) {
                 InetAddress inetAddress;
                 try {
                     inetAddress = InetAddress.getLocalHost();
@@ -195,8 +200,7 @@ public class EntryController {
          *  172.16.0.0-172.31.255.255
          *  192.168.0.0-192.168.255.255
          */
-        String reg = "^(192\\.168|172\\.(1[6-9]|2\\d|3[0,1]))(\\.(2[0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){2}$|^10(\\.([2][0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){3}$";
-        Pattern p = Pattern.compile(reg);
+        Pattern p = Pattern.compile(IP_REGX);
         Matcher matcher = p.matcher(ip);
         return matcher.find();
     }

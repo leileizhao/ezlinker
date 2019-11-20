@@ -6,6 +6,7 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
 import com.ezlinker.app.modules.user.model.UserDetail;
+import com.ezlinker.common.exception.TokenException;
 import com.ezlinker.common.exception.XException;
 
 /**
@@ -27,26 +28,6 @@ public class UserTokenUtil {
     private static byte[] deRSA(byte[] bytes) {
         return rsa.decrypt(bytes, KeyType.PrivateKey);
     }
-
-//    public static Map<String, Object> genKeyPair() {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("public", rsa.getPublicKeyBase64());
-//        map.put("private", rsa.getPrivateKeyBase64());
-//        return map;
-//
-//    }
-//
-//    public static void main(String[] args) throws Exception {
-//        UserDetail userDetail = new UserDetail();
-//        userDetail.setId(1L);
-//        userDetail.setStatus(1);
-//        userDetail.setUsername("wwhai");
-//        String token = token(userDetail, 0L);
-//        System.out.println("token: " + token);
-//        UserDetail userDetail1 = parse(token);
-//
-//    }
-
 
     /**
      * Token生成器
@@ -82,7 +63,7 @@ public class UserTokenUtil {
             JSONObject data = JSONObject.parseObject(origin);
             userDetail = JSONObject.toJavaObject(data, UserDetail.class);
         } catch (Exception e) {
-            throw new XException(401, "Token has expired,please login again", "Token已经过期,请重新获取");
+            throw new TokenException("Token invalid,please login again", "Token不合法,请重新获取");
         }
         long expiredTime = userDetail.getExpiredTime();
         //如果过期时间为0,则为无限期
@@ -91,7 +72,7 @@ public class UserTokenUtil {
         }
         long currentTime = System.currentTimeMillis();
         if (currentTime > expiredTime) {
-            throw new XException(401, "Token has expired,please login again", "Token已经过期,请重新获取");
+            throw new TokenException("Token has expired,please login again", "Token已经过期,请重新获取");
         } else {
             return userDetail;
         }

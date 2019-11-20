@@ -2,6 +2,7 @@ package com.ezlinker.app.interceptor;
 
 import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
+import com.ezlinker.common.exception.NotFoundException;
 import com.ezlinker.common.exception.XException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
 
         } else {
-            throw new XException(404, "Resource not found", "资源不存在");
+            throw new NotFoundException();
         }
     }
 

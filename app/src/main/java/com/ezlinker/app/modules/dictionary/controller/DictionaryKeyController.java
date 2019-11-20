@@ -81,8 +81,8 @@ public class DictionaryKeyController extends AbstractXController<DictionaryKey> 
     /**
      * 获取字典项列表
      *
-     * @param pageNo
-     * @param pageSize
+     * @param current
+     * @param size
      * @param table
      * @param name
      * @param label
@@ -90,8 +90,8 @@ public class DictionaryKeyController extends AbstractXController<DictionaryKey> 
      */
     @GetMapping
     public R queryForPage(
-            @RequestParam Long pageNo,
-            @RequestParam Long pageSize,
+            @RequestParam Long current,
+            @RequestParam Long size,
             @RequestParam(required = false) String table,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer label) {
@@ -100,7 +100,7 @@ public class DictionaryKeyController extends AbstractXController<DictionaryKey> 
         queryWrapper.eq(name != null, "name", name);
         queryWrapper.eq(label != null, "label", label);
         queryWrapper.orderByDesc("create_time");
-        IPage<DictionaryKey> page = iDictionaryKeyService.page(new Page<>(pageNo, pageSize), queryWrapper);
+        IPage<DictionaryKey> page = iDictionaryKeyService.page(new Page<>(current, size), queryWrapper);
         return data(page);
     }
 }

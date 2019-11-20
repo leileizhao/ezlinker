@@ -101,8 +101,8 @@ public class ProjectController extends AbstractXController<Project> {
      * @param self     如果传self，则查询和自己有关的，不传则查询所有：选传
      * @param name     项目名称：选传
      * @param location 项目位置：选传
-     * @param pageNo   页码：必传
-     * @param pageSize 页长：必传
+     * @param current   页码：必传
+     * @param size 页长：必传
      * @return
      * @throws XException
      */
@@ -111,8 +111,8 @@ public class ProjectController extends AbstractXController<Project> {
             @RequestParam(required = false) boolean self,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String location,
-            @RequestParam int pageNo,
-            @RequestParam int pageSize) throws XException {
+            @RequestParam Integer current,
+            @RequestParam Integer size) throws XException {
         QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
         if (self) {
             queryWrapper.eq("user_id", getUserDetail().getId());
@@ -121,7 +121,7 @@ public class ProjectController extends AbstractXController<Project> {
         queryWrapper.like(name != null, "name", name);
         queryWrapper.like(location != null, "location", location);
         queryWrapper.orderByDesc("create_time");
-        IPage<Project> projectPage = iProjectService.page(new Page<>(pageNo, pageSize), queryWrapper);
+        IPage<Project> projectPage = iProjectService.page(new Page<>(current, size), queryWrapper);
 
         return data(projectPage);
     }

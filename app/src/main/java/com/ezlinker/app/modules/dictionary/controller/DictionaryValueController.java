@@ -77,24 +77,24 @@ public class DictionaryValueController extends AbstractXController<DictionaryVal
     /**
      * 获取字典值列表
      *
-     * @param pageNo
-     * @param pageSize
+     * @param current
+     * @param size
      * @param keyId
      * @param label
      * @param label
      * @return
      */
     @GetMapping
-    public R queryForPage(@RequestParam int pageNo,
-                          @RequestParam int pageSize,
+    public R queryForPage(@RequestParam int current,
+                          @RequestParam Integer size,
                           @RequestParam Long keyId,
                           @RequestParam(required = false) Integer label) {
         QueryWrapper<DictionaryValue> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("key_id", keyId);
         queryWrapper.eq(label != null, "label", label);
         queryWrapper.orderByDesc("create_time");
-        IPage<DictionaryValue> page = iDictionaryValueService.page(new Page<>(pageNo, pageSize), queryWrapper);
-        return data(page);
+        IPage<DictionaryValue> iPage = iDictionaryValueService.page(new Page<>(current, size), queryWrapper);
+        return data(iPage);
     }
 }
 

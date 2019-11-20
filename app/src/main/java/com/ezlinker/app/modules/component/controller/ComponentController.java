@@ -264,8 +264,8 @@ public class ComponentController extends AbstractXController<Component> {
     /**
      * 获取字典项列表
      *
-     * @param pageNo
-     * @param pageSize
+     * @param current
+     * @param size
      * @param productId
      * @param type
      * @param name
@@ -277,8 +277,8 @@ public class ComponentController extends AbstractXController<Component> {
      */
     @GetMapping
     public R queryForPage(
-            @RequestParam Long pageNo,
-            @RequestParam Long pageSize,
+            @RequestParam Long current,
+            @RequestParam Long size,
             @RequestParam Long productId,
             @RequestParam(required = false) Integer type,
             @RequestParam(required = false) String name,
@@ -296,8 +296,8 @@ public class ComponentController extends AbstractXController<Component> {
                 .like(name != null, Component.Fields.name, name);
 
         queryWrapper.orderByDesc("create_time");
-        IPage<Component> page = iComponentService.page(new Page<>(pageNo, pageSize), queryWrapper);
-        return data(page);
+        IPage<Component> iPage = iComponentService.page(new Page<>(current, size), queryWrapper);
+        return data(iPage);
     }
 }
 

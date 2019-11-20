@@ -54,19 +54,19 @@ public class InternalMessageController extends AbstractXController<InternalMessa
     /**
      * 分页检索
      *
-     * @param pageNo   页码：必传
-     * @param pageSize 页长：必传
+     * @param current   页码：必传
+     * @param size 页长：必传
      * @return
      * @throws XException
      */
     @GetMapping
     public R queryForPage(
-            @RequestParam Integer pageNo,
-            @RequestParam Integer pageSize) throws XException {
+            @RequestParam Integer current,
+            @RequestParam Integer size) throws XException {
         QueryWrapper<InternalMessage> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", getUserDetail().getId()).eq("marked", 0);
         queryWrapper.orderByDesc("create_time");
-        IPage<InternalMessage> internalMessagePage = internalMessageService.page(new Page<>(pageNo, pageSize), queryWrapper);
+        IPage<InternalMessage> internalMessagePage = internalMessageService.page(new Page<>(current, size), queryWrapper);
 
         return data(internalMessagePage);
     }

@@ -135,15 +135,15 @@ public class ProductController extends AbstractXController<Product> {
      * @param tag       标签
      * @param name      名称
      * @param type      类型
-     * @param pageNo    页码
-     * @param pageSize  页长
+     * @param current    页码
+     * @param size  页长
      * @return
      */
     @GetMapping
     public R queryForPage(
             @RequestParam Long projectId,
-            @RequestParam int pageNo,
-            @RequestParam int pageSize,
+            @RequestParam Integer current,
+            @RequestParam Integer size,
             @RequestParam(required = false) String tag,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer type) {
@@ -155,7 +155,7 @@ public class ProductController extends AbstractXController<Product> {
         queryWrapper.like(name != null, "name", name);
 
         queryWrapper.orderByDesc("create_time");
-        IPage<Product> projectPage = iProductService.page(new Page<>(pageNo, pageSize), queryWrapper);
+        IPage<Product> projectPage = iProductService.page(new Page<>(current, size), queryWrapper);
 
         return data(projectPage);
     }

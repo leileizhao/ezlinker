@@ -79,11 +79,11 @@ public class UserController extends AbstractXController<User> {
      * @throws XException
      */
     @GetMapping("/loginLog")
-    public R getLoginLog(@RequestParam int pageNo, @RequestParam int pageSize) throws XException {
+    public R getLoginLog(@RequestParam Integer current, @RequestParam Integer size) throws XException {
         QueryWrapper<UserLoginLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", getUserDetail().getId());
-        IPage<UserLoginLog> page = iUserLoginLogService.page(new Page<>(pageNo, pageSize), queryWrapper);
-        return data(page);
+        IPage<UserLoginLog> iPage = iUserLoginLogService.page(new Page<>(current, size), queryWrapper);
+        return data(iPage);
     }
 
     /**

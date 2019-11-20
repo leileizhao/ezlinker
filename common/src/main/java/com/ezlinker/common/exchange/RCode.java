@@ -11,7 +11,7 @@ public enum RCode {
     /**
      * 统一成功
      */
-    SUCCESS(0, "Operation success", "操作成功"),
+    SUCCESS(200, "Operation success", "操作成功"),
     FAIL(501, "Operation fail", "操作失败");
 
     /**
