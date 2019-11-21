@@ -2,7 +2,6 @@ package com.ezlinker.app.common;
 
 import com.ezlinker.app.modules.user.model.UserDetail;
 import com.ezlinker.app.utils.UserTokenUtil;
-import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.TokenException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
@@ -98,8 +97,11 @@ public abstract class AbstractXController<T> {
      *
      * @return
      */
-    protected void fail() throws BizException {
-        throw new BizException(RCode.FAIL.getMessage(), RCode.FAIL.getI8nMessage());
+    protected R fail() {
+        Integer code = RCode.FAIL.getCode();
+        String message = RCode.FAIL.getMessage();
+        String i8nMessage = RCode.FAIL.getI8nMessage();
+        return new R(code, message, i8nMessage, null);
     }
 
     /**
