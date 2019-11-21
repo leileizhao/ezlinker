@@ -3,6 +3,8 @@ package com.ezlinker.app.modules.user.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -79,7 +81,7 @@ public class User extends XEntity {
     /**
      * 上次登陆时间
      */
-    private LocalDateTime lastLoginTime;
+    private Date lastLoginTime;
 
     /**
      * 上次登录IP

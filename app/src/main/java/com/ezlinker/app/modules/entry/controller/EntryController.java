@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -108,6 +109,9 @@ public class EntryController {
         UserLoginLog userLoginLog = new UserLoginLog();
         userLoginLog.setIp(ip).setStatus("INFO").setUserId(user.getId()).setRemark("登陆成功").setLocation(getLocationWithIp(ip));
         iUserLoginLogService.save(userLoginLog);
+        // 更新登陆信息
+        user.setLastLoginIp(ip).setLastLoginTime(new Date());
+        iUserService.updateById(user);
         return new R(RCode.SUCCESS.getCode(), RCode.SUCCESS.getMessage(), RCode.SUCCESS.getI8nMessage(), token);
 
     }
