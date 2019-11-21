@@ -193,6 +193,11 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exchange/R.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/common/src/main/java/com/ezlinker/common/exchange/RCode.java">
           <value>
             <PaintGroupHighlightMap />

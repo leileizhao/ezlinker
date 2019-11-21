@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="app" />
         <module name="emqintegration" />
+        <module name="emq-integration" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
