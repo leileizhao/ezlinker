@@ -68,4 +68,9 @@ public class R {
         this.i18nMessage = i18nMessage;
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "{\"appName\":\"" + appName + "\",\"code\":" + code + ",\"message\":\"" + message + "\",\"i18nMessage\":\"" + i18nMessage + "\",\"data\":" + data + "}";
+    }
 }

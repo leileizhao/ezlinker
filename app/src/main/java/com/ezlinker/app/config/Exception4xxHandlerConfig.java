@@ -38,7 +38,7 @@ public class Exception4xxHandlerConfig {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public R notFountHandler(HttpServletRequest request) {
-        return new R(404, "Resource not found", "资源不存在");
+        return new R(404, "Resource not found", "资源不存在", null);
     }
 
     /**
@@ -51,8 +51,9 @@ public class Exception4xxHandlerConfig {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R methodNotAllowed(HttpRequestMethodNotSupportedException e) {
-        return new R(405, "Method:" + e.getMethod() + " Not Allowed", "HTTP请求方法:" + e.getMethod() + " 不支持");
+        return new R(405, "Method:" + e.getMethod() + " Not Allowed", "HTTP请求方法:" + e.getMethod() + " 不支持", null);
     }
+
     /**
      * 参数缺失
      *
