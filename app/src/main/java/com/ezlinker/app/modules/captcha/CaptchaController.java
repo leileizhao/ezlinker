@@ -1,10 +1,11 @@
 package com.ezlinker.app.modules.captcha;
 
-import com.ezlinker.common.exception.XException;
+import com.ezlinker.common.exception.InternalServerException;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.utils.RedisUtil;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.UUID;
  * @author: wangwenhai
  * @create: 2019-11-08 14:30
  **/
+@Slf4j
 @RestController
 public class CaptchaController {
     @Autowired
@@ -24,6 +26,7 @@ public class CaptchaController {
 
     /**
      * 获取图片验证码
+     *
      * @return
      * @throws Exception
      */
@@ -39,22 +42,16 @@ public class CaptchaController {
         try {
             Boolean set = redisUtil.set("CAPTCHA:" + code, key, 60);
             if (set) {
-                System.out.println("Key:" + key + " Code:" + code);
+                log.debug("Key:" + key + " Code:" + code);
                 return new R(200, "Captcha generate success", "验证码获取成功", captcha.toBase64());
 
             } else {
-                throw new XException(500, "Internal error,Maybe redis has downed", "系统内部错误");
+                throw new InternalServerException("Internal error,Maybe redis has downed", "系统内部错误");
             }
 
         } catch (Exception e) {
-            throw new XException(500, "Internal error,Maybe redis has downed", "系统内部错误");
+            throw new InternalServerException("Internal error,Maybe redis has downed", "系统内部错误");
         }
 
     }
-
-//    boolean checkCaptcha(String code) {
-//        String uuid = redisUtil.get("CAPTCHA:" + code).toString();
-//        return uuid != null;
-//
-//    }
 }

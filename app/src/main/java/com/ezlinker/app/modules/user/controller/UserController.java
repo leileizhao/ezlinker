@@ -15,6 +15,7 @@ import com.ezlinker.app.modules.user.service.IUserProfileService;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.app.modules.userlog.model.UserLoginLog;
 import com.ezlinker.app.modules.userlog.service.IUserLoginLogService;
+import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.utils.RegxUtil;
@@ -94,11 +95,11 @@ public class UserController extends AbstractXController<User> {
     @PutMapping("/resetPassword")
     public R resetPassword(@RequestBody ResetPasswordForm form) throws XException {
         if (!form.getNewPassword().equals(form.getPasswordRetry())) {
-            throw new XException("Invalid password!", "两次密码不一致");
+            throw new BizException("Invalid password!", "两次密码不一致");
         }
         User user = iUserService.getById(getUserDetail().getId());
         if (!user.getPassword().toUpperCase().equals(SecureUtil.md5(form.getNewPassword()))) {
-            throw new XException("Invalid password!", "旧密码错误");
+            throw new BizException("Invalid password!", "旧密码错误");
         }
         user.setPassword(SecureUtil.md5(form.getNewPassword()));
         boolean ok = iUserService.updateById(user);
@@ -118,7 +119,7 @@ public class UserController extends AbstractXController<User> {
         User user = iUserService.getById(getUserDetail().getId());
         if (!StringUtils.isEmpty(form.getPhone())) {
             if (!RegxUtil.isPhone(form.getPhone())) {
-                throw new XException("Invalid phone format!", "手机号码错误");
+                throw new BizException("Invalid phone format!", "手机号码错误");
 
             } else {
                 user.setPhone(form.getPhone());
@@ -136,7 +137,7 @@ public class UserController extends AbstractXController<User> {
         }
         if (!StringUtils.isEmpty(form.getEmail())) {
             if (!RegxUtil.isEmail(form.getEmail())) {
-                throw new XException("Invalid email format!", "邮箱格式错误");
+                throw new BizException("Invalid email format!", "邮箱格式错误");
             } else {
                 user.setEmail(form.getEmail());
 
@@ -158,7 +159,7 @@ public class UserController extends AbstractXController<User> {
         User tmp = iUserService.getOne(new QueryWrapper<User>()
                 .eq(User.Fields.username, addUserForm.getUsername()).or().eq(User.Fields.email, addUserForm.getEmail()));
         if (tmp != null) {
-            throw new XException("User already exists", "用户已存在");
+            throw new BizException("User already exists", "用户已存在");
         }
 
         User user = new User();

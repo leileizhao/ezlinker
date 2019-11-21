@@ -24,7 +24,9 @@ public class XException extends Exception {
         this.code = code;
         this.i18nMessage = i18nMessage;
     }
+
     public XException(String message, String i18nMessage) {
+        this.code = 503;
         this.message = message;
         this.i18nMessage = i18nMessage;
     }

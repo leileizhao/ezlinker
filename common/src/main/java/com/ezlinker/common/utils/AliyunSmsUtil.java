@@ -8,6 +8,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 
 /**
@@ -69,7 +70,7 @@ public class AliyunSmsUtil {
             JSONObject result = JSONObject.parseObject(response.getData());
             return result.getString("Code").equals("OK");
         } catch (ClientException e) {
-            throw new XException(1, "SMS send failure", "短信发送失败");
+            throw new BizException("SMS send failure", "短信发送失败");
 
         }
     }

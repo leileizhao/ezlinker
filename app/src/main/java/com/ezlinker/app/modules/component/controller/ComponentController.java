@@ -13,6 +13,7 @@ import com.ezlinker.app.modules.mqtttopic.model.MqttTopic;
 import com.ezlinker.app.modules.mqtttopic.service.IMqttTopicService;
 import com.ezlinker.app.utils.ComponentTokenUtil;
 import com.ezlinker.app.utils.IDKeyUtil;
+import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,13 +133,13 @@ public class ComponentController extends AbstractXController<Component> {
                 if (area.containsKey("field") && area.containsKey("label")) {
                     require++;
                 } else {
-                    throw new XException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
+                    throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
                 }
             }
             if (length == require) {
                 component.setDataArea(component.getDataAreas().toJSONString());
             } else {
-                throw new XException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
+                throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
             }
 
         }
@@ -206,7 +207,7 @@ public class ComponentController extends AbstractXController<Component> {
     protected R update(@PathVariable Long id, @RequestBody Component form) throws XException {
         Component component = iComponentService.getById(id);
         if (component == null) {
-            throw new XException("Component not exists", "模块不存在");
+            throw new BizException("Component not exists", "模块不存在");
 
         }
         if (!StringUtils.isEmpty(form.getType())) {
@@ -235,7 +236,7 @@ public class ComponentController extends AbstractXController<Component> {
                 component.setDataArea(form.getDataArea());
 
             } catch (Exception e) {
-                throw new XException("Format error", "数据格式错误,数据域必须是一个JSON数组格式的字符串");
+                throw new BizException("Format error", "数据格式错误,数据域必须是一个JSON数组格式的字符串");
             }
 
         }
