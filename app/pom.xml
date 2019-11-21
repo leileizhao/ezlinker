@@ -32,6 +32,11 @@
             <artifactId>common</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.ezlinker</groupId>
+            <artifactId>emq-integration</artifactId>
+            <version>0.0.1</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
