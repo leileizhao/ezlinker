@@ -1,5 +1,6 @@
 package com.ezlinker.app.modules.entry.controller;
 
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -17,6 +18,7 @@ import com.ezlinker.common.exception.AuthorizedFailedException;
 import com.ezlinker.common.exchange.R;
 import com.ezlinker.common.exchange.RCode;
 import com.ezlinker.common.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +31,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @program: ezlinker
@@ -40,8 +40,8 @@ import java.util.regex.Pattern;
  **/
 @RestController
 @RequestMapping("/entry")
+@Slf4j
 public class EntryController {
-    private static final String IP_REGX = "^(192\\.168|172\\.(1[6-9]|2\\d|3[0,1]))(\\.(2[0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){2}$|^10(\\.([2][0-4]\\d|25[0-5]|[0,1]?\\d?\\d)){3}$";
 
     private static final String LOCAL_IPV4 = "127.0.0.1";
     private static final String LOCAL_IPV6 = "0:0:0:0:0:0:0:1";
@@ -81,14 +81,14 @@ public class EntryController {
             UserLoginLog userLoginLog = new UserLoginLog();
             userLoginLog.setIp(ip).setStatus("WARNING").setUserId(0L).setRemark("未知用户尝试登陆失败").setLocation(getLocationWithIp(ip));
             iUserLoginLogService.save(userLoginLog);
-            throw new AuthorizedFailedException( "Login failure,user not exists!", "登陆失败,用户不存在");
+            throw new AuthorizedFailedException("Login failure,user not exists!", "登陆失败,用户不存在");
         }
 
         if (!user.getPassword().toUpperCase().equals(SecureUtil.md5(loginForm.getPassword()).toUpperCase())) {
             UserLoginLog userLoginLog = new UserLoginLog();
             userLoginLog.setIp(ip).setStatus("WARNING").setUserId(user.getId()).setRemark("尝试登陆失败").setLocation(getLocationWithIp(ip));
             iUserLoginLogService.save(userLoginLog);
-            throw new AuthorizedFailedException( "Login failure,password invalid!", "登陆失败,密码错误");
+            throw new AuthorizedFailedException("Login failure,password invalid!", "登陆失败,密码错误");
 
         }
         /**
@@ -104,13 +104,6 @@ public class EntryController {
         userDetail.setRoles(userRoles);
         userDetail.setPermissions(iUserService.getAllPermissions(user.getId()));
         String token = UserTokenUtil.token(userDetail, 24 * 60 * 60 * 1000L);
-
-//        boolean set = redisUtil.set("USER:TOKEN:" + user.getId(), token);
-//
-//        if (!set) {
-//            throw new AuthorizedFailedException(500, "Server internal error!", "服务器内部错误");
-//
-//        }
 
         UserLoginLog userLoginLog = new UserLoginLog();
         userLoginLog.setIp(ip).setStatus("INFO").setUserId(user.getId()).setRemark("登陆成功").setLocation(getLocationWithIp(ip));
@@ -147,7 +140,7 @@ public class EntryController {
         if (ip.equals("UN_KNOW")) {
             return "未知IP地址";
         }
-        if (isInsideNetwork(ip)) {
+        if (NetUtil.isInnerIP(ip)) {
             return "内网登陆,IP:" + ip;
         }
 
@@ -159,7 +152,8 @@ public class EntryController {
                     + ",地区:" + jsonObject.getString("region")
                     + ",运营商:" + jsonObject.getString("isp");
         } catch (Exception e) {
-            return "未知";
+            log.error("IP获取失败，请检查接口是否正常.");
+            return "未知IP地址";
         }
     }
 
@@ -182,7 +176,7 @@ public class EntryController {
                     inetAddress = InetAddress.getLocalHost();
                     ip = inetAddress.getHostAddress();
                 } catch (UnknownHostException e) {
-                    ip = "LOCAL_HOST";
+                    ip = LOCAL_IPV4;
                 }
             }
         } catch (Exception e) {
@@ -192,16 +186,4 @@ public class EntryController {
 
     }
 
-    private boolean isInsideNetwork(String ip) {
-        /*
-         *  判断客户单IP地址是否为内网地址
-         *  内网IP网段：
-         *  10.0.0.0-10.255.255.255
-         *  172.16.0.0-172.31.255.255
-         *  192.168.0.0-192.168.255.255
-         */
-        Pattern p = Pattern.compile(IP_REGX);
-        Matcher matcher = p.matcher(ip);
-        return matcher.find();
-    }
 }
