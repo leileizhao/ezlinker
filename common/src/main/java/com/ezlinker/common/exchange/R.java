@@ -1,5 +1,6 @@
 package com.ezlinker.common.exchange;
 
+import cn.hutool.core.util.IdUtil;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  **/
 @Data
 public class R {
+    private String id = IdUtil.simpleUUID();
 
     /**
      * 应用名

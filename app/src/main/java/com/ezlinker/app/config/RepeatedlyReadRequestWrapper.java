@@ -19,17 +19,14 @@ import java.nio.charset.Charset;
  * @create: 2019-11-11 16:45
  **/
 
-/**
- * @author lidanyang
- * @date 2018/7/4
- */
+
 public class RepeatedlyReadRequestWrapper extends HttpServletRequestWrapper {
     private final byte[] body;
 
     public RepeatedlyReadRequestWrapper(HttpServletRequest request)
             throws IOException {
         super(request);
-        body = readBytes(request.getReader(), "UTF-8");
+        body = readBytes(request.getReader());
     }
 
     @Override
@@ -68,17 +65,17 @@ public class RepeatedlyReadRequestWrapper extends HttpServletRequestWrapper {
      * 通过BufferedReader和字符编码集转换成byte数组
      *
      * @param br
-     * @param encoding
      * @return
      * @throws IOException
      */
-    private byte[] readBytes(BufferedReader br, String encoding) throws IOException {
-        String str = null, retStr = "";
+    private byte[] readBytes(BufferedReader br) throws IOException {
+        String str;
+        StringBuilder retStr = new StringBuilder();
         while ((str = br.readLine()) != null) {
-            retStr += str;
+            retStr.append(str);
         }
-        if (StringUtils.isNotBlank(retStr)) {
-            return retStr.getBytes(Charset.forName(encoding));
+        if (StringUtils.isNotBlank(retStr.toString())) {
+            return retStr.toString().getBytes(Charset.forName("UTF-8"));
         }
         return null;
     }
