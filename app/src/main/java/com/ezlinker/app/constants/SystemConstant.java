@@ -7,6 +7,5 @@ package com.ezlinker.app.constants;
  * @create: 2019-11-07 10:00
  **/
 public class SystemConstant {
-
     public static final String VERSION = "0.0.1";
 }
