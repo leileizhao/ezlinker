@@ -1,7 +1,5 @@
-package com.ezlinker.app.modules.component.model;
+package com.ezlinker.app.modules.module.model;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
@@ -29,8 +27,8 @@ import java.util.List;
 @Accessors(chain = true)
 @FieldNameConstants
 
-@TableName(value = "ez_component",autoResultMap = true)
-public class Component extends XEntity {
+@TableName(value = "ez_module",autoResultMap = true)
+public class Module extends XEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +36,7 @@ public class Component extends XEntity {
      * 产品ID
      */
     @NotEmpty(message = "产品不可为空")
-    private Integer productId;
+    private Long productId;
 
     /**
      * 类型

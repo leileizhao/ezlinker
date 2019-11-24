@@ -26,6 +26,7 @@ public class Exception5xxHandlerConfig {
      */
     @ExceptionHandler(XException.class)
     public void handXException(HttpServletResponse response, XException e) throws IOException {
+        e.printStackTrace();
         log.error(e.getClass() + ":" + e.getMessage() + "[" + e.getI18nMessage() + "]");
         response.setStatus(e.getCode());
         response.setHeader("content-type", "application/json;charset=UTF-8");
@@ -44,6 +45,7 @@ public class Exception5xxHandlerConfig {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public R handException(Exception e) {
+        e.printStackTrace();
         log.error(e.getClass() + ":" + e.getMessage());
         return new R(500, "Server internal error", "服务器内部错误", null);
     }

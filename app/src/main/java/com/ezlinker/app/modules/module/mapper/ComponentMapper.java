@@ -1,6 +1,6 @@
-package com.ezlinker.app.modules.component.mapper;
+package com.ezlinker.app.modules.module.mapper;
 
-import com.ezlinker.app.modules.component.model.Component;
+import com.ezlinker.app.modules.module.model.Module;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author wangwenhai
  * @since 2019-11-15
  */
-public interface ComponentMapper extends BaseMapper<Component> {
+public interface ComponentMapper extends BaseMapper<Module> {
 
 }

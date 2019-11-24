@@ -1,5 +1,6 @@
 package com.ezlinker.app.modules.device.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
 import lombok.Data;
@@ -7,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -61,7 +61,8 @@ public class Device extends XEntity {
     /**
      * 标签
      */
-    private String tag;
+    @TableField(exist = false)
+    private String[] tags;
 
     /**
      * 厂家

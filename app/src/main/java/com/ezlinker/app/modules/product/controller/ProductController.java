@@ -2,30 +2,30 @@ package com.ezlinker.app.modules.product.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.json.JSONObject;
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ezlinker.app.common.AbstractXController;
 import com.ezlinker.app.common.SimpleXController;
 import com.ezlinker.app.modules.product.form.AddProductForm;
 import com.ezlinker.app.modules.product.form.UpdateProductForm;
 import com.ezlinker.app.modules.product.model.Product;
 import com.ezlinker.app.modules.product.service.IProductService;
+import com.ezlinker.app.modules.tag.model.Tag;
+import com.ezlinker.app.modules.tag.service.ITagService;
 import com.ezlinker.common.exception.BadRequestException;
 import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
-import org.luaj.vm2.ast.Str;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -41,6 +41,8 @@ public class ProductController extends SimpleXController {
 
     @Resource
     IProductService iProductService;
+    @Resource
+    ITagService iTagService;
 
     public ProductController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
@@ -91,7 +93,18 @@ public class ProductController extends SimpleXController {
         }
         BeanUtil.copyProperties(form, product);
         product.setParameter((form.getParameter()));
+
         boolean ok = iProductService.save(product);
+        if (ok) {
+            String[] tags = form.getTags();
+            for (String tag : tags) {
+                Tag t = new Tag();
+                t.setType(2);
+                t.setName(tag).setLinkId(product.getProjectId());
+                iTagService.save(t);
+            }
+
+        }
         return ok ? data(product) : fail();
 
     }
@@ -104,7 +117,7 @@ public class ProductController extends SimpleXController {
      */
 
     @DeleteMapping
-    protected R delete(@PathVariable Integer[] ids) {
+    public R delete(@PathVariable Integer[] ids) {
         boolean ok = iProductService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }
@@ -117,7 +130,7 @@ public class ProductController extends SimpleXController {
      * @throws XException
      */
     @PutMapping
-    protected R update(@PathVariable Long id, @RequestBody @Valid UpdateProductForm form) throws XException {
+    public R update(@PathVariable Long id, @RequestBody @Valid UpdateProductForm form) throws XException {
 
 
         Product product = iProductService.getById(id);
@@ -161,7 +174,7 @@ public class ProductController extends SimpleXController {
 
 
     @GetMapping("/{id}")
-    protected R get(@PathVariable Long id) throws XException {
+    public R get(@PathVariable Long id) throws XException {
         Product project = iProductService.getById(id);
         if (project == null) {
             throw new BizException("Product not exists!", "产品不存在");

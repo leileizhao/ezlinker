@@ -1,6 +1,6 @@
-package com.ezlinker.app.modules.component.service;
+package com.ezlinker.app.modules.module.service;
 
-import com.ezlinker.app.modules.component.model.Component;
+import com.ezlinker.app.modules.module.model.Module;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author wangwenhai
  * @since 2019-11-15
  */
-public interface IComponentService extends IService<Component> {
+public interface IModuleService extends IService<Module> {
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ezlinker.app.modules.component.mapper.ComponentMapper">
+<mapper namespace="com.ezlinker.app.modules.module.mapper.ComponentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ezlinker.app.modules.component.model.Component">
+    <resultMap id="BaseResultMap" type="com.ezlinker.app.modules.module.model.Module">
     <result column="id" property="id" />
     <result column="record_version" property="recordVersion" />
     <result column="x" property="x" />

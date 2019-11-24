@@ -36,7 +36,7 @@ public class AddProductForm {
     /**
      * 标签
      */
-    private String tag;
+    private String[] tags;
 
     /**
      * 类型

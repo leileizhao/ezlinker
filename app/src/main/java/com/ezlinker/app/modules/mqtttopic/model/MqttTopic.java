@@ -65,4 +65,9 @@ public class MqttTopic extends XEntity {
      */
     private String description;
 
+    /**
+     * 设备的ID
+     */
+    private Long deviceId;
+
 }

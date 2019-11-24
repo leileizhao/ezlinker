@@ -1,25 +1,22 @@
-package com.ezlinker.app.modules.component.controller;
+package com.ezlinker.app.modules.module.controller;
 
 
 import cn.hutool.crypto.SecureUtil;
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
-import com.ezlinker.app.modules.component.model.Component;
-import com.ezlinker.app.modules.component.service.IComponentService;
-import com.ezlinker.app.modules.mqtttopic.model.MqttTopic;
-import com.ezlinker.app.modules.mqtttopic.service.IMqttTopicService;
+import com.ezlinker.app.modules.module.model.Module;
+import com.ezlinker.app.modules.module.service.IModuleService;
 import com.ezlinker.app.utils.ComponentTokenUtil;
 import com.ezlinker.app.utils.IDKeyUtil;
 import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,23 +37,14 @@ import java.util.List;
  * @since 2019-11-15
  */
 @RestController
-@RequestMapping("/components")
-public class ComponentController extends AbstractXController<Component> {
+@RequestMapping("/modules")
+public class ModuleController extends AbstractXController<Module> {
 
-    // 发布权限
-    private static final int TOPIC_PUB = 1;
-    // 订阅权限
-    private static final int TOPIC_SUB = 1;
-    // 发布&订阅权限都有
-    // private static final int TOPIC_PUB_SUB = 1;
 
-    @Autowired
-    IComponentService iComponentService;
+    @Resource
+    IModuleService iModuleService;
 
-    @Autowired
-    IMqttTopicService iMqttTopicService;
-
-    public ComponentController(HttpServletRequest httpServletRequest) {
+    public ModuleController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
 
@@ -118,17 +106,17 @@ public class ComponentController extends AbstractXController<Component> {
     /**
      * 创建模块
      *
-     * @param component
+     * @param module
      * @return
      * @throws XException
      */
     @Override
-    protected R add(@RequestBody Component component) throws XException {
+    protected R add(@RequestBody Module module) throws XException {
 
-        if (component.getDataArea() != null) {
-            int length = component.getDataArea().size();
+        if (module.getDataArea() != null) {
+            int length = module.getDataArea().size();
             int require = 0;
-            for (Object o : component.getDataArea()) {
+            for (Object o : module.getDataArea()) {
                 HashMap area = (HashMap) o;
                 if (area.containsKey("field") && area.containsKey("label")) {
                     require++;
@@ -137,7 +125,7 @@ public class ComponentController extends AbstractXController<Component> {
                 }
             }
             if (length == require) {
-                component.setDataArea(component.getDataArea());
+                module.setDataArea(module.getDataArea());
             } else {
                 throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
             }
@@ -151,95 +139,64 @@ public class ComponentController extends AbstractXController<Component> {
         // 生成给Token，格式：clientId::[field1,field2,field3······]
         // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
         List<String> fields = new ArrayList<>();
-        for (Object o : component.getDataArea()) {
+        for (Object o : module.getDataArea()) {
             HashMap field = (HashMap) o;
             fields.add(field.get("field").toString());
         }
 
         String token = ComponentTokenUtil.token(clientId + "::" + fields.toString());
 
-        component.setSn(sn)
+        module.setSn(sn)
                 .setClientId(clientId)
                 .setUsername(username)
                 .setPassword(password)
                 .setToken(token);
-        boolean ok = iComponentService.save(component);
+        boolean ok = iModuleService.save(module);
 
-        return ok ? data(component) : fail();
-//        //MQTT
-//        //行为类型: 1=订阅2=发布3=订阅+发布'
-//        if (component.getProtocol() == 1) {
-//            /**
-//             * 下发指令
-//             */
-//            MqttTopic s2cTopic = new MqttTopic();
-//            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username).setDescription("服务端消息入口");
-//            /**
-//             * 上传
-//             */
-//            MqttTopic c2sTopic = new MqttTopic();
-//            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username).setDescription("服务端消息出口");
-//            /**
-//             * 上报状态
-//             */
-//            MqttTopic statusTopic = new MqttTopic();
-//            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setDescription("状态上报入口");
-//
-//            /**
-//             * 接受分组指令
-//             */
-//            MqttTopic groupTopic = new MqttTopic();
-//            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username).setDescription("分组接收消息入口");
-//
-//            iMqttTopicService.save(s2cTopic);
-//            iMqttTopicService.save(c2sTopic);
-//            iMqttTopicService.save(statusTopic);
-//            iMqttTopicService.save(groupTopic);
-//
-//
-//        }
+        return ok ? data(module) : fail();
+
 
 
     }
 
 
     @Override
-    protected R update(@PathVariable Long id, @RequestBody Component form) throws XException {
-        Component component = iComponentService.getById(id);
-        if (component == null) {
+    protected R update(@PathVariable Long id, @RequestBody Module form) throws XException {
+        Module module = iModuleService.getById(id);
+        if (module == null) {
             throw new BizException("Component not exists", "模块不存在");
 
         }
         if (!StringUtils.isEmpty(form.getType())) {
-            component.setType(form.getType());
+            module.setType(form.getType());
 
         }
         if (!StringUtils.isEmpty(form.getState())) {
-            component.setState(form.getState());
+            module.setState(form.getState());
 
         }
         if (!StringUtils.isEmpty(form.getName())) {
-            component.setName(form.getName());
+            module.setName(form.getName());
 
         }
         if (!StringUtils.isEmpty(form.getProtocol())) {
-            component.setProtocol(form.getProtocol());
+            module.setProtocol(form.getProtocol());
 
         }
         if (!StringUtils.isEmpty(form.getModel())) {
-            component.setModel(form.getModel());
+            module.setModel(form.getModel());
 
         }
         if (form.getDataArea() != null) {
-            component.setDataArea(form.getDataArea());
+            module.setDataArea(form.getDataArea());
         }
         if (!StringUtils.isEmpty(form.getDescription())) {
-            component.setDescription(form.getDescription());
+            module.setDescription(form.getDescription());
 
         }
-        boolean ok = iComponentService.updateById(component);
+        boolean ok = iModuleService.updateById(module);
 
-        return ok ? data(component) : fail();
+        return ok ? data(module) : fail();
     }
 
     /**
@@ -251,7 +208,7 @@ public class ComponentController extends AbstractXController<Component> {
      */
     @Override
     protected R delete(@PathVariable Integer[] ids) throws XException {
-        boolean ok = iComponentService.removeByIds(Arrays.asList(ids));
+        boolean ok = iModuleService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
     }
 
@@ -280,17 +237,17 @@ public class ComponentController extends AbstractXController<Component> {
             @RequestParam(required = false) String model,
             @RequestParam(required = false) String tag,
             @RequestParam(required = false) String sn) {
-        QueryWrapper<Component> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Module> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_id", productId)
-                .eq(type != null, Component.Fields.type, type)
-                .eq(protocol != null, Component.Fields.protocol, protocol)
-                .eq(model != null, Component.Fields.model, model)
-                .eq(tag != null, Component.Fields.tag, tag)
-                .eq(sn != null, Component.Fields.sn, sn)
-                .like(name != null, Component.Fields.name, name);
+                .eq(type != null, Module.Fields.type, type)
+                .eq(protocol != null, Module.Fields.protocol, protocol)
+                .eq(model != null, Module.Fields.model, model)
+                .eq(tag != null, Module.Fields.tag, tag)
+                .eq(sn != null, Module.Fields.sn, sn)
+                .like(name != null, Module.Fields.name, name);
 
         queryWrapper.orderByDesc("create_time");
-        IPage<Component> iPage = iComponentService.page(new Page<>(current, size), queryWrapper);
+        IPage<Module> iPage = iModuleService.page(new Page<>(current, size), queryWrapper);
         return data(iPage);
     }
 }
