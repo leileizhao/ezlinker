@@ -3,14 +3,18 @@ package com.ezlinker.app.modules.product.model;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ezlinker.common.model.XEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -23,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("ez_product")
+@TableName(value = "ez_product", autoResultMap = true)
 public class Product extends XEntity {
 
     private static final long serialVersionUID = 1L;
@@ -59,11 +63,11 @@ public class Product extends XEntity {
      * 参数
      */
 
-    private String parameter;
 
-    @TableField(exist = false)
-    @JsonIgnore
-    private JSONObject paramMap;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+
+    private List<HashMap<String, Object>> parameter;
+
     /**
      * 描述文字
      */

@@ -2,7 +2,7 @@
 server:
   servlet:
     context-path: /ezlinker
-  port: 8080
+  port: 2500
 # Spring config
 spring:
   datasource:
@@ -47,12 +47,16 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+      uri: mongodb://localhost:27017/ezlinker
       # password: guest
       # username: guest
-      port: 27017
-      database: ezlinker
+      #      port: 32768
+      #      database: ezlinker
       authentication-database: admin
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
   mvc:
     throw-exception-if-no-handler-found: true
 
@@ -76,6 +80,3 @@ aliyun:
     from-alias: EZLinker
     address-type: 1
     tag-name: EZLinker
-
-
-

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ezlinker.common.model.XEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -12,6 +13,8 @@ import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -26,7 +29,7 @@ import javax.validation.constraints.NotEmpty;
 @Accessors(chain = true)
 @FieldNameConstants
 
-@TableName("ez_component")
+@TableName(value = "ez_component",autoResultMap = true)
 public class Component extends XEntity {
 
     private static final long serialVersionUID = 1L;
@@ -93,11 +96,8 @@ public class Component extends XEntity {
     /**
      * 数据域
      */
-    @JsonIgnore
-    private String dataArea;
-
-    @TableField(exist = false)
-    private JSONArray dataAreas;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<HashMap<String, Object>> dataArea;
 
     /**
      * 描述

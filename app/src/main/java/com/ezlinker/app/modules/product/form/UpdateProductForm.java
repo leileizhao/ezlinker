@@ -14,7 +14,7 @@ import java.util.List;
  * @create: 2019-11-14 09:36
  **/
 @Data
-public class AddProductForm {
+public class UpdateProductForm {
     /**
      * 项目ID
      */

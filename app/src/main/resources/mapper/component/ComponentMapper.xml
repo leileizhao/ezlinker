@@ -18,7 +18,7 @@
         <result column="sn" property="sn" />
         <result column="token" property="token" />
         <result column="is_superuser" property="isSuperuser" />
-        <result column="data_area" property="dataArea" />
+        <result column="data_area" property="dataArea" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="description" property="description" />
     </resultMap>
 

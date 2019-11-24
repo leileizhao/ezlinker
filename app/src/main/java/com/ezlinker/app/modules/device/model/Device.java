@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 实际设备，是产品的一个实例。
@@ -25,16 +28,19 @@ public class Device extends XEntity {
     /**
      * 项目
      */
+    @NotEmpty(message = "必须指定所属项目")
     private Integer projectId;
 
     /**
      * 产品
      */
+    @NotEmpty(message = "必须指定所属产品")
     private Integer productId;
 
     /**
      * 名称
      */
+    @NotEmpty(message = "必须指定设备名称")
     private String name;
 
     /**
@@ -81,30 +87,5 @@ public class Device extends XEntity {
      * 描述
      */
     private String description;
-
-
-    public static final String PROJECT_ID = "project_id";
-
-    public static final String PRODUCT_ID = "product_id";
-
-    public static final String NAME = "name";
-
-    public static final String LOGO = "logo";
-
-    public static final String LOCATION = "location";
-
-    public static final String MODEL = "model";
-
-    public static final String TAG = "tag";
-
-    public static final String INDUSTRY = "industry";
-
-    public static final String SN = "sn";
-
-    public static final String TYPE = "type";
-
-    public static final String PARAMETER = "parameter";
-
-    public static final String DESCRIPTION = "description";
 
 }

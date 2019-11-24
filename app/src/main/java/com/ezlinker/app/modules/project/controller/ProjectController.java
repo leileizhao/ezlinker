@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Arrays;
 
 /**
@@ -41,7 +42,7 @@ public class ProjectController extends AbstractXController<Project> {
      * @return
      */
     @Override
-    protected R add(@RequestBody Project project) throws XException {
+    protected R add(@RequestBody @Valid Project project) throws XException {
         project.setUserId(getUserDetail().getId());
         boolean ok = iProjectService.save(project);
         return ok ? success() : fail();

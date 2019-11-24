@@ -20,30 +20,11 @@ import javax.servlet.http.HttpServletRequest;
  * @author: wangwenhai
  * @create: 2019-11-04 17:10
  **/
-public abstract class AbstractXController<T> {
+public abstract class AbstractXController<T> extends SimpleXController {
 
-
-    /**
-     * httpServletRequest
-     */
-    private HttpServletRequest httpServletRequest;
 
     public AbstractXController(HttpServletRequest httpServletRequest) {
-        this.httpServletRequest = httpServletRequest;
-    }
-
-    /**
-     * 获取当前用户的信息
-     *
-     * @return
-     */
-    protected UserDetail getUserDetail() throws XException {
-        String token = httpServletRequest.getHeader("token");
-        if (!StringUtils.isEmpty(token)) {
-            return UserTokenUtil.parse(token);
-        } else {
-            throw new TokenException("Missing token,please try again", "Token缺失,请重新获取");
-        }
+        super(httpServletRequest);
     }
 
     /**
@@ -91,43 +72,5 @@ public abstract class AbstractXController<T> {
     protected R get(Long id) throws XException {
         return success();
     }
-
-    /**
-     * 失败返回
-     *
-     * @return
-     */
-    protected R fail() {
-        Integer code = RCode.FAIL.getCode();
-        String message = RCode.FAIL.getMessage();
-        String i8nMessage = RCode.FAIL.getI8nMessage();
-        return new R(code, message, i8nMessage, null);
-    }
-
-    /**
-     * 成功返回
-     *
-     * @return
-     */
-    protected R success() {
-        Integer code = RCode.SUCCESS.getCode();
-        String message = RCode.SUCCESS.getMessage();
-        String i8nMessage = RCode.SUCCESS.getI8nMessage();
-        return new R(code, message, i8nMessage, null);
-    }
-
-    /**
-     * 自定义成功返回状态码
-     *
-     * @param data
-     * @return
-     */
-    protected R data(Object data) {
-        Integer code = RCode.SUCCESS.getCode();
-        String message = RCode.SUCCESS.getMessage();
-        String i8nMessage = RCode.SUCCESS.getI8nMessage();
-        return new R(code, message, i8nMessage, data);
-    }
-
 
 }

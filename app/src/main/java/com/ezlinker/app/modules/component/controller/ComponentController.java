@@ -125,10 +125,10 @@ public class ComponentController extends AbstractXController<Component> {
     @Override
     protected R add(@RequestBody Component component) throws XException {
 
-        if (component.getDataAreas() != null) {
-            int length = component.getDataAreas().size();
+        if (component.getDataArea() != null) {
+            int length = component.getDataArea().size();
             int require = 0;
-            for (Object o : component.getDataAreas()) {
+            for (Object o : component.getDataArea()) {
                 HashMap area = (HashMap) o;
                 if (area.containsKey("field") && area.containsKey("label")) {
                     require++;
@@ -137,7 +137,7 @@ public class ComponentController extends AbstractXController<Component> {
                 }
             }
             if (length == require) {
-                component.setDataArea(component.getDataAreas().toJSONString());
+                component.setDataArea(component.getDataArea());
             } else {
                 throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
             }
@@ -151,45 +151,12 @@ public class ComponentController extends AbstractXController<Component> {
         // 生成给Token，格式：clientId::[field1,field2,field3······]
         // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
         List<String> fields = new ArrayList<>();
-        for (Object o : component.getDataAreas()) {
+        for (Object o : component.getDataArea()) {
             HashMap field = (HashMap) o;
             fields.add(field.get("field").toString());
         }
 
         String token = ComponentTokenUtil.token(clientId + "::" + fields.toString());
-
-        //MQTT
-        //行为类型: 1=订阅2=发布3=订阅+发布'
-        if (component.getProtocol() == 1) {
-            /**
-             * 下发指令
-             */
-            MqttTopic s2cTopic = new MqttTopic();
-            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username).setDescription("服务端消息入口");
-            /**
-             * 上传
-             */
-            MqttTopic c2sTopic = new MqttTopic();
-            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username).setDescription("服务端消息出口");
-            /**
-             * 上报状态
-             */
-            MqttTopic statusTopic = new MqttTopic();
-            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setDescription("状态上报入口");
-
-            /**
-             * 接受分组指令
-             */
-            MqttTopic groupTopic = new MqttTopic();
-            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username).setDescription("分组接收消息入口");
-
-            iMqttTopicService.save(s2cTopic);
-            iMqttTopicService.save(c2sTopic);
-            iMqttTopicService.save(statusTopic);
-            iMqttTopicService.save(groupTopic);
-
-
-        }
 
         component.setSn(sn)
                 .setClientId(clientId)
@@ -199,6 +166,39 @@ public class ComponentController extends AbstractXController<Component> {
         boolean ok = iComponentService.save(component);
 
         return ok ? data(component) : fail();
+//        //MQTT
+//        //行为类型: 1=订阅2=发布3=订阅+发布'
+//        if (component.getProtocol() == 1) {
+//            /**
+//             * 下发指令
+//             */
+//            MqttTopic s2cTopic = new MqttTopic();
+//            s2cTopic.setAccess(TOPIC_PUB).setClientId(clientId).setTopic("mqtt/out/" + clientId + "/s2c").setUsername(username).setDescription("服务端消息入口");
+//            /**
+//             * 上传
+//             */
+//            MqttTopic c2sTopic = new MqttTopic();
+//            c2sTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/c2s").setUsername(username).setDescription("服务端消息出口");
+//            /**
+//             * 上报状态
+//             */
+//            MqttTopic statusTopic = new MqttTopic();
+//            statusTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/in/" + clientId + "/status").setDescription("状态上报入口");
+//
+//            /**
+//             * 接受分组指令
+//             */
+//            MqttTopic groupTopic = new MqttTopic();
+//            groupTopic.setAccess(TOPIC_SUB).setClientId(clientId).setTopic("mqtt/out/" + SecureUtil.md5(getUserDetail().getId().toString()) + clientId + "/group").setUsername(username).setDescription("分组接收消息入口");
+//
+//            iMqttTopicService.save(s2cTopic);
+//            iMqttTopicService.save(c2sTopic);
+//            iMqttTopicService.save(statusTopic);
+//            iMqttTopicService.save(groupTopic);
+//
+//
+//        }
+
 
     }
 
@@ -231,14 +231,7 @@ public class ComponentController extends AbstractXController<Component> {
 
         }
         if (form.getDataArea() != null) {
-            try {
-                JSONArray.parse(form.getDataArea());
-                component.setDataArea(form.getDataArea());
-
-            } catch (Exception e) {
-                throw new BizException("Format error", "数据格式错误,数据域必须是一个JSON数组格式的字符串");
-            }
-
+            component.setDataArea(form.getDataArea());
         }
         if (!StringUtils.isEmpty(form.getDescription())) {
             component.setDescription(form.getDescription());

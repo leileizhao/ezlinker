@@ -1,22 +1,31 @@
 package com.ezlinker.app.modules.product.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
+import com.ezlinker.app.common.SimpleXController;
+import com.ezlinker.app.modules.product.form.AddProductForm;
+import com.ezlinker.app.modules.product.form.UpdateProductForm;
 import com.ezlinker.app.modules.product.model.Product;
 import com.ezlinker.app.modules.product.service.IProductService;
+import com.ezlinker.common.exception.BadRequestException;
+import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
+import org.luaj.vm2.ast.Str;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * <p>
@@ -28,34 +37,63 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/products")
-public class ProductController extends AbstractXController<Product> {
+public class ProductController extends SimpleXController {
 
-    @Autowired
+    @Resource
     IProductService iProductService;
 
     public ProductController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
 
+    /**
+     * 检查参数合法性
+     *
+     * @param parameter
+     * @return
+     */
+    private boolean check(List<HashMap<String, Object>> parameter) {
+        if (parameter == null) return false;
+        try {
+            int parameterLength = parameter.size();
+            int accepted = 0;
+            for (HashMap map : parameter) {
+                if (map.keySet().size() == 2) {
+                    if ((map.containsKey("label") && map.containsKey("field"))) {
+                        accepted++;
+                    }
+                }
+            }
+            return parameterLength == accepted;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     /**
      * 创建产品
      *
-     * @param product 产品:必传
+     * @param form 产品:必传
      * @return
      */
-    @Override
-    protected R add(@RequestBody @Valid Product product) {
-        if (product.getParamMap() != null) {
-            product.setParameter(product.getParamMap().toString());
+    @PostMapping
+    protected R add(@RequestBody @Valid AddProductForm form) throws XException {
+        Product product = new Product();
+        if (form.getParameter() != null) {
+            if (!check(form.getParameter())) {
+                throw new BadRequestException("Parameter format invalid!", "Parameter 参数格式错误");
+            }
+
         } else {
-            JSONObject defaultJson = new JSONObject();
-            defaultJson.put("name", "状态");
-            defaultJson.put("field", "state");
-            product.setParameter(defaultJson.toJSONString());
+            product.setParameter(new ArrayList<>());
         }
+        BeanUtil.copyProperties(form, product);
+        product.setParameter((form.getParameter()));
         boolean ok = iProductService.save(product);
         return ok ? data(product) : fail();
+
     }
 
     /**
@@ -65,7 +103,7 @@ public class ProductController extends AbstractXController<Product> {
      * @return
      */
 
-    @Override
+    @DeleteMapping
     protected R delete(@PathVariable Integer[] ids) {
         boolean ok = iProductService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
@@ -78,13 +116,13 @@ public class ProductController extends AbstractXController<Product> {
      * @return
      * @throws XException
      */
-    @Override
-    protected R update(@PathVariable Long id, @RequestBody Product form) throws XException {
+    @PutMapping
+    protected R update(@PathVariable Long id, @RequestBody @Valid UpdateProductForm form) throws XException {
 
 
         Product product = iProductService.getById(id);
         if (product == null) {
-            throw new XException("Product not exists!", "产品不存在");
+            throw new BizException("Product not exists!", "产品不存在");
         }
         if (!StringUtils.isEmpty(form.getName())) {
 
@@ -103,10 +141,12 @@ public class ProductController extends AbstractXController<Product> {
 
             product.setDescription(form.getDescription());
         }
-
-        if (product.getParamMap() != null) {
-            product.setParameter(product.getParamMap().toString());
+        if (form.getParameter() != null) {
+            check(form.getParameter());
+            product.setParameter((form.getParameter()));
         }
+
+
         boolean ok = iProductService.updateById(product);
         return ok ? data(product) : fail();
     }
@@ -119,11 +159,12 @@ public class ProductController extends AbstractXController<Product> {
      * @return
      */
 
-    @Override
+
+    @GetMapping("/{id}")
     protected R get(@PathVariable Long id) throws XException {
         Product project = iProductService.getById(id);
         if (project == null) {
-            throw new XException("Product not exists!", "产品不存在");
+            throw new BizException("Product not exists!", "产品不存在");
         }
         return data(project);
     }
@@ -135,8 +176,8 @@ public class ProductController extends AbstractXController<Product> {
      * @param tag       标签
      * @param name      名称
      * @param type      类型
-     * @param current    页码
-     * @param size  页长
+     * @param current   页码
+     * @param size      页长
      * @return
      */
     @GetMapping

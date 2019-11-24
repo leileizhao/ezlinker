@@ -13,7 +13,7 @@
         <result column="logo" property="logo" />
         <result column="tag" property="tag" />
         <result column="type" property="type" />
-        <result column="parameter" property="parameter" />
+        <result column="parameter" property="parameter" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler" />
         <result column="description" property="description" />
     </resultMap>
 
