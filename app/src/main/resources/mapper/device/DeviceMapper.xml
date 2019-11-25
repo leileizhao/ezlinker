@@ -18,7 +18,7 @@
         <result column="industry" property="industry" />
         <result column="sn" property="sn" />
         <result column="type" property="type" />
-        <result column="parameter" property="parameter" />
+        <result column="parameter" property="parameter" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="description" property="description" />
     </resultMap>
 

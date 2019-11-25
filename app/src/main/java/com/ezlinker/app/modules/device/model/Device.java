@@ -2,12 +2,16 @@ package com.ezlinker.app.modules.device.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ezlinker.common.model.XEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -20,7 +24,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("ez_device")
+@TableName(value = "ez_device",autoResultMap = true)
 public class Device extends XEntity {
 
     private static final long serialVersionUID=1L;
@@ -28,13 +32,13 @@ public class Device extends XEntity {
     /**
      * 项目
      */
-    @NotEmpty(message = "必须指定所属项目")
+    @NotNull(message = "必须指定所属项目")
     private Integer projectId;
 
     /**
      * 产品
      */
-    @NotEmpty(message = "必须指定所属产品")
+    @NotNull(message = "必须指定所属产品")
     private Integer productId;
 
     /**
@@ -82,7 +86,11 @@ public class Device extends XEntity {
     /**
      * 参数
      */
-    private String parameter;
+
+    @TableField(typeHandler = JacksonTypeHandler.class)
+
+    private List<HashMap<String, Object>> parameter;
+
 
     /**
      * 描述

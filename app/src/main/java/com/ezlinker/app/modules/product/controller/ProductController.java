@@ -95,16 +95,6 @@ public class ProductController extends SimpleXController {
         product.setParameter((form.getParameter()));
 
         boolean ok = iProductService.save(product);
-        if (ok) {
-            String[] tags = form.getTags();
-            for (String tag : tags) {
-                Tag t = new Tag();
-                t.setType(2);
-                t.setName(tag).setLinkId(product.getProjectId());
-                iTagService.save(t);
-            }
-
-        }
         return ok ? data(product) : fail();
 
     }
@@ -186,7 +176,6 @@ public class ProductController extends SimpleXController {
      * 查询
      *
      * @param projectId 所属项目ID
-     * @param tag       标签
      * @param name      名称
      * @param type      类型
      * @param current   页码
@@ -198,13 +187,11 @@ public class ProductController extends SimpleXController {
             @RequestParam Long projectId,
             @RequestParam Integer current,
             @RequestParam Integer size,
-            @RequestParam(required = false) String tag,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer type) {
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
 
         queryWrapper.eq("project_id", projectId);
-        queryWrapper.eq(tag != null, "tag", tag);
         queryWrapper.eq(type != null, "type", type);
         queryWrapper.like(name != null, "name", name);
 

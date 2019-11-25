@@ -8,5 +8,6 @@ import java.io.Serializable;
  * @author: wangwenhai
  * @create: 2019-11-21 11:20
  **/
+
 public class EMQWebHookMessage implements Serializable {
 }

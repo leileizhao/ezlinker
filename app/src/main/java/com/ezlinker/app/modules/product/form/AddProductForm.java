@@ -34,11 +34,6 @@ public class AddProductForm {
     private String logo;
 
     /**
-     * 标签
-     */
-    private String[] tags;
-
-    /**
      * 类型
      */
     @NotEmpty(message = "类型不能为空")

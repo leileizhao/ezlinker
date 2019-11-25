@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @TableName("ez_tag")
 public class Tag extends XEntity {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Tagname
@@ -31,11 +31,6 @@ public class Tag extends XEntity {
      * Tag 作用的对象ID
      */
     private Integer linkId;
-
-    /**
-     * 类型，1:内置的tag，2用户自定义Tag
-     */
-    private Integer type;
 
 
 }

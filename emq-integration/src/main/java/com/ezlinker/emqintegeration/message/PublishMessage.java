@@ -1,6 +1,7 @@
 package com.ezlinker.emqintegeration.message;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @program: ezlinker
@@ -9,6 +10,8 @@ import lombok.Data;
  * @create: 2019-11-21 11:12
  **/
 @Data
+@EqualsAndHashCode(callSuper = false)
+
 public class PublishMessage extends EMQWebHookMessage {
     private String action;
     private String from_client_id;

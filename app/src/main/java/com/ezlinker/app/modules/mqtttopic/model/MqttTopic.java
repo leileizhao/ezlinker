@@ -20,6 +20,13 @@ import lombok.experimental.Accessors;
 @TableName("ez_mqtt_topic")
 public class MqttTopic extends XEntity {
     /**
+     * 类型 1：S2C；2：C2S；3：STATUS；4：GROUP
+     */
+    public static final int S2C = 1;
+    public static final int C2S = 2;
+    public static final int STATUS = 3;
+
+    /**
      * 允许
      */
     private static final int ALLOW = 1;
@@ -69,5 +76,10 @@ public class MqttTopic extends XEntity {
      * 设备的ID
      */
     private Long deviceId;
+    /**
+     * 类型
+     * 类型 1：S2C；2：C2S；3：STATUS；4：GROUP
+     */
+    private Integer type;
 
 }
