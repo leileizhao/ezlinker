@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
-@RequestMapping("/management/user")
+@RequestMapping("/management/users")
 public class UserManagementController extends AbstractXController<User> {
 
     private final IUserService iUserService;
@@ -58,7 +58,7 @@ public class UserManagementController extends AbstractXController<User> {
      * @param size    条数
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping
     public R queryUserList(@RequestParam(value = "current", required = false, defaultValue = "1") Integer current,
                            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
 
@@ -73,12 +73,13 @@ public class UserManagementController extends AbstractXController<User> {
     /**
      * 获取用户详情
      *
-     * @param userId 用户ID
+     * @param id 用户ID
      * @return
      */
-    @GetMapping("/userInfo/{userId}")
-    public R getUserInfo(@PathVariable("userId") Long userId) {
-        return data(iUserService.getUserInfo(userId));
+    @Override
+    @GetMapping("/{id}")
+    public R get(@PathVariable Long id) {
+        return data(iUserService.getUserInfo(id));
     }
 
 
@@ -91,9 +92,9 @@ public class UserManagementController extends AbstractXController<User> {
      * @return
      * @throws XException
      */
-    @PutMapping("/{userId}/action")
+    @PutMapping("/{userId}/{action}")
     public R updateUserAccount(@PathVariable("userId") Long userId,
-                               @NotBlank(message = "操作方法不能为空") @RequestParam String action,
+                               @NotBlank(message = "操作方法不能为空") @PathVariable String action,
                                @NotBlank(message = "操作值不能为空") @RequestParam String value) throws XException {
         if (iUserService.getUserInfo(userId) == null) {
             throw new BadRequestException("User Not Exists", "用户不存在");
@@ -116,7 +117,6 @@ public class UserManagementController extends AbstractXController<User> {
         boolean result = iUserService.updateById(user);
         return result ? success() : fail();
     }
-
     /**
      * 添加用户账户
      *
@@ -124,8 +124,10 @@ public class UserManagementController extends AbstractXController<User> {
      * @return
      * @throws XException
      */
-    @PostMapping
-    public R addUserAccount(@Valid AddUserForm userForm) throws XException {
+
+
+    @Override
+    protected R add(User userForm) throws XException {
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>()
                 .eq(User.Fields.username, userForm.getUsername())
                 .or()
@@ -146,8 +148,11 @@ public class UserManagementController extends AbstractXController<User> {
         return result ? success() : fail();
     }
 
+
+
     /**
      * 发送邮件
+     *
      * @param sendEmailEntity 邮件内容
      * @return
      * @throws XException
@@ -157,7 +162,6 @@ public class UserManagementController extends AbstractXController<User> {
         aliyunEmailUtil.sendHtmlMail(sendEmailEntity.getAddress(), sendEmailEntity.getSubject(), sendEmailEntity.getContent());
         return success();
     }
-
 
 
     @Data
