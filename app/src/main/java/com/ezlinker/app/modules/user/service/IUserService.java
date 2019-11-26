@@ -6,6 +6,7 @@ import com.ezlinker.app.modules.user.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ezlinker.app.modules.user.model.UserInfoView;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -45,5 +46,5 @@ public interface IUserService extends IService<User> {
      * @param userId
      * @return
      */
-    UserInfoView getUserInfo(Long userId);
+    UserInfoView getUserInfo(@NotNull(message = "用户ID不能为空") Long userId);
 }

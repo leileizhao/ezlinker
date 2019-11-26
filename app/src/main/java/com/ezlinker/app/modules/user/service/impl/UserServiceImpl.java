@@ -9,8 +9,10 @@ import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.model.UserInfoView;
 import com.ezlinker.app.modules.user.service.IUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import java.util.List;
  * @author wangwenhai
  * @since 2019-11-11
  */
+@Validated
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
@@ -55,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public UserInfoView getUserInfo(Long userId) {
+    public UserInfoView getUserInfo(@NotNull(message = "用户ID不能为空") Long userId) {
         return userMapper.getUserInfo(userId);
     }
 }
