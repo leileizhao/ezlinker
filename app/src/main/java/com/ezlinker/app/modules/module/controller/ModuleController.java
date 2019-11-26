@@ -10,6 +10,7 @@ import com.ezlinker.app.modules.module.model.Module;
 import com.ezlinker.app.modules.module.service.IModuleService;
 import com.ezlinker.app.utils.ComponentTokenUtil;
 import com.ezlinker.app.utils.IDKeyUtil;
+import com.ezlinker.common.exception.BadRequestException;
 import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -111,7 +113,7 @@ public class ModuleController extends AbstractXController<Module> {
      * @throws XException
      */
     @Override
-    protected R add(@RequestBody Module module) throws XException {
+    protected R add(@RequestBody @Valid Module module) throws XException {
 
         if (module.getDataArea() != null) {
             int length = module.getDataArea().size();
@@ -121,13 +123,13 @@ public class ModuleController extends AbstractXController<Module> {
                 if (area.containsKey("field") && area.containsKey("label")) {
                     require++;
                 } else {
-                    throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
+                    throw new BadRequestException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
                 }
             }
             if (length == require) {
                 module.setDataArea(module.getDataArea());
             } else {
-                throw new BizException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
+                throw new BadRequestException("DataAreas `field` and `label` fields required", "数据域 `name` and `label`字段必传");
             }
 
         }
@@ -139,9 +141,12 @@ public class ModuleController extends AbstractXController<Module> {
         // 生成给Token，格式：clientId::[field1,field2,field3······]
         // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
         List<String> fields = new ArrayList<>();
-        for (Object o : module.getDataArea()) {
-            HashMap field = (HashMap) o;
-            fields.add(field.get("field").toString());
+        if (module.getDataArea()!=null){
+            for (Object o : module.getDataArea()) {
+                HashMap field = (HashMap) o;
+                fields.add(field.get("field").toString());
+            }
+
         }
 
         String token = ComponentTokenUtil.token(clientId + "::" + fields.toString());

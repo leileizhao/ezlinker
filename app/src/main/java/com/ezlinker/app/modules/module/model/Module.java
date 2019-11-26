@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class Module extends XEntity {
     /**
      * 产品ID
      */
-    @NotEmpty(message = "产品不可为空")
+    @NotNull(message = "产品不可为空")
     private Long productId;
 
     /**
      * 类型
      */
-    @NotEmpty(message = "类型不可为空")
+    @NotNull(message = "类型不可为空")
 
     private Integer type;
 
@@ -60,7 +61,7 @@ public class Module extends XEntity {
     /**
      * 协议
      */
-    @NotEmpty(message = "协议不可为空")
+    @NotNull(message = "协议不可为空")
 
     private Long protocol;
 
