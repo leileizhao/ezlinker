@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @create 2019-11-20 22:49
  **/
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "资源不存在")
-
 public class NotFoundException extends XException {
     public NotFoundException() {
         this.setCode(404);

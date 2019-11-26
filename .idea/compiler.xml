@@ -13,7 +13,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="app" target="1.8" />
+      <module name="common" target="1.8" />
+      <module name="emq-integration" target="11" />
       <module name="emqintergration" target="1.5" />
+      <module name="ezlinker" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
