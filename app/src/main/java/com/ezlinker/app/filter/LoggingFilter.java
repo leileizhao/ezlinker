@@ -74,9 +74,10 @@ public class LoggingFilter implements Filter {
                 }
             }
             if (line != null) {
-                map.put("Context", new String[]{line});
+                map.put("Body:", JSONObject.parseObject(line));
             }
-            logger.info("HTTP请求:\n" + JSONObject.toJSONString(map, SerializerFeature.PrettyFormat));
+            logger.info("Debug 来自 HTTP请求:\n--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"
+                    + JSONObject.toJSONString(map, SerializerFeature.PrettyFormat));
             chain.doFilter(requestWrapper, response);
         } catch (IOException ex) {
             ex.printStackTrace();
