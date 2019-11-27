@@ -32,7 +32,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         /**
          * 开发阶段全部放行
          */
-        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/entry/login", "/test/**", "/captcha", "/data/in");
+        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/entry/login", "/test/**", "/captcha", "/data/**");
 
     }
 

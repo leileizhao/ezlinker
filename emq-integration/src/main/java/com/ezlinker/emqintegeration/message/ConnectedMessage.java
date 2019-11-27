@@ -14,13 +14,30 @@ import lombok.EqualsAndHashCode;
 
 public class ConnectedMessage extends EMQWebHookMessage{
 
+    /**
+     * 触发的动作
+     */
     private String action;
-    private String client_id;
+    /**
+     * 客户端ID
+     */
+    private String clientid;
+    /**
+     * MQTT Username
+     */
     private String username;
-    private int keepalive;
-    private String ipaddress;
-    private int proto_ver;
-    private long connected_at;
-    private int conn_ack;
+    /**
+     * IP地址
+     */
+    private String ip;
 
+    @Override
+    public String toString() {
+        return "ConnectedMessage{" +
+                "action='" + action + '\'' +
+                ", clientId='" + clientid + '\'' +
+                ", username='" + username + '\'' +
+                ", ip='" + ip + '\'' +
+                '}';
+    }
 }

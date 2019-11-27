@@ -13,8 +13,35 @@ import lombok.EqualsAndHashCode;
 @Data
 public class DisconnectedMessage extends EMQWebHookMessage{
 
+    /**
+     * 触发的动作
+     */
     private String action;
-    private String client_id;
+    /**
+     * 客户端ID
+     */
+    private String clientId;
+    /**
+     * MQTT Username
+     */
     private String username;
+    /**
+     * 离线原因
+     */
     private String reason;
+    /**
+     * IP地址
+     */
+    private String ip;
+
+    @Override
+    public String toString() {
+        return "DisconnectedMessage{" +
+                "action='" + action + '\'' +
+                ", clientId='" + clientId + '\'' +
+                ", username='" + username + '\'' +
+                ", reason='" + reason + '\'' +
+                ", ip='" + ip + '\'' +
+                '}';
+    }
 }

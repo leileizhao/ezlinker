@@ -14,11 +14,25 @@ import lombok.EqualsAndHashCode;
 
 public class PublishMessage extends EMQWebHookMessage {
     private String action;
-    private String from_client_id;
-    private String from_username;
+    private String clientid;
+    private String username;
     private String topic;
     private int qos;
     private boolean retain;
     private String payload;
-    private long ts;
+    private long timestamp;
+
+    @Override
+    public String toString() {
+        return "PublishMessage{" +
+                "action='" + action + '\'' +
+                ", clientid='" + clientid + '\'' +
+                ", username='" + username + '\'' +
+                ", topic='" + topic + '\'' +
+                ", qos=" + qos +
+                ", retain=" + retain +
+                ", payload='" + payload + '\'' +
+                ", timeStrap=" + timestamp +
+                '}';
+    }
 }
