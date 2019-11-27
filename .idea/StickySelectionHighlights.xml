@@ -8,6 +8,11 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/pom.xml">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/common/AbstractXController.java">
           <value>
             <PaintGroupHighlightMap />
@@ -29,6 +34,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/InterceptorConfig.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/config/WebSocketConfig.java">
           <value>
             <PaintGroupHighlightMap />
           </value>
@@ -138,6 +148,21 @@
             <PaintGroupHighlightMap />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/websocket/controller/WebSocketController.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/websocket/model/ClientMessage.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/modules/websocket/model/ServerMessage.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/utils/CodeGenerator.java">
           <value>
             <PaintGroupHighlightMap />
@@ -149,6 +174,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ezlinker/app/utils/UserTokenUtil.java">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/resources/mapper/module/ModuleMapper.xml">
           <value>
             <PaintGroupHighlightMap />
           </value>

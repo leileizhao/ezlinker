@@ -227,7 +227,6 @@ public class ModuleController extends AbstractXController<Module> {
      * @param name
      * @param protocol
      * @param model
-     * @param tag
      * @param sn
      * @return
      */
@@ -240,14 +239,12 @@ public class ModuleController extends AbstractXController<Module> {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer protocol,
             @RequestParam(required = false) String model,
-            @RequestParam(required = false) String tag,
             @RequestParam(required = false) String sn) {
         QueryWrapper<Module> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_id", productId)
                 .eq(type != null, Module.Fields.type, type)
                 .eq(protocol != null, Module.Fields.protocol, protocol)
                 .eq(model != null, Module.Fields.model, model)
-                .eq(tag != null, Module.Fields.tag, tag)
                 .eq(sn != null, Module.Fields.sn, sn)
                 .like(name != null, Module.Fields.name, name);
 

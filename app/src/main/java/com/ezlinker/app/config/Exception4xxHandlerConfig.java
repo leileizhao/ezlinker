@@ -51,6 +51,7 @@ public class Exception4xxHandlerConfig {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R methodNotAllowed(HttpRequestMethodNotSupportedException e) {
+        e.printStackTrace();
         return new R(405, "Method:" + e.getMethod() + " Not Allowed", "HTTP请求方法:" + e.getMethod() + " 不支持", null);
     }
 

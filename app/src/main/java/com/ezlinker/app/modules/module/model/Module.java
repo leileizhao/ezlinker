@@ -71,10 +71,6 @@ public class Module extends XEntity {
 
     private String model;
 
-    /**
-     * 标签
-     */
-    private String tag;
 
     /**
      * 序列号

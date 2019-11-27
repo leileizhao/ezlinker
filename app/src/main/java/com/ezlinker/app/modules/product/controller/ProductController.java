@@ -106,7 +106,7 @@ public class ProductController extends SimpleXController {
      * @return
      */
 
-    @DeleteMapping
+    @DeleteMapping("/{ids}")
     public R delete(@PathVariable Integer[] ids) {
         boolean ok = iProductService.removeByIds(Arrays.asList(ids));
         return ok ? success() : fail();
@@ -119,7 +119,7 @@ public class ProductController extends SimpleXController {
      * @return
      * @throws XException
      */
-    @PutMapping
+    @PutMapping("/{id}")
     public R update(@PathVariable Long id, @RequestBody @Valid UpdateProductForm form) throws XException {
 
 
