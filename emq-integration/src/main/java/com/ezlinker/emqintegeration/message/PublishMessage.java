@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 
 public class PublishMessage extends EMQWebHookMessage {
+    private String messageid;
     private String action;
     private String clientid;
     private String username;
@@ -25,14 +26,15 @@ public class PublishMessage extends EMQWebHookMessage {
     @Override
     public String toString() {
         return "PublishMessage{" +
-                "action='" + action + '\'' +
+                "messageid='" + messageid + '\'' +
+                ", action='" + action + '\'' +
                 ", clientid='" + clientid + '\'' +
                 ", username='" + username + '\'' +
                 ", topic='" + topic + '\'' +
                 ", qos=" + qos +
                 ", retain=" + retain +
                 ", payload='" + payload + '\'' +
-                ", timeStrap=" + timestamp +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

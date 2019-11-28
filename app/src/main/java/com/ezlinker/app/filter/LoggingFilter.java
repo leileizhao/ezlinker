@@ -29,6 +29,7 @@ public class LoggingFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         javax.servlet.http.HttpServletRequest req = (javax.servlet.http.HttpServletRequest) request;
         Map<String, Object> map = new HashMap<>();
+
         HttpServletRequest requestWrapper = new RepeatedlyReadRequestWrapper(req);
 
         try {

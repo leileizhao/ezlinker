@@ -41,8 +41,6 @@ public class ProductController extends SimpleXController {
 
     @Resource
     IProductService iProductService;
-    @Resource
-    ITagService iTagService;
 
     public ProductController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);

@@ -10,6 +10,8 @@ import cn.hutool.json.JSONUtil;
  * @create: 2019-11-21 14:52
  **/
 public class EMQMonitor {
+    private static final String APPID = "";
+    private static final String SECRET = "";
     private static final String HTTP_URL = "http://127.0.0.1:8080/api/v3/";
 
     /**
