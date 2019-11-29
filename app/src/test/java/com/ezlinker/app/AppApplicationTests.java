@@ -6,6 +6,7 @@ import com.ezlinker.app.modules.user.model.User;
 import com.ezlinker.app.modules.user.service.IUserService;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.utils.AliyunEmailUtil;
+import com.ezlinker.emqintegeration.monitor.EMQMonitor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,5 +50,12 @@ class AppApplicationTests {
                 .setUserType(1)
                 .setUserProfileId(0L);
         iUserService.save(user);
+    }
+
+    @Test
+    void getConnections(){
+        EMQMonitor emqMonitor = new EMQMonitor("dec4f6b4added", "MjkwNTQyMTc3NjUyNjk5NDQzMjkzNTU3NzcxMzI1OTMxNTC", "http://112.74.44.130:8080/api/v3");
+        String connections = emqMonitor.getClusterConnections(1, 10);
+        System.out.println(connections);
     }
 }
