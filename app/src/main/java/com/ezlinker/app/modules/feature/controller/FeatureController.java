@@ -1,6 +1,7 @@
 package com.ezlinker.app.modules.feature.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
@@ -12,6 +13,7 @@ import com.ezlinker.common.exception.BadRequestException;
 import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,6 +40,7 @@ public class FeatureController extends AbstractXController<Feature> {
 
     @Resource
     IFeatureModuleService iFeatureModuleService;
+
     public FeatureController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
@@ -99,6 +102,7 @@ public class FeatureController extends AbstractXController<Feature> {
      * @throws XException
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     protected R add(@RequestBody @Valid Feature feature) throws XException {
         if (feature.getName() == null) {
             throw new BadRequestException("Must specify a name", "必须指定名称");
@@ -125,9 +129,15 @@ public class FeatureController extends AbstractXController<Feature> {
 
         if (feature.getModuleId() != null) {
 
-            FeatureModule featureModule=new FeatureModule();
+            FeatureModule featureModule = new FeatureModule();
             featureModule.setFeatureId(feature.getId()).setModuleId(feature.getModuleId());
             iFeatureModuleService.save(featureModule);
+
+        }
+        try {
+            JSONObject.parse(feature.getCmdValue());
+        } catch (Exception e) {
+            throw new BadRequestException("CmdValue must be json format", "命令内容必须为JSON格式");
 
         }
 
