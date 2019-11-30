@@ -3,6 +3,7 @@ package com.ezlinker.app.modules.module.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.ezlinker.app.modules.feature.model.Feature;
 import com.ezlinker.common.model.XEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * <p>
  * 设备上面的模块，和设备是多对一关系
+ * 目前此表记录了多种协议的设备数据
  * </p>
  *
  * @author wangwenhai
@@ -28,7 +30,7 @@ import java.util.List;
 @Accessors(chain = true)
 @FieldNameConstants
 
-@TableName(value = "ez_module",autoResultMap = true)
+@TableName(value = "ez_module", autoResultMap = true)
 public class Module extends XEntity {
 
     private static final long serialVersionUID = 1L;
@@ -46,10 +48,6 @@ public class Module extends XEntity {
 
     private Integer type;
 
-    /**
-     * 状态
-     */
-    private Integer state;
 
     /**
      * 名称
@@ -107,4 +105,9 @@ public class Module extends XEntity {
     @JsonIgnore
     private String password;
 
+    /**
+     * 辅助字段，用来展示该模块支持的功能列表
+     */
+    @TableField(exist = false)
+    private List<Feature> featureList;
 }

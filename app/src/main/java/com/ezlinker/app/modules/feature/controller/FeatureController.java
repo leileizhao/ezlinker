@@ -2,14 +2,19 @@ package com.ezlinker.app.modules.feature.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ezlinker.app.common.AbstractXController;
 import com.ezlinker.app.modules.feature.model.Feature;
 import com.ezlinker.app.modules.feature.service.IFeatureService;
+import com.ezlinker.app.modules.relation.model.FeatureModule;
+import com.ezlinker.app.modules.relation.service.IFeatureModuleService;
+import com.ezlinker.common.exception.BadRequestException;
+import com.ezlinker.common.exception.BizException;
 import com.ezlinker.common.exception.XException;
 import com.ezlinker.common.exchange.R;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -28,27 +33,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/features")
 public class FeatureController extends AbstractXController<Feature> {
-    @Autowired
+    @Resource
     IFeatureService iFeatureService;
 
+    @Resource
+    IFeatureModuleService iFeatureModuleService;
     public FeatureController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
 
     /**
      * 获取当前支持的功能的类型，目前暂时支持2种
+     *
      * @return
      */
     @GetMapping("/types")
     public R getType() {
         HashMap<String, Object> data1 = new HashMap<>();
         data1.put("name", "switch");
-        data1.put("label","开关");
+        data1.put("label", "开关");
         data1.put("value", "1");
 
         HashMap<String, Object> data2 = new HashMap<>();
         data2.put("name", "button");
-        data2.put("label","按钮");
+        data2.put("label", "按钮");
         data2.put("value", "2");
 
         List<HashMap<String, Object>> list = new ArrayList<>();
@@ -73,12 +81,14 @@ public class FeatureController extends AbstractXController<Feature> {
      * @return
      */
     @GetMapping
-    public R getByProduct(@RequestParam Long productId) {
+    public R getByProduct(@RequestParam Long productId,
+                          @RequestParam Integer current,
+                          @RequestParam Integer size) {
 
         QueryWrapper<Feature> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_id", productId).orderByDesc("create_time");
 
-        return data(iFeatureService.list(queryWrapper));
+        return data(iFeatureService.page(new Page<>(current, size), queryWrapper));
     }
 
     /**
@@ -91,29 +101,35 @@ public class FeatureController extends AbstractXController<Feature> {
     @Override
     protected R add(@RequestBody @Valid Feature feature) throws XException {
         if (feature.getName() == null) {
-            throw new XException("Must specify a name", "必须指定名称");
+            throw new BadRequestException("Must specify a name", "必须指定名称");
 
         }
         if (feature.getLabel() == null) {
-            throw new XException("Must specify a label", "必须指定标签");
+            throw new BadRequestException("Must specify a label", "必须指定标签");
 
         }
 
 
         if (feature.getProductId() == null) {
-            throw new XException("Must specify a product", "必须指定产品");
+            throw new BadRequestException("Must specify a product", "必须指定产品");
 
         }
         if (feature.getCmdKey() == null) {
-            throw new XException("Must specify a key", "必须指定命令Key");
+            throw new BadRequestException("Must specify a key", "必须指定命令Key");
 
         }
-        if (feature.getCmdValueMap() == null) {
-            throw new XException("Must specify cmd payload", "必须指定命令内容");
+        if (feature.getCmdValue() == null) {
+            throw new BadRequestException("Must specify cmdValue", "必须指定命令内容");
 
         }
 
-        feature.setCmdValue(feature.getCmdValueMap().toJSONString());
+        if (feature.getModuleId() != null) {
+
+            FeatureModule featureModule=new FeatureModule();
+            featureModule.setFeatureId(feature.getId()).setModuleId(feature.getModuleId());
+            iFeatureModuleService.save(featureModule);
+
+        }
 
         boolean ok = iFeatureService.save(feature);
         return ok ? data(feature) : fail();
@@ -131,7 +147,7 @@ public class FeatureController extends AbstractXController<Feature> {
     protected R update(@PathVariable Long id, @RequestBody @Valid Feature form) throws XException {
         Feature feature = iFeatureService.getById(id);
         if (feature == null) {
-            throw new XException("Feature not exists!", "功能不存在");
+            throw new BizException("Feature not exists!", "功能不存在");
         }
 
         if (form.getName() != null) {
@@ -144,9 +160,6 @@ public class FeatureController extends AbstractXController<Feature> {
 
         if (form.getCmdKey() != null) {
             feature.setCmdKey(feature.getCmdKey());
-        }
-        if (form.getCmdValueMap() != null) {
-            feature.setCmdValue(form.getCmdValueMap().toJSONString());
         }
         boolean ok = iFeatureService.save(feature);
         return ok ? data(feature) : fail();
