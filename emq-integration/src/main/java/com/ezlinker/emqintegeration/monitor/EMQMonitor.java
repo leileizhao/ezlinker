@@ -2,18 +2,11 @@ package com.ezlinker.emqintegeration.monitor;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpStatus;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NonNull;
 
 import java.io.Serializable;
-import java.sql.Struct;
-import java.util.HashMap;
 
 /**
  * @program: ezlinker
@@ -27,7 +20,7 @@ public class EMQMonitor {
     private String hostUrl = "http://127.0.0.1:8080/api/v3";
 
     /**
-     * @param appId appId
+     * @param appId     appId
      * @param appSecret appSecret
      */
     public EMQMonitor(String appId, String appSecret) {
@@ -36,9 +29,9 @@ public class EMQMonitor {
     }
 
     /**
-     * @param appId appId
+     * @param appId     appId
      * @param appSecret appSecret
-     * @param hostUrl URL地址
+     * @param hostUrl   URL地址
      */
     public EMQMonitor(String appId, String appSecret, String hostUrl) {
         this.appId = appId;
@@ -49,7 +42,7 @@ public class EMQMonitor {
     /**
      * 获取集群连接信息
      *
-     * @param page 页码
+     * @param page  页码
      * @param limit 条数
      * @return
      */
@@ -64,8 +57,8 @@ public class EMQMonitor {
     /**
      * 获取节点连接信息
      *
-     * @param node 节点名称
-     * @param page 页码
+     * @param node  节点名称
+     * @param page  页码
      * @param limit 条数
      * @return
      */
@@ -111,7 +104,7 @@ public class EMQMonitor {
      * @param clientId 客户端ID
      * @return
      */
-    public String deleteConnections(String clientId){
+    public String deleteConnections(String clientId) {
         String body = HttpRequest.delete(StrUtil.format("{}{}{}", hostUrl, EmqUrl.CONNECTIONS, clientId))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -178,7 +171,7 @@ public class EMQMonitor {
      *
      * @return
      */
-    public String getClusterAlarmsPresent(){
+    public String getClusterAlarmsPresent() {
         String body = HttpRequest.get(StrUtil.format("{}{}", hostUrl, EmqUrl.ALARMS_PRESENT))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -192,7 +185,7 @@ public class EMQMonitor {
      * @param node 节点名称
      * @return
      */
-    public String getNodeAlarmsPresent(String node){
+    public String getNodeAlarmsPresent(String node) {
         String body = HttpRequest.get(StrUtil.format("{}{}/{}", hostUrl, EmqUrl.ALARMS_PRESENT, node))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -205,7 +198,7 @@ public class EMQMonitor {
      *
      * @return
      */
-    public String getClusterAlarmsHistory(){
+    public String getClusterAlarmsHistory() {
         String body = HttpRequest.get(StrUtil.format("{}{}", hostUrl, EmqUrl.ALARMS_HISTORY))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -219,7 +212,7 @@ public class EMQMonitor {
      * @param node 节点名称
      * @return
      */
-    public String getNodeAlarmsHistory(String node){
+    public String getNodeAlarmsHistory(String node) {
         String body = HttpRequest.get(StrUtil.format("{}{}/{}", hostUrl, EmqUrl.ALARMS_HISTORY, node))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -232,7 +225,7 @@ public class EMQMonitor {
      *
      * @return
      */
-    public String getBanned(){
+    public String getBanned() {
         String body = HttpRequest.get(StrUtil.format("{}{}", hostUrl, EmqUrl.BANNED))
                 .basicAuth(appId, appSecret)
                 .execute()
@@ -246,7 +239,7 @@ public class EMQMonitor {
      * @param banned 创建参数，参见官方文档 {@see <a href="https://docs.emqx.io/broker/v3/cn/rest.html#id45">EMQX</a>}
      * @return
      */
-    public String createBanned(@NonNull Banned banned){
+    public String createBanned(@NonNull Banned banned) {
         String body = HttpRequest.post(StrUtil.format("{}{}", hostUrl, EmqUrl.BANNED))
                 .basicAuth(appId, appSecret)
                 .body(JSONUtil.toJsonStr(banned))
@@ -259,10 +252,10 @@ public class EMQMonitor {
      * 删除指定黑名单 参见官方文档 {@see <a href="https://docs.emqx.io/broker/v3/cn/rest.html#id46">EMQX</a>}
      *
      * @param who 黑名单
-     * @param as clientId
+     * @param as  clientId
      * @return
      */
-    public String deleteBanned(String who, String as){
+    public String deleteBanned(String who, String as) {
         String body = HttpRequest.delete(StrUtil.format("{}{}{}?as={}", hostUrl, EmqUrl.BANNED, who, as))
                 .basicAuth(appId, appSecret)
                 .execute().body();
@@ -298,7 +291,7 @@ public class EMQMonitor {
     }
 
     @Data
-    public class Banned implements Serializable {
+    private static class Banned implements Serializable {
         private static final long serialVersionUID = 7413237308400543305L;
         private String who;
         private String as;

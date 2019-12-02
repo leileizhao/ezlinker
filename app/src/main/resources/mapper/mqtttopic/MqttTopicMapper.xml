@@ -4,25 +4,32 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ezlinker.app.modules.mqtttopic.model.MqttTopic">
-    <result column="id" property="id" />
-    <result column="record_version" property="recordVersion" />
-    <result column="x" property="x" />
-    <result column="create_time" property="createTime" />
-        <result column="allow" property="allow" />
-        <result column="ip" property="ip" />
-        <result column="username" property="username" />
-        <result column="client_id" property="clientId" />
-        <result column="access" property="access" />
-        <result column="topic" property="topic" />
+        <result column="id" property="id"/>
+        <result column="record_version" property="recordVersion"/>
+        <result column="x" property="x"/>
+        <result column="create_time" property="createTime"/>
+        <result column="allow" property="allow"/>
+        <result column="ip" property="ip"/>
+        <result column="username" property="username"/>
+        <result column="client_id" property="clientId"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="access" property="access"/>
+        <result column="topic" property="topic"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        record_version,
-        x,
-        create_time,
-        allow, ip, username, client_id, access, topic
+id,
+record_version,
+x,
+create_time,
+allow,
+ip,
+username,
+client_id,
+device_id,
+access,
+topic
     </sql>
 
 </mapper>

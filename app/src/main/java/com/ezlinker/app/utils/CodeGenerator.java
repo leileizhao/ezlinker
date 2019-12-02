@@ -54,12 +54,13 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/" + PROJECT + "/src/main/java");
-        gc.setFileOverride(false);
+        gc.setFileOverride(true);
         gc.setEnableCache(false);
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(true);
         gc.setAuthor(AUTHOR);
         gc.setOpen(false);
+
         mpg.setGlobalConfig(gc);
         // 数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
@@ -112,9 +113,13 @@ public class CodeGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass(XEntity.class);
         strategy.setSuperEntityColumns("id", "x", "create_time", "record_version");
-
+        //支持View
+        strategy.setSkipView(false);
+        //支持Lombok
         strategy.setEntityLombokModel(true);
+        //支持链式属性
         strategy.setEntityBuilderModel(true);
+
         strategy.setEntityColumnConstant(true);
         strategy.setSuperControllerClass("com.ezlinker.app.common.AbstractXController");
         strategy.setInclude(scanner("请输入表名"));

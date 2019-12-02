@@ -1,16 +1,11 @@
 package com.ezlinker.app.modules.feature.model;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.common.model.XEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -23,12 +18,12 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("ez_feature")
+@TableName(value = "ez_feature", autoResultMap = true)
 public class Feature extends XEntity {
 
     private static final long serialVersionUID = 1L;
     /**
-     *  名称
+     * 名称
      */
     private String name;
 
@@ -57,12 +52,7 @@ public class Feature extends XEntity {
      */
     private String cmdValue = "cmdValue";
 
-    /**
-     * 辅助
-     */
     @TableField(exist = false)
-    @JsonIgnoreProperties
-    private JSONObject cmdValueMap;
-
+    private Long moduleId;
 
 }

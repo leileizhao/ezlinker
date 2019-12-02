@@ -13,7 +13,7 @@
         <result column="type" property="type" />
         <result column="product_id" property="productId" />
         <result column="cmd_key" property="cmdKey" />
-        <result column="cmd_value" property="cmdValue" />
+        <result column="cmd_value" property="cmdValue" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

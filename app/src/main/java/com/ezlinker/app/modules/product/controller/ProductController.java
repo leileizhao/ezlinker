@@ -163,11 +163,12 @@ public class ProductController extends SimpleXController {
 
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) throws XException {
-        Product project = iProductService.getById(id);
-        if (project == null) {
+        Product product = iProductService.getById(id);
+        if (product == null) {
             throw new BizException("Product not exists!", "产品不存在");
         }
-        return data(project);
+
+        return data(product);
     }
 
     /**

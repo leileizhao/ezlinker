@@ -141,7 +141,7 @@ public class ModuleController extends AbstractXController<Module> {
         // 生成给Token，格式：clientId::[field1,field2,field3······]
         // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
         List<String> fields = new ArrayList<>();
-        if (module.getDataArea()!=null){
+        if (module.getDataArea() != null) {
             for (Object o : module.getDataArea()) {
                 HashMap field = (HashMap) o;
                 fields.add(field.get("field").toString());
@@ -157,14 +157,20 @@ public class ModuleController extends AbstractXController<Module> {
                 .setPassword(password)
                 .setToken(token);
         boolean ok = iModuleService.save(module);
-
+        module.setFeatureList(iModuleService.getFeatureList(module.getId()));
         return ok ? data(module) : fail();
-
 
 
     }
 
-
+    /**
+     * 更新
+     *
+     * @param id
+     * @param form
+     * @return
+     * @throws XException
+     */
     @Override
     protected R update(@PathVariable Long id, @RequestBody Module form) throws XException {
         Module module = iModuleService.getById(id);
@@ -176,10 +182,7 @@ public class ModuleController extends AbstractXController<Module> {
             module.setType(form.getType());
 
         }
-        if (!StringUtils.isEmpty(form.getState())) {
-            module.setState(form.getState());
 
-        }
         if (!StringUtils.isEmpty(form.getName())) {
             module.setName(form.getName());
 
@@ -201,6 +204,7 @@ public class ModuleController extends AbstractXController<Module> {
         }
         boolean ok = iModuleService.updateById(module);
 
+        module.setFeatureList(iModuleService.getFeatureList(module.getId()));
         return ok ? data(module) : fail();
     }
 
@@ -250,7 +254,29 @@ public class ModuleController extends AbstractXController<Module> {
 
         queryWrapper.orderByDesc("create_time");
         IPage<Module> iPage = iModuleService.page(new Page<>(current, size), queryWrapper);
+        for (Module module : iPage.getRecords()) {
+            module.setFeatureList(iModuleService.getFeatureList(module.getId()));
+        }
+
         return data(iPage);
+    }
+
+    /**
+     * 获取详情
+     *
+     * @param id
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R get(@PathVariable Long id) throws XException {
+        Module module = iModuleService.getById(id);
+        if (module == null) {
+            throw new BizException("Component not exists", "模块不存在");
+
+        }
+        module.setFeatureList(iModuleService.getFeatureList(module.getId()));
+        return data(module);
     }
 }
 

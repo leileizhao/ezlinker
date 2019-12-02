@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ezlinker.app.modules.module.mapper.ComponentMapper">
+<mapper namespace="com.ezlinker.app.modules.module.mapper.ModuleMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ezlinker.app.modules.module.model.Module">
-    <result column="id" property="id" />
-    <result column="record_version" property="recordVersion" />
-    <result column="x" property="x" />
-    <result column="create_time" property="createTime" />
-        <result column="product_id" property="productId" />
-        <result column="type" property="type" />
-        <result column="state" property="state" />
-        <result column="name" property="name" />
-        <result column="protocol" property="protocol" />
-        <result column="model" property="model" />
-        <result column="sn" property="sn" />
-        <result column="token" property="token" />
-        <result column="is_superuser" property="isSuperuser" />
-        <result column="data_area" property="dataArea" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result column="description" property="description" />
+        <result column="id" property="id"/>
+        <result column="record_version" property="recordVersion"/>
+        <result column="x" property="x"/>
+        <result column="create_time" property="createTime"/>
+        <result column="product_id" property="productId"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="protocol" property="protocol"/>
+        <result column="model" property="model"/>
+        <result column="sn" property="sn"/>
+        <result column="token" property="token"/>
+        <result column="is_superuser" property="isSuperuser"/>
+        <result column="data_area" property="dataArea"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result column="description" property="description"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -27,7 +28,19 @@
         record_version,
         x,
         create_time,
-        product_id, type, state, name, protocol, model, sn, token, is_superuser, data_area, description
+        product_id, type, name, protocol, model, sn, token, is_superuser, data_area, description
     </sql>
+
+
+    <select id="getFeatureList" resultType="com.ezlinker.app.modules.feature.model.Feature">
+
+SELECT
+*
+FROM
+	( SELECT F.*, M_F.module_id, M_F.feature_id FROM `ez_feature` F LEFT JOIN ez_feature_module M_F ON ( F.id = M_F.feature_id ) )
+FS
+WHERE
+	FS.module_id = #{moduleId};
+    </select>
 
 </mapper>
