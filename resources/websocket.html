@@ -25,9 +25,9 @@
 <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
-    var stompClient = null;
+    let stompClient = null;
     //gateway网关的地址
-    var host="http://localhost:2500";
+    let host="http://localhost:2500/ezlinker";
     function setConnected(connected) {
         document.getElementById('connect').disabled = connected;
         document.getElementById('disconnect').disabled = !connected;
@@ -37,7 +37,7 @@
     // SendUser ***********************************************
     function connect() {
         //地址+端点路径，构建websocket链接地址,注意，对应config配置里的addEndpoint
-        var socket = new SockJS(host+'/stomp' + '?token=4567');
+        let socket = new SockJS(host+'/stomp' + '?token=4567');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             setConnected(true);
@@ -51,7 +51,7 @@
     /*
     function connect() {
         //地址+端点路径，构建websocket链接地址,注意，对应config配置里的addEndpoint
-        var socket = new SockJS(host+'/myUrl');
+        let socket = new SockJS(host+'/myUrl');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             setConnected(true);
@@ -70,8 +70,8 @@
         console.log("Disconnected");
     }
     function send() {
-        var name = $('#name').val();
-        var message = $('#messgae').val();
+        let name = $('#name').val();
+        let message = $('#messgae').val();
         /*//发送消息的路径,由客户端发送消息到服务端
         stompClient.send("/sendServer", {}, message);
         */
@@ -84,7 +84,7 @@
         stompClient.send("/sendMyUser", {}, JSON.stringify({name:name,message:message}));
     }
     function showResponse(message) {
-        var response = $('#response');
+        let response = $('#response');
         response.html(message);
     }
 </script>

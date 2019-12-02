@@ -6,10 +6,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 /**
  * @author wangwenhai
  */
+
+@EnableWebSocketMessageBroker
+@EnableWebSocket
 @MapperScan(basePackages = "com.ezlinker.app.modules.*.mapper")
 @ComponentScan(basePackages = {"com.ezlinker.*"})
 @SpringBootApplication
