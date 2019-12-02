@@ -49,7 +49,9 @@ public class MqttTopicController extends AbstractXController<MqttTopic> {
     @GetMapping
     public R queryForList(@RequestParam String clientId) {
 
-        List<MqttTopic> list = iMqttTopicService.list(new QueryWrapper<MqttTopic>().eq("client_id", clientId).orderByDesc("create_time"));
+        List<MqttTopic> list = iMqttTopicService.list(new QueryWrapper<MqttTopic>()
+                .eq("client_id", clientId)
+                .orderByDesc("create_time"));
         return data(list);
     }
 }

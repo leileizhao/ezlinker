@@ -11,6 +11,7 @@
         <result column="product_id" property="productId"/>
         <result column="type" property="type"/>
         <result column="name" property="name"/>
+        <result column="status" property="status"/>
         <result column="protocol" property="protocol"/>
         <result column="model" property="model"/>
         <result column="sn" property="sn"/>

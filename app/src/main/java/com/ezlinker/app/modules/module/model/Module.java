@@ -102,6 +102,7 @@ public class Module extends XEntity {
      */
     private String clientId;
     private String username;
+    private Integer status;
     @JsonIgnore
     private String password;
 
