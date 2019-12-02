@@ -163,7 +163,14 @@ public class ModuleController extends AbstractXController<Module> {
 
     }
 
-
+    /**
+     * 更新
+     *
+     * @param id
+     * @param form
+     * @return
+     * @throws XException
+     */
     @Override
     protected R update(@PathVariable Long id, @RequestBody Module form) throws XException {
         Module module = iModuleService.getById(id);
@@ -252,6 +259,24 @@ public class ModuleController extends AbstractXController<Module> {
         }
 
         return data(iPage);
+    }
+
+    /**
+     * 获取详情
+     *
+     * @param id
+     * @return
+     * @throws XException
+     */
+    @Override
+    protected R get(@PathVariable Long id) throws XException {
+        Module module = iModuleService.getById(id);
+        if (module == null) {
+            throw new BizException("Component not exists", "模块不存在");
+
+        }
+        module.setFeatureList(iModuleService.getFeatureList(module.getId()));
+        return data(module);
     }
 }
 
