@@ -1,10 +1,14 @@
 package com.ezlinker.app.config;
 
+import com.ezlinker.app.handler.PrincipalHandshakeHandler;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+import javax.annotation.Resource;
 
 /**
  * ezlinker
@@ -16,7 +20,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 @Configuration
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-
+    @Resource
+    SimpMessagingTemplate simpMessagingTemplate;
+    @Resource
+    PrincipalHandshakeHandler principalHandshakeHandler;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -25,7 +32,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stomp").withSockJS();
+        registry.addEndpoint("/stomp")
+                .setAllowedOrigins("*")
+                .setHandshakeHandler(principalHandshakeHandler)
+                .withSockJS();
     }
 
 }
